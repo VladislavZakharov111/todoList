@@ -1,11 +1,12 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
-
+import { Route, Switch } from 'react-router-dom';
+import Authorization from './components/authPage/index';
 function App() {
   return (
     <div className="App">
-      dfsf
+      <Switch>
+        <Route exact path = "/login" component={Authorization}/>
+      </Switch>
     </div>
   );
 }

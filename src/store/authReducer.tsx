@@ -1,20 +1,21 @@
-const defState = {
-    user : {
-      login: " ",
-      password: " ",
-    } 
+interface UserState{
+  user : Array<Object> | null;
 }
-
-export const authReducer = (state = defState ,action:any) =>{
+interface UserAction{
+  type:string;
+  payload?: any;
+}
+const defState: UserState = {
+    user : [],
+}
+const ADD_USER = "ADD_USER"
+export const authReducer = (state = defState,action:UserAction) =>{
     switch(action.type){
-      case  "ADD_USER":
+      case  ADD_USER:
         return {...state, user: action.payload}
       default : 
       return state
     }
 }
 
-export const addNewDataUser = (payload:any) => ({
-  type: "ADD_USER_SERVER",
-  payload
-})
+export const addUserFromServer = (payload:any):any => ({type: ADD_USER, payload})

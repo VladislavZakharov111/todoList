@@ -5,4 +5,6 @@ import thunk from 'redux-thunk'
 const rootReducer = combineReducers({
     authReducer
 })
+
+export type RootState = ReturnType<typeof rootReducer>
 export const store = createStore(rootReducer,composeWithDevTools(applyMiddleware(thunk))) 

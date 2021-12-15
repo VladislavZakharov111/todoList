@@ -1,11 +1,12 @@
-// import axios from "axios"
-// import {addNewDataUser} from "../store/authReducer"
+ import axios from "axios"
+ import {addUserFromServer} from "../store/authReducer"
 
 // export const GetDataUsers = async(
 //     login:string
 // ):Promise<Array<Object>> =>{
-//     const res = await  axios.get(`http://localhost:3005/users?login=${login}`);
-//     console.log(res);
+//     console.log("login",login)
+//     const res = await axios.get(`http://localhost:3001/users?login=${login}`);
+//     console.log("res" , res.data);
 //     return res.data;
 // }
 
@@ -18,4 +19,10 @@
 //         .then(res => dispatch())
 //     }
 // }   
+export const GetDataUsers = (login:any) => { 
+    return function (dispatch:any){
+        axios.get(`http://localhost:3001/users?login=${login}`)
+        .then(res => dispatch(addUserFromServer(res.data)))
+    }
+}
 export const data = 10
