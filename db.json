@@ -2,5 +2,9 @@
     "users": [
       { "id": 1, "login": "vlad123", "password": "vlad123" },
       { "id": 2, "login": "dima456", "password": "dima456" }
+    ],
+    "todos": [
+      { "date-create": "2014-03-12", "data-change": "2014-03-12", "categories": "sport", "title": "Footbal" , "description": "match"},
+      { "date-create": "2014-03-12", "data-change": "2014-03-12", "categories": "sport", "title": "Footbal" , "description": "match"}
     ]
 }

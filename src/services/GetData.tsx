@@ -1,28 +1,32 @@
- import axios from "axios"
- import {addUserFromServer} from "../store/authReducer"
+import axios from "axios"
+import {addUserFromServer} from "../store/authReducer"
+import { addNewTodo } from "../store/todoReducer"
 
-// export const GetDataUsers = async(
-//     login:string
-// ):Promise<Array<Object>> =>{
-//     console.log("login",login)
-//     const res = await axios.get(`http://localhost:3001/users?login=${login}`);
-//     console.log("res" , res.data);
-//     return res.data;
-// }
-
-
-// export const GetDataUsers = async(
-//     login:string
-// ):function => {
-//     return function(dispath) =>{
-//         axios.get(`http://localhost:3005/users?login=${login}`)
-//         .then(res => dispatch())
-//     }
-// }   
-export const GetDataUsers = (login:any) => { 
+export const GetDataUsers = (login:any,password:any) => { 
     return function (dispatch:any){
-        axios.get(`http://localhost:3001/users?login=${login}`)
-        .then(res => dispatch(addUserFromServer(res.data)))
+        axios.get(`http://localhost:3001/users?login=${login}&password=${password}`)
+        // .then(res => ) // catch redirect 
+        .then(res => {
+            console.log(res.data)
+            console.log(res.data.length)
+            if(res.data.length){
+                dispatch(addUserFromServer(res.data));
+            }
+            else
+                console.log("Неверный логин/пароль")
+        }).catch(error=>{
+            console.log("error",error)
+        })
     }
 }
-export const data = 10
+
+export const GetDataTodos = () =>{
+    return function (dispatch:any){
+        axios.get(`http://localhost:3001/todos`)
+        .then(res => {
+            console.log("our data", res.data);
+            dispatch(addNewTodo(res.data));
+        })
+    }  
+}
+
