@@ -1,8 +1,9 @@
 import axios from "axios"
 import {addUserFromServer} from "../store/authReducer"
 import { addNewTodo } from "../store/todoReducer"
-
+import { Redirect, useHistory } from "react-router-dom"
 export const GetDataUsers = (login:any,password:any) => { 
+    const history = useHistory()
     return function (dispatch:any){
         axios.get(`http://localhost:3001/users?login=${login}&password=${password}`)
         // .then(res => ) // catch redirect 
@@ -22,7 +23,7 @@ export const GetDataUsers = (login:any,password:any) => {
 
 export const GetDataTodos = () =>{
     return function (dispatch:any){
-        axios.get(`http://localhost:3001/todos`)
+        axios.get(`http://localhost:3009/todos`)
         .then(res => {
             console.log("our data", res.data);
             dispatch(addNewTodo(res.data));

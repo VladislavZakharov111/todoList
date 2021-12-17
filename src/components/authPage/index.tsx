@@ -2,27 +2,13 @@ import React, { useEffect } from 'react';
 import {GetDataUsers} from '../../services/GetData'
 import {useDispatch} from "react-redux"
 import { useTypedSelector } from '../../hooks/useTypedSelector';   
-// import { useHistory } from 'react-router-dom';
 
 function  Authorization() {
     const dispatch = useDispatch()
     // const userInfo = useTypedSelector(state => state.authReducer.user)
     const [login,setLogin] = React.useState<string>(" ");
     const [password,setPassword] = React.useState<string>("");
-    // const [isAuth,setIsAuth]  = React.useState(false)
-    
-    // const history = useHistory()
-
-    // useEffect(() => {
-    //     if(userInfo[0] !== undefined){
-    //       userInfo[0].password === password ? setIsAuth(true) : setIsAuth(false)
-    //     } 
-    // }, [userInfo]);
-
-    // useEffect(()=>{
-    //   isAuth === true  ? history.push("/") : history.push("/login")
-    // },[isAuth])
-
+  
     const handleLogin = (e: React.ChangeEvent<HTMLInputElement>) =>{
         setLogin(e.target.value)
     }
