@@ -4,8 +4,6 @@ import { useEffect } from "react";
 import { GetDataTodos } from "../../services/GetData";
 import { todoReducer } from "../../store/todoReducer";
 import { useTypedSelector } from '../../hooks/useTypedSelector'; 
-import DeleteIcon from '@mui/icons-material/Delete';
-import BookmarkIcon from '@mui/icons-material/Bookmark';
 import {ModalView} from '../mainPage/components/modalView/index';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -13,7 +11,7 @@ import {addOneTodo} from "../../store/todoReducer";
 import {Description} from "./styled"
 
 export const MainPage = () =>{
-    const [modalActive, setModalActive] = useState<any>(true);
+    const [modalActive, setModalActive] = useState<any>(false);
     const [startDate, setStartDate] = useState(new Date());
     const [categories, setCategories] = useState<any>("спорт")
     const [title, setTitle] = useState("")
@@ -35,7 +33,7 @@ export const MainPage = () =>{
     // }
 
     let nowdata = new Date().toISOString().slice(0, 10);
-    let data = {"date-create":nowdata, "data-change":nowdata, categories:categories, title:title, description:decription}
+    let data = {id: todoInfo.length + 1, "date-create":nowdata, "data-change":nowdata, categories:categories, title:title, description:decription}
     const handleSubmitPopUp = (e: React.ChangeEvent<HTMLFormElement>) =>{
       e.preventDefault()
       dispatch(addOneTodo(data))
@@ -55,7 +53,6 @@ export const MainPage = () =>{
     // console.log("date", convertDate(startDate))
     // // console.log("date type", typeof startDate)
     // console.log("param", title, categories, decription)
-
     return(<div>
        <button onClick={() => setModalActive(true)}>Добавить новую задачу</button>
        <table> 
@@ -67,8 +64,8 @@ export const MainPage = () =>{
           ))}
           <td>
             <button>Удалить</button>
-            <button></button>
-            <button></button>
+            <button>Изменить</button>
+            <button>Отложить</button>
           </td>
         </tr>
         ))}
