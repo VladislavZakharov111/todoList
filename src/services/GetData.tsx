@@ -2,6 +2,7 @@ import axios from "axios"
 import {addUserFromServer} from "../store/authReducer"
 import { addNewTodo } from "../store/todoReducer"
 import { Redirect, useHistory } from "react-router-dom"
+import {addDefferedFromServer} from "../store/defferedReducer"
 export const GetDataUsers = (login:any,password:any) => { 
     const history = useHistory()
     return function (dispatch:any){
@@ -31,3 +32,12 @@ export const GetDataTodos = () =>{
     }  
 }
 
+export const GetDataDefferd = () =>{
+    return function (dispatch:any){
+        axios.get(`http://localhost:3000/deffered`)
+        .then(res => {
+            console.log("deffered data", res.data);
+            dispatch(addDefferedFromServer(res.data));
+        })
+    }  
+}

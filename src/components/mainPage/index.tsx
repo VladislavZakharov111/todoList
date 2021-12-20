@@ -2,24 +2,32 @@ import React , {useState} from "react";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { GetDataTodos } from "../../services/GetData";
-import { todoReducer } from "../../store/todoReducer";
 import { useTypedSelector } from '../../hooks/useTypedSelector'; 
 import {ModalView} from '../mainPage/components/modalView/index';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-// import {addOneTodo} from "../../store/todoReducer";
 import {Description} from "./styled"
 import axios from "axios"
+
+enum CategoriesTodo {
+  Sport = 'Спорт',
+  Music = 'Музыка',
+  Movie = 'Кино',
+  Shop = 'Магазин',
+}
+
 export const MainPage = () =>{
     const [modalActiveAdd, setmodalActiveAdd] = useState<any>(false);
     const [modalActiveChange, setmodalActiveChange] = useState<any>(false);
-    const [startDate, setStartDate] = useState(new Date());
+    const [dataendpoint, setDataendpoint] = useState(new Date());
     const [categories, setCategories] = useState<any>("спорт")
     const [title, setTitle] = useState("")
     const [decription, setDescription] = useState<any>("")
     const [currentId, setCurrentId] = useState<number>()
     const dispatch = useDispatch()
     const todoInfo = useTypedSelector(state => state.todoReducer.todolist)
+    const checkDeleteTodo = useState<Array<number>>([])
+
 
     useEffect(() => {
         dispatch(GetDataTodos())
@@ -27,6 +35,7 @@ export const MainPage = () =>{
 
     useEffect(()=>{
         console.log("ff", todoInfo)
+        console.log(CategoriesTodo.Movie);
     },[todoInfo])
 
     // const convertDate = (inputFormat : any) =>{
@@ -101,46 +110,60 @@ export const MainPage = () =>{
       changeCurrentId(todoId)
       setmodalActiveChange(true)
     }
+    
+    const addDefferedTodo = (todo: Object) => {
+      axios.post(`http://localhost:3000/deffered`, {todo});
+    }
+
+    const deleteManyTodos = () => {
+      // axios.delete("http://localhost:3000/todos?id=1")
+    }
+    const saveCheckId  = ( ) => {
+      // GET /posts?id=1&id=2
+    }
     // console.log("date", convertDate(startDate))
     // // console.log("date type", typeof startDate)
     // console.log("param", title, categories, decription)
     return(<div>
        <button onClick={() => setmodalActiveAdd(true)}>Добавить новую задачу</button>
+       <button onClick={deleteManyTodos}>Удалить выбранные задачи</button>
        <table> 
        {todoInfo.length ? Object.keys(todoInfo[0]).map((item:any)=>(<th>{item}</th>)) : <div>Loading...</div>}
-       {todoInfo.map((item:any,index:any) => (
-        <tr key={`item.title${index}`}>
+       {todoInfo.map((item:any,index:any) => {
+         console.log("Object",item);
+        return (
+          <tr key={`item.title${index}`}>
           {Object.values(item).map((val:any) => (
             <td>{val}</td>
           ))}
           <td>
             <button onClick = {() => deleteTodo(item.id)}>Удалить</button>
             <button onClick = {() => activeModalChangeMethod(item.id)}>Изменить</button>
-            {/* <button onClick = {activeModalChangeMethod(item.id)}>Изменить</button> */}
-            <button>Отложить</button>
+            <button onClick={() => addDefferedTodo(item)}>Отложить</button>
+            <button>Выполнено</button>
           </td>
-        </tr>
-        ))}
+          <td><input type ="checkbox" onChange={saveCheckId}/>Выбрать для удаления</td>
+        </tr>)
+        })}
       </table>
       <ModalView active={modalActiveAdd} setActive={setmodalActiveAdd}>
         <form onSubmit = {handleSubmitPopUp}>
           Категории
           <select onChange={handleCategories} required >
-            <option>Спорт</option>
-            <option>Музыка</option>
-            <option>Кино</option>
-            <option>Магазин</option>
+            <option>{CategoriesTodo.Sport}</option>
+            <option>{CategoriesTodo.Music}</option>
+            <option>{CategoriesTodo.Movie}</option>
+            <option>{CategoriesTodo.Shop}</option>
           </select>
           Заголовок
           <input type = "text" placeholder="Заголовок" required onChange={handleTitleTodo}></input>
           Описание оо
           <Description placeholder="Описания"  onChange={handleDescriptionTodo}></Description>
           Крайний срок
-          <DatePicker selected={startDate} required onChange={(date:any) => setStartDate(date)} />
+          <DatePicker selected={dataendpoint} required onChange={(date:any) => setDataendpoint(date)} />
           <button type ="submit" onClick={()=>setmodalActiveAdd(false)}>Создать задачу </button> 
         </form>
        </ModalView>
-
        <ModalView active={modalActiveChange} setActive={setmodalActiveChange}>
         <form onSubmit={handleSubmitChange}>
           Категории
@@ -155,7 +178,7 @@ export const MainPage = () =>{
           Новое описание
           <Description placeholder="Описания"  onChange={handleDescriptionTodo}></Description>
           Новый cрок выполнения
-          <DatePicker selected={startDate} required onChange={(date:any) => setStartDate(date)} />
+          <DatePicker selected={dataendpoint} required onChange={(date:any) => setDataendpoint(date)} />
           <button type ="submit" onClick={()=> changeTodo(currentId)}>Изменить задачу </button> 
         </form>
       </ModalView>

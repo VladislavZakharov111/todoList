@@ -1,5 +1,6 @@
 interface Todostate{
     todolist: Array<Object> 
+    
 }
 const defaultState : Todostate = {
     todolist : [],
