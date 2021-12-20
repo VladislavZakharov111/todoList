@@ -1,10 +1,40 @@
 {
-    "users": [
-      { "id": 1, "login": "vlad123", "password": "vlad123" },
-      { "id": 2, "login": "dima456", "password": "dima456" }
-    ],
-    "todos": [
-      { "id": 1, "date-create": "2014-03-12", "data-change": "2014-03-12", "categories": "sport", "title": "Footbal" , "description": "match"},
-      { "id": 2, "date-create": "2014-03-12", "data-change": "2014-03-12", "categories": "sport", "title": "Footbal" , "description": "match"}
-    ]
+  "users": [
+    {
+      "id": 1,
+      "login": "vlad123",
+      "password": "vlad123"
+    },
+    {
+      "id": 2,
+      "login": "dima456",
+      "password": "dima456"
+    }
+  ],
+  "todos": [
+    {
+      "date-create": "2021-12-20",
+      "data-change": "2021-12-20",
+      "categories": "спорт",
+      "title": "ttttt",
+      "description": "tttt",
+      "id": 1
+    },
+    {
+      "date-create": "2021-12-20",
+      "data-change": "2021-12-20",
+      "categories": "Кино",
+      "title": "ывфв",
+      "description": "ыфвфвфв",
+      "id": 2
+    },
+    {
+      "date-create": "2021-12-20",
+      "data-change": "2021-12-20",
+      "categories": "спорт",
+      "title": "ыфвыфв",
+      "description": "фывфыв",
+      "id": 3
+    }
+  ]
 }

@@ -23,7 +23,7 @@ export const GetDataUsers = (login:any,password:any) => {
 
 export const GetDataTodos = () =>{
     return function (dispatch:any){
-        axios.get(`http://localhost:3009/todos`)
+        axios.get(`http://localhost:3000/todos`)
         .then(res => {
             console.log("our data", res.data);
             dispatch(addNewTodo(res.data));
