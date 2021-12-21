@@ -1,7 +1,7 @@
 import React , {useState} from "react";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
-import { GetDataTodos } from "../../services/GetData";
+import {  setDataTodo, deleteTodo ,addNewOneTodo , changeCurrentTodo, setIsComplited } from "../../services/GetData";
 import { useTypedSelector } from '../../hooks/useTypedSelector'; 
 import {ModalView} from '../mainPage/components/modalView/index';
 import DatePicker from "react-datepicker";
@@ -20,17 +20,25 @@ export const MainPage = () =>{
     const [modalActiveAdd, setmodalActiveAdd] = useState<any>(false);
     const [modalActiveChange, setmodalActiveChange] = useState<any>(false);
     const [dataendpoint, setDataendpoint] = useState(new Date());
-    const [categories, setCategories] = useState<any>("спорт")
+    const [categories, setCategories] = useState<any>("")
     const [title, setTitle] = useState("")
     const [decription, setDescription] = useState<any>("")
-    const [currentId, setCurrentId] = useState<number>()
+    const [isCompletedStatus, setIsCompletedStatus] = useState<any>(false)
+    // const [currentId, setCurrentId] = useState<number>()
+    const [currentTodo, setCurrentTodo] = useState<any>({
+        "date-create":"1",
+        "data-change":1,
+        categories:categories,
+        title:title,
+        description:decription,
+    });
     const dispatch = useDispatch()
     const todoInfo = useTypedSelector(state => state.todoReducer.todolist)
     const checkDeleteTodo = useState<Array<number>>([])
 
 
     useEffect(() => {
-        dispatch(GetDataTodos())
+        dispatch(setDataTodo())
     }, [])
 
     useEffect(()=>{
@@ -51,19 +59,8 @@ export const MainPage = () =>{
     const handleSubmitPopUp = (e: React.ChangeEvent<HTMLFormElement>) =>{
       e.preventDefault()
       // dispatch(addOneTodo(data))
-      axios.post(`http://localhost:3000/todos`, {
-        "date-create":nowdata,
-        "data-change":nowdata,
-        categories:categories,
-        title:title,
-        description:decription,
-      }).then(response => {
-        console.log(response);
-      })
-      .catch(error => {
-        console.log(error);
-      });
-    }
+      dispatch(addNewOneTodo(nowdata, categories, title , decription))
+    } //////////////////////////добавление
 
     const handleSubmitChange = (e: React.ChangeEvent<HTMLFormElement>) =>{
       e.preventDefault()
@@ -82,41 +79,37 @@ export const MainPage = () =>{
       setCategories(e.target.value)
     }
 
-    const deleteTodo = (todoId: any):any =>{
-      axios.delete(`http://localhost:3000/todos/${todoId}`)
-     .then(resp => resp.data).catch(error => console.log(error))
-    }
+    // const deleteTodos = (todoId: any):any =>{
+    // //   axios.delete(`http://localhost:3000/todos/${todoId}`)
+    // //  .then(resp => resp.data).catch(error => console.log(error))
+    //   dispatch(deleteTodo(todoId)) // dispath delete
+    // }
 
     // const change = (id: number) => {
     //   console.log(id);
     // };
 
     const changeTodo = (todoId: any):any => {
-      console.log("todoId",todoId)
-      console.log("param", title, categories, decription)
-        axios.put(`http://localhost:3000/todos/${todoId}`,{
-              "date-create":nowdata,
-              "data-change":nowdata,
-              categories:categories,
-              title:title,
-              description:decription,
-        })
+      dispatch(changeCurrentTodo(todoId ,nowdata, categories ,title,decription ))
+      // console.log("todoId",todoId)
+      // console.log("param", title, categories, decription)
         setmodalActiveChange(false)
     }
-    const changeCurrentId = (todoId:number):any =>{
-      setCurrentId(todoId)
+    const changeCurrentId = (item:any):any =>{
+      setCurrentTodo(item)
     }
-    const activeModalChangeMethod = (todoId:number):any => {
-      changeCurrentId(todoId)
+    const activeModalChangeMethod = (item:any):any => {
+      changeCurrentId(item)
       setmodalActiveChange(true)
     }
     
     const addDefferedTodo = (todo: Object) => {
-      axios.post(`http://localhost:3000/deffered`, {todo});
-    }
+      // axios.post(`http://localhost:3000/deffered`, {todo});
+      // dispatch(getArchiveTodo(todo))
+    } //thunk
 
     const deleteManyTodos = () => {
-      // axios.delete("http://localhost:3000/todos?id=1")
+      axios.delete("http://localhost:3000/todos?id=1") 
     }
     const saveCheckId  = ( ) => {
       // GET /posts?id=1&id=2
@@ -124,29 +117,41 @@ export const MainPage = () =>{
     // console.log("date", convertDate(startDate))
     // // console.log("date type", typeof startDate)
     // console.log("param", title, categories, decription)
+    const handeDelete = (id:any):any =>{
+      dispatch(deleteTodo(id))
+    }
+
+    const handleCompleted = (id:any):any => {
+      setIsCompletedStatus(!isCompletedStatus);
+      dispatch(setIsComplited(id, isCompletedStatus))
+    }
+
     return(<div>
        <button onClick={() => setmodalActiveAdd(true)}>Добавить новую задачу</button>
        <button onClick={deleteManyTodos}>Удалить выбранные задачи</button>
        <table> 
        {todoInfo.length ? Object.keys(todoInfo[0]).map((item:any)=>(<th>{item}</th>)) : <div>Loading...</div>}
        {todoInfo.map((item:any,index:any) => {
-         console.log("Object",item);
+        
         return (
           <tr key={`item.title${index}`}>
           {Object.values(item).map((val:any) => (
             <td>{val}</td>
           ))}
           <td>
-            <button onClick = {() => deleteTodo(item.id)}>Удалить</button>
-            <button onClick = {() => activeModalChangeMethod(item.id)}>Изменить</button>
+            {/* <button onClick = {() => deleteTodos(item.id)}>Удалить</button>  */}
+            {/* <button onClick = {() => dispatch(deleteTodo(item.id))}>Удалить</button>  */}
+            <button onClick={() => handleCompleted(item.id)}>{isCompletedStatus ? "Выполнено" : "Невыполнено "}</button>
+            <button onClick = {() => handeDelete(item.id)}>Удалить</button> 
+            <button onClick = {() => activeModalChangeMethod(item)}>Изменить</button>
             <button onClick={() => addDefferedTodo(item)}>Отложить</button>
-            <button>Выполнено</button>
           </td>
           <td><input type ="checkbox" onChange={saveCheckId}/>Выбрать для удаления</td>
         </tr>)
         })}
       </table>
       <ModalView active={modalActiveAdd} setActive={setmodalActiveAdd}>
+        <button onClick={()=>setmodalActiveAdd(false)}>Закрыть</button>
         <form onSubmit = {handleSubmitPopUp}>
           Категории
           <select onChange={handleCategories} required >
@@ -165,21 +170,22 @@ export const MainPage = () =>{
         </form>
        </ModalView>
        <ModalView active={modalActiveChange} setActive={setmodalActiveChange}>
+       <button onClick={()=>setmodalActiveChange(false)}>Закрыть</button>
         <form onSubmit={handleSubmitChange}>
           Категории
-          <select onChange={handleCategories} required >
+          <select defaultValue= {currentTodo.categories} onChange={handleCategories} required >
             <option>Спорт</option>
             <option>Музыка</option>
             <option>Кино</option>
             <option>Магазин</option>
           </select>
           Новый заголовок
-          <input type = "text" placeholder="Заголовок" required onChange={handleTitleTodo}></input>
+          <input type = "text" defaultValue={currentTodo.title} placeholder="Заголовок" required onChange={handleTitleTodo}></input>
           Новое описание
-          <Description placeholder="Описания"  onChange={handleDescriptionTodo}></Description>
+          <Description  defaultValue ={currentTodo.description} placeholder="Описания"  onChange={handleDescriptionTodo}></Description>
           Новый cрок выполнения
           <DatePicker selected={dataendpoint} required onChange={(date:any) => setDataendpoint(date)} />
-          <button type ="submit" onClick={()=> changeTodo(currentId)}>Изменить задачу </button> 
+          <button type ="submit" onClick={()=> changeTodo(currentTodo.id)}>Изменить задачу </button> 
         </form>
       </ModalView>
     </div>)

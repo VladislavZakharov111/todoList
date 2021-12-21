@@ -1,12 +1,12 @@
 import React, {useEffect} from "react";
-import { GetDataDefferd } from "../../services/GetData";
+import { addArchiveTodo } from "../../services/GetData";
 import { useDispatch } from "react-redux";
 import { useTypedSelector } from '../../hooks/useTypedSelector'; 
 export const DefferedPage = ():any =>{
 
     const dispatch = useDispatch();
     useEffect(() => {
-        dispatch(GetDataDefferd())
+        dispatch(addArchiveTodo())
     }, [])
 
     const defferedInfo = useTypedSelector(state => state.defferedReducer.defferedTodo)

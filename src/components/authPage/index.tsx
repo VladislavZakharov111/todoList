@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import {GetDataUsers} from '../../services/GetData'
+import {setDataUsers} from '../../services/GetData'
 import {useDispatch} from "react-redux"
 import { useTypedSelector } from '../../hooks/useTypedSelector';   
 
@@ -19,8 +19,8 @@ function  Authorization() {
 
     const handleSubmitForm = (e: React.ChangeEvent<HTMLFormElement>) => {
         e.preventDefault()
-        dispatch(GetDataUsers(login, password))
-        GetDataUsers(login, password)
+        dispatch(setDataUsers(login, password))
+        setDataUsers(login, password)
     }
     // console.log({isAuth})
   return (
