@@ -19,11 +19,11 @@ enum CategoriesTodo {
 export const MainPage = () =>{
     const [modalActiveAdd, setmodalActiveAdd] = useState<any>(false);
     const [modalActiveChange, setmodalActiveChange] = useState<any>(false);
-    const [dataendpoint, setDataendpoint] = useState(new Date());
-    const [categories, setCategories] = useState<any>("")
+    const [dataendpoint, setDataendpoint] = useState(new Date()); 
+    const [categories, setCategories] = useState<any>("Cпорт")
     const [title, setTitle] = useState("")
     const [decription, setDescription] = useState<any>("")
-    const [isCompletedStatus, setIsCompletedStatus] = useState<any>(false)
+    // const [isCompletedStatus, setIsCompletedStatus] = useState<any>(false)
     // const [currentId, setCurrentId] = useState<number>()
     const [currentTodo, setCurrentTodo] = useState<any>({
         "date-create":"1",
@@ -59,7 +59,7 @@ export const MainPage = () =>{
     const handleSubmitPopUp = (e: React.ChangeEvent<HTMLFormElement>) =>{
       e.preventDefault()
       // dispatch(addOneTodo(data))
-      dispatch(addNewOneTodo(nowdata, categories, title , decription))
+      dispatch(addNewOneTodo(todoInfo.length, nowdata, categories, title , decription))
     } //////////////////////////добавление
 
     const handleSubmitChange = (e: React.ChangeEvent<HTMLFormElement>) =>{
@@ -107,7 +107,7 @@ export const MainPage = () =>{
       // axios.post(`http://localhost:3000/deffered`, {todo});
       // dispatch(getArchiveTodo(todo))
     } //thunk
-
+    
     const deleteManyTodos = () => {
       axios.delete("http://localhost:3000/todos?id=1") 
     }
@@ -122,8 +122,8 @@ export const MainPage = () =>{
     }
 
     const handleCompleted = (id:any):any => {
-      setIsCompletedStatus(!isCompletedStatus);
-      dispatch(setIsComplited(id, isCompletedStatus))
+      // setIsCompletedStatus(!isCompletedStatus);
+      dispatch(setIsComplited(id))
     }
 
     return(<div>
@@ -141,12 +141,12 @@ export const MainPage = () =>{
           <td>
             {/* <button onClick = {() => deleteTodos(item.id)}>Удалить</button>  */}
             {/* <button onClick = {() => dispatch(deleteTodo(item.id))}>Удалить</button>  */}
-            <button onClick={() => handleCompleted(item.id)}>{isCompletedStatus ? "Выполнено" : "Невыполнено "}</button>
+            <button onClick={() => handleCompleted(item.id)}>Выполнено</button>
             <button onClick = {() => handeDelete(item.id)}>Удалить</button> 
             <button onClick = {() => activeModalChangeMethod(item)}>Изменить</button>
             <button onClick={() => addDefferedTodo(item)}>Отложить</button>
           </td>
-          <td><input type ="checkbox" onChange={saveCheckId}/>Выбрать для удаления</td>
+          <td><input type ="checkbox" onChange={() => saveCheckId}/>Выбрать для удаления</td>
         </tr>)
         })}
       </table>

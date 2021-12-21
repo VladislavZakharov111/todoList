@@ -1,8 +1,15 @@
 import axios from "axios"
 import {addUserFromServer} from "../store/authReducer"
 import { addNewTodo, actionDeleteTodo,actionAddOneTodo } from "../store/todoReducer"
+import {actionChangeCurrentTodo} from "../store/todoReducer"
 import { Redirect, useHistory } from "react-router-dom"
 import {addDefferedFromServer} from "../store/defferedReducer"
+
+
+
+// let u = a.reduce((acc,a) => {
+//     return acc + "id=" + a + "&"
+//   },"")   // преобразование массива в id строку
 
 export const setDataUsers = (login:any,password:any) => { 
     // const history = useHistory() //setDataUsers
@@ -43,7 +50,7 @@ export const deleteTodo = (id:any) =>{
     }  
 }
 
-export const addNewOneTodo = (nowdata:any, categories:any, title:any, description:any) => {
+export const addNewOneTodo = (id:any, nowdata:any, categories:any, title:any, description:any) => {
     return function (dispatch:any){
         axios.post(`http://localhost:3000/todos`, {
             "date-create":nowdata,
@@ -51,14 +58,18 @@ export const addNewOneTodo = (nowdata:any, categories:any, title:any, descriptio
             categories:categories,
             title:title,
             description:description,
+            status: "Не выполнена"
           }).then(res => {
-            actionAddOneTodo({
-                "date-create":nowdata,
-                "data-change":nowdata,
-                categories:categories,
-                title:title,
-                description:description
-            })
+            dispatch(actionAddOneTodo({
+                    "date-create":nowdata,
+                    "data-change":nowdata,
+                    categories:categories,
+                    title:title,
+                    description:description,
+                    status: "Невыполнена",
+                    id:id
+                })
+            )
           })
           .catch(error => {
             console.log(error);
@@ -76,26 +87,60 @@ export const addArchiveTodo = () =>{
     }  
 }
 
+// export const changeCurrentTodo = (todoId:any, nowdata:any, categories:any, title:any, description:any, isCompletedStatus:any) => {
+//     let isCompleted = isCompletedStatus ? "Выполнено" : "Невыполнено"
+//     return function (dispatch:any){
+//         axios.put(`http://localhost:3000/todos/${todoId}`,{
+//               "date-create":nowdata,
+//               "data-change":nowdata,
+//               categories:categories,
+//               title:title,
+//               description:description,
+//               "status":isCompleted,
+//               "id": todoId
+//         }).then(res => dispatch(actionChangeCurrentTodo({
+//             "date-create":nowdata,
+//             "data-change":nowdata,
+//             categories:categories,
+//             title:title,
+//             description:description,
+//             "status":isCompleted,
+//             "id": todoId
+//         })))
+//     }  
+// }////////
+
+
 export const changeCurrentTodo = (todoId:any, nowdata:any, categories:any, title:any, description:any) => {
+    // let isCompleted = isCompletedStatus ? "Выполнено" : "Невыполнено"
     return function (dispatch:any){
-        axios.put(`http://localhost:3000/todos/${todoId}`,{
+        axios.patch(`http://localhost:3000/todos/${todoId}`,{
               "date-create":nowdata,
               "data-change":nowdata,
               categories:categories,
               title:title,
               description:description,
-        }).then(res => console.log(res))
+            //   "status":isCompleted,
+              "id": todoId
+        }).then(res => dispatch(actionChangeCurrentTodo({
+            "date-create":nowdata,
+            "data-change":nowdata,
+            categories:categories,
+            title:title,
+            description:description,
+            // "status":isCompleted,
+            "id": todoId
+        })))
     }  
-}////////
+}//////// ???????
 
-export const setIsComplited = (id:any, isCompleted:any) => {
+export const setIsComplited = (id:any) => {
     return function (dispatch:any){
-        axios.put(`http://localhost:3000/todos/${id}`,{
-            ///все данные 
-              status:isCompleted
+        axios.patch(`http://localhost:3000/todos/${id}`,{
+            "status": "true"
         }).then(res => console.log(res))
     } 
-}
+} //??? 
 //delete thunk
 
 
