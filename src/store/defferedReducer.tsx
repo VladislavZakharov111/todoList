@@ -12,7 +12,7 @@ interface UserState{
 export const defferedReducer = (state = defferedState,action:UserAction) =>{
       switch(action.type){
         case  ADD_DEFFERED_FROM_SERVER:
-            return {...state, defferedTodo: [...state.defferedTodo, ...action.payload]}
+            return {...state, defferedTodo: [...action.payload]}
         default : 
         return state
       }

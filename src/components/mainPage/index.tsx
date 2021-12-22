@@ -1,20 +1,21 @@
 import React , {useState} from "react";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
-import {  setDataTodo, deleteTodo ,addNewOneTodo , changeCurrentTodo, setIsComplited } from "../../services/GetData";
+import {  setDataTodo, deleteTodo ,addNewTodo , changeCurrentTodo, setIsComplited , addArchiveTodo,deleteCheckedTodo } from "../../services/GetData";
 import { useTypedSelector } from '../../hooks/useTypedSelector'; 
 import {ModalView} from '../mainPage/components/modalView/index';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import {Description} from "./styled"
-import axios from "axios"
+import { Exit } from "./components/exit";
 
 enum CategoriesTodo {
-  Sport = 'Спорт',
+  Sport = 'Спорт',  
   Music = 'Музыка',
   Movie = 'Кино',
   Shop = 'Магазин',
 }
+const arrayCategories = [CategoriesTodo.Sport , CategoriesTodo.Music, CategoriesTodo.Movie, CategoriesTodo.Shop] // 
 
 export const MainPage = () =>{
     const [modalActiveAdd, setmodalActiveAdd] = useState<any>(false);
@@ -23,8 +24,6 @@ export const MainPage = () =>{
     const [categories, setCategories] = useState<any>("Cпорт")
     const [title, setTitle] = useState("")
     const [decription, setDescription] = useState<any>("")
-    // const [isCompletedStatus, setIsCompletedStatus] = useState<any>(false)
-    // const [currentId, setCurrentId] = useState<number>()
     const [currentTodo, setCurrentTodo] = useState<any>({
         "date-create":"1",
         "data-change":1,
@@ -32,9 +31,11 @@ export const MainPage = () =>{
         title:title,
         description:decription,
     });
+    const [checkedTodos, setCheckedTodos] = useState<any>([]);
+    const [modalctiveDelete, setModalActiveDelete] = useState<any>(false)
     const dispatch = useDispatch()
     const todoInfo = useTypedSelector(state => state.todoReducer.todolist)
-    const checkDeleteTodo = useState<Array<number>>([])
+    // const checkDeleteTodo = useState<Array<number>>([])
 
 
     useEffect(() => {
@@ -59,7 +60,7 @@ export const MainPage = () =>{
     const handleSubmitPopUp = (e: React.ChangeEvent<HTMLFormElement>) =>{
       e.preventDefault()
       // dispatch(addOneTodo(data))
-      dispatch(addNewOneTodo(todoInfo.length, nowdata, categories, title , decription))
+      dispatch(addNewTodo(todoInfo.length, nowdata, categories, title , decription))
     } //////////////////////////добавление
 
     const handleSubmitChange = (e: React.ChangeEvent<HTMLFormElement>) =>{
@@ -106,59 +107,80 @@ export const MainPage = () =>{
     const addDefferedTodo = (todo: Object) => {
       // axios.post(`http://localhost:3000/deffered`, {todo});
       // dispatch(getArchiveTodo(todo))
+      dispatch(addArchiveTodo(todo))
     } //thunk
     
     const deleteManyTodos = () => {
-      axios.delete("http://localhost:3000/todos?id=1") 
+      // axios.delete("http://localhost:3000/todos?id=1") 
+      //checkedTodos
+      dispatch(deleteCheckedTodo(checkedTodos))
     }
-    const saveCheckId  = ( ) => {
-      // GET /posts?id=1&id=2
+
+    const saveCheckId  = (event:any, id:any ) => {
+      console.log({event,id});
+      event.target.checked ? setCheckedTodos([...checkedTodos,id]) : setCheckedTodos(checkedTodos.filter((todoId:any) => id !== todoId))
     }
-    // console.log("date", convertDate(startDate))
-    // // console.log("date type", typeof startDate)
-    // console.log("param", title, categories, decription)
+
     const handeDelete = (id:any):any =>{
       dispatch(deleteTodo(id))
     }
 
-    const handleCompleted = (id:any):any => {
+    const handleCompleted = (id:any, isCompleted: any):any => {
       // setIsCompletedStatus(!isCompletedStatus);
-      dispatch(setIsComplited(id))
-    }
+      dispatch(setIsComplited(id,isCompleted))
+    }////?
+    
 
     return(<div>
        <button onClick={() => setmodalActiveAdd(true)}>Добавить новую задачу</button>
        <button onClick={deleteManyTodos}>Удалить выбранные задачи</button>
-       <table> 
-       {todoInfo.length ? Object.keys(todoInfo[0]).map((item:any)=>(<th>{item}</th>)) : <div>Loading...</div>}
-       {todoInfo.map((item:any,index:any) => {
-        
+       <Exit/>
+      
+       {/* {todoInfo.length ? Object.keys(todoInfo[0]).map((item:any)=>(<th>{item}</th>)) : <div>Loading...</div>} */}
+       {/* {todoInfo.map((item:any,index:any) => {
         return (
           <tr key={`item.title${index}`}>
           {Object.values(item).map((val:any) => (
             <td>{val}</td>
           ))}
           <td>
-            {/* <button onClick = {() => deleteTodos(item.id)}>Удалить</button>  */}
-            {/* <button onClick = {() => dispatch(deleteTodo(item.id))}>Удалить</button>  */}
             <button onClick={() => handleCompleted(item.id)}>Выполнено</button>
             <button onClick = {() => handeDelete(item.id)}>Удалить</button> 
             <button onClick = {() => activeModalChangeMethod(item)}>Изменить</button>
             <button onClick={() => addDefferedTodo(item)}>Отложить</button>
           </td>
-          <td><input type ="checkbox" onChange={() => saveCheckId}/>Выбрать для удаления</td>
+          <td><input type ="checkbox" onChange={(event) => saveCheckId(event,item.id)}/>Выбрать для удаления</td>
         </tr>)
-        })}
-      </table>
+        })} */}
+        <table> 
+          {
+            todoInfo.map((todo:any) => {
+              return(
+                <tr key = {todo.title}>
+                  <td>{todo.datecreate}</td>
+                  <td>{todo.datachange}</td>
+                  <td>{todo.categories}</td>
+                  <td>{todo.title}</td>
+                  <td>{todo.description}</td>
+                  <td>
+                    <button onClick={() => handleCompleted(todo.id, todo.status)}>Выполнено</button>
+                    <button onClick = {() => handeDelete(todo.id)}>Удалить</button> 
+                    <button onClick = {() => activeModalChangeMethod(todo)}>Изменить</button>
+                    <button onClick={() => addDefferedTodo(todo)}>Отложить</button>
+                    <input type ="checkbox" onChange={(event) => saveCheckId(event,todo.id)}/>
+                  </td>
+                </tr>
+              )
+            })
+          }
+      </table> 
+
       <ModalView active={modalActiveAdd} setActive={setmodalActiveAdd}>
         <button onClick={()=>setmodalActiveAdd(false)}>Закрыть</button>
         <form onSubmit = {handleSubmitPopUp}>
           Категории
           <select onChange={handleCategories} required >
-            <option>{CategoriesTodo.Sport}</option>
-            <option>{CategoriesTodo.Music}</option>
-            <option>{CategoriesTodo.Movie}</option>
-            <option>{CategoriesTodo.Shop}</option>
+            {arrayCategories.map((categories:any) =>  <option>{categories}</option>)}
           </select>
           Заголовок
           <input type = "text" placeholder="Заголовок" required onChange={handleTitleTodo}></input>
@@ -173,11 +195,8 @@ export const MainPage = () =>{
        <button onClick={()=>setmodalActiveChange(false)}>Закрыть</button>
         <form onSubmit={handleSubmitChange}>
           Категории
-          <select defaultValue= {currentTodo.categories} onChange={handleCategories} required >
-            <option>Спорт</option>
-            <option>Музыка</option>
-            <option>Кино</option>
-            <option>Магазин</option>
+          <select value={currentTodo.categories} onChange={handleCategories} required >
+            {arrayCategories.map((categories:any) =>  <option>{categories}</option>)}
           </select>
           Новый заголовок
           <input type = "text" defaultValue={currentTodo.title} placeholder="Заголовок" required onChange={handleTitleTodo}></input>
@@ -186,6 +205,24 @@ export const MainPage = () =>{
           Новый cрок выполнения
           <DatePicker selected={dataendpoint} required onChange={(date:any) => setDataendpoint(date)} />
           <button type ="submit" onClick={()=> changeTodo(currentTodo.id)}>Изменить задачу </button> 
+        </form>
+      </ModalView>
+
+      <ModalView active={modalctiveDelete} setActive={setModalActiveDelete}>
+        <form>
+          <button>Закрыть</button>
+          <div>Вы действительно хотите удалить задачу?</div>
+          <button>Да</button>
+          <button>Нет</button>
+        </form>
+      </ModalView>
+
+      <ModalView active={modalctiveDelete} setActive={setModalActiveDelete}>
+        <form>
+          <button>Закрыть</button>
+          <div>Вы действительно хотите удалить задачу?</div>
+          <button>Да</button>
+          <button>Нет</button>
         </form>
       </ModalView>
     </div>)

@@ -1,7 +1,8 @@
 import axios from "axios"
 import {addUserFromServer} from "../store/authReducer"
-import { addNewTodo, actionDeleteTodo,actionAddOneTodo } from "../store/todoReducer"
-import {actionChangeCurrentTodo} from "../store/todoReducer"
+// import { addNewTodo, actionDeleteTodo,actionAddOneTodo } from "../store/todoReducer"
+import {getTodoFromServer} from "../store/todoReducer"
+// import {actionChangeCurrentTodo} from "../store/todoReducer"
 import { Redirect, useHistory } from "react-router-dom"
 import {addDefferedFromServer} from "../store/defferedReducer"
 
@@ -11,6 +12,7 @@ import {addDefferedFromServer} from "../store/defferedReducer"
 //     return acc + "id=" + a + "&"
 //   },"")   // преобразование массива в id строку
 
+// auth
 export const setDataUsers = (login:any,password:any) => { 
     // const history = useHistory() //setDataUsers
     return function (dispatch:any){
@@ -29,13 +31,13 @@ export const setDataUsers = (login:any,password:any) => {
         })
     }
 }
-
+// /todos
 export const setDataTodo = () =>{
     return function (dispatch:any){
         axios.get(`http://localhost:3000/todos`)
         .then(res => {
             console.log("our data", res.data);
-            dispatch(addNewTodo(res.data)); //setDataTodo
+            dispatch(getTodoFromServer(res.data)); //setDataTodo
         })
     }  
 }
@@ -45,39 +47,76 @@ export const deleteTodo = (id:any) =>{
         axios.delete(`http://localhost:3000/todos/${id}`)
         .then(res => {
             console.log("deleteData", res.data);
-            dispatch(actionDeleteTodo({id:id}))
+            // dispatch(actionDeleteTodo({id:id}))
+            dispatch(setDataTodo())
         }).catch(error => console.log(error))
     }  
 }
 
-export const addNewOneTodo = (id:any, nowdata:any, categories:any, title:any, description:any) => {
+export const addNewTodo = (id:any, nowdata:any, categories:any, title:any, description:any) => {
     return function (dispatch:any){
         axios.post(`http://localhost:3000/todos`, {
-            "date-create":nowdata,
-            "data-change":nowdata,
+            "datecreate":nowdata,
+            "datachange":nowdata,
             categories:categories,
             title:title,
             description:description,
-            status: "Не выполнена"
-          }).then(res => {
-            dispatch(actionAddOneTodo({
-                    "date-create":nowdata,
-                    "data-change":nowdata,
-                    categories:categories,
-                    title:title,
-                    description:description,
-                    status: "Невыполнена",
-                    id:id
-                })
-            )
-          })
+            status: false
+          }).then(
+            dispatch(setDataTodo())
+          )
           .catch(error => {
             console.log(error);
-          });
+        });
     }  
 } 
 
-export const addArchiveTodo = () =>{
+export const changeCurrentTodo = (todoId:any, nowdata:any, categories:any, title:any, description:any) => {
+    // let isCompleted = isCompletedStatus ? "Выполнено" : "Невыполнено"
+    return function (dispatch:any){
+        axios.patch(`http://localhost:3000/todos/${todoId}`,{
+              "datecreate":nowdata,
+              "datachange":nowdata,
+              categories:categories,
+              title:title,
+              description:description,
+            }).then(
+                dispatch(setDataTodo())
+            ).catch(
+                error => console.log(error)
+            )
+     }  
+} /// разбираться 
+
+export const setIsComplited = (id:any, isCompleted:any) => {
+    return function (dispatch:any){
+        axios.patch(`http://localhost:3000/todos/${id}`,{
+            status: !isCompleted 
+        }).then(res => 
+            dispatch(setDataTodo())
+        ).catch(
+            error => console.log(error)
+        )
+    } 
+}
+
+export const deleteCheckedTodo = (arrId:any) => {
+    return function (dispatch:any){
+        arrId.forEach((todoId:any) => {
+            axios.delete(`http://localhost:3000/todos/${todoId}`)
+            .then( res => 
+                dispatch(setDataTodo())
+            )
+            .catch(
+                 error => console.log(error)
+            )
+        })
+    } 
+}
+
+// /archive
+
+export const getArchiveTodo = () =>{
     return function (dispatch:any){
         axios.get(`http://localhost:3000/deffered`)
         .then(res => {
@@ -85,6 +124,15 @@ export const addArchiveTodo = () =>{
             dispatch(addDefferedFromServer(res.data));
         })
     }  
+}
+
+export const addArchiveTodo = (todo:any) =>{
+    return function(dispatch:any){
+        console.log({todo})
+        axios.post(`http://localhost:3000/deffered`, {todo}).then(
+            dispatch(getArchiveTodo())
+        ).catch(error => console.log(error))
+    }
 }
 
 // export const changeCurrentTodo = (todoId:any, nowdata:any, categories:any, title:any, description:any, isCompletedStatus:any) => {
@@ -111,36 +159,9 @@ export const addArchiveTodo = () =>{
 // }////////
 
 
-export const changeCurrentTodo = (todoId:any, nowdata:any, categories:any, title:any, description:any) => {
-    // let isCompleted = isCompletedStatus ? "Выполнено" : "Невыполнено"
-    return function (dispatch:any){
-        axios.patch(`http://localhost:3000/todos/${todoId}`,{
-              "date-create":nowdata,
-              "data-change":nowdata,
-              categories:categories,
-              title:title,
-              description:description,
-            //   "status":isCompleted,
-              "id": todoId
-        }).then(res => dispatch(actionChangeCurrentTodo({
-            "date-create":nowdata,
-            "data-change":nowdata,
-            categories:categories,
-            title:title,
-            description:description,
-            // "status":isCompleted,
-            "id": todoId
-        })))
-    }  
-}//////// ???????
 
-export const setIsComplited = (id:any) => {
-    return function (dispatch:any){
-        axios.patch(`http://localhost:3000/todos/${id}`,{
-            "status": "true"
-        }).then(res => console.log(res))
-    } 
-} //??? 
+
+ //??? 
 //delete thunk
 
 

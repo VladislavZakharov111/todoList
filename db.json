@@ -13,181 +13,117 @@
   ],
   "todos": [
     {
-      "date-create": "2021-12-21",
-      "data-change": "2021-12-21",
+      "datecreate": "2021-12-22",
+      "datachange": "2021-12-22",
       "categories": "Cпорт",
-      "title": "adqwdqwd",
-      "description": "qwdqwdq",
-      "status": "true",
+      "title": "sdad",
+      "description": "sadasdad",
+      "status": false,
       "id": 1
     },
     {
-      "date-create": "2021-12-21",
-      "data-change": "2021-12-21",
+      "datecreate": "2021-12-22",
+      "datachange": "2021-12-22",
       "categories": "Cпорт",
-      "title": "ttt",
-      "description": "rrrrrr",
-      "status": "Выполнено",
+      "title": "sdadasd",
+      "description": "asdasda",
+      "status": false,
       "id": 2
+    },
+    {
+      "datecreate": "2021-12-22",
+      "datachange": "2021-12-22",
+      "categories": "Cпорт",
+      "title": "asdasd",
+      "description": "sadada",
+      "status": false,
+      "id": 3
     }
   ],
   "deffered": [
     {
       "todo": {
-        "date-create": "2021-12-20",
-        "data-change": "2021-12-20",
-        "categories": "спорт",
-        "title": "ttttt",
-        "description": "tttt",
+        "datecreate": "2021-12-22",
+        "datachange": "2021-12-22",
+        "categories": "Cпорт",
+        "title": "sdqwedq",
+        "description": "weqwewqe",
+        "status": true,
         "id": 1
+      },
+      "id": 1
+    },
+    {
+      "todo": {
+        "datecreate": "2021-12-22",
+        "datachange": "2021-12-22",
+        "categories": "Cпорт",
+        "title": "rqreqw",
+        "description": "qwrqwrq",
+        "status": false,
+        "id": 2
       },
       "id": 2
     },
     {
       "todo": {
-        "date-create": "2021-12-20",
-        "data-change": "2021-12-20",
-        "categories": "спорт",
-        "title": "ttttt",
-        "description": "tttt",
-        "id": 1
+        "datecreate": "2021-12-22",
+        "datachange": "2021-12-22",
+        "categories": "Cпорт",
+        "title": "rqreqw",
+        "description": "qwrqwrq",
+        "status": false,
+        "id": 2
+      },
+      "id": 3
+    },
+    {
+      "todo": {
+        "datecreate": "2021-12-22",
+        "datachange": "2021-12-22",
+        "categories": "Cпорт",
+        "title": "rqreqw",
+        "description": "qwrqwrq",
+        "status": false,
+        "id": 2
       },
       "id": 4
     },
     {
       "todo": {
-        "date-create": "2021-12-20",
-        "data-change": "2021-12-20",
-        "categories": "спорт",
-        "title": "ыфвыфв",
-        "description": "фывфыв",
-        "id": 3
+        "datecreate": "2021-12-22",
+        "datachange": "2021-12-22",
+        "categories": "Cпорт",
+        "title": "rqreqw",
+        "description": "qwrqwrq",
+        "status": false,
+        "id": 2
       },
       "id": 5
     },
     {
       "todo": {
-        "date-create": "2021-12-20",
-        "data-change": "2021-12-20",
-        "categories": "Кино",
-        "title": "ывфв",
-        "description": "ыфвфвфв",
+        "datecreate": "2021-12-22",
+        "datachange": "2021-12-22",
+        "categories": "Cпорт",
+        "title": "rqreqw",
+        "description": "qwrqwrq",
+        "status": false,
         "id": 2
       },
       "id": 6
     },
     {
       "todo": {
-        "date-create": "2021-12-20",
-        "data-change": "2021-12-20",
-        "categories": "Музыка",
-        "title": "Др",
-        "description": "Поздравить Ладу с др",
-        "id": 4
-      },
-      "id": 7
-    },
-    {
-      "todo": {
-        "date-create": "2021-12-20",
-        "data-change": "2021-12-20",
-        "categories": "Кино",
-        "title": "ывфв",
-        "description": "ыфвфвфв",
-        "data-endpoint": "2021-12-20",
-        "id": 2
-      },
-      "id": 8
-    },
-    {
-      "todo": {
-        "date-create": "2021-12-20",
-        "data-change": "2021-12-20",
-        "categories": "спорт",
-        "title": "ыфвыфв",
-        "description": "фывфыв",
-        "data-endpoint": "2021-12-20",
+        "datecreate": "2021-12-22",
+        "datachange": "2021-12-22",
+        "categories": "Cпорт",
+        "title": "ййцйуйу",
+        "description": "цйуйцуй",
+        "status": false,
         "id": 3
       },
-      "id": 9
-    },
-    {
-      "todo": {
-        "date-create": "2021-12-20",
-        "data-change": "2021-12-20",
-        "categories": "Музыка",
-        "title": "Др",
-        "description": "Поздравить Ладу с др",
-        "data-endpoint": "2021-12-20",
-        "id": 4
-      },
-      "id": 10
-    },
-    {
-      "todo": {
-        "date-create": "2021-12-21",
-        "data-change": "2021-12-21",
-        "categories": "",
-        "title": "sdasd",
-        "description": "sadasd",
-        "id": 6
-      },
-      "id": 11
-    },
-    {
-      "todo": {
-        "date-create": "2021-12-21",
-        "data-change": "2021-12-21",
-        "categories": "",
-        "title": "sdasdddd",
-        "description": "sadasdddd",
-        "id": 7
-      },
-      "id": 12
-    },
-    {
-      "todo": {
-        "date-create": "2021-12-21",
-        "data-change": "2021-12-21",
-        "categories": "",
-        "title": "dasdadsad",
-        "description": "dddddsadasdas",
-        "id": 5
-      },
-      "id": 13
-    },
-    {
-      "todo": {
-        "date-create": "2021-12-21",
-        "data-change": "2021-12-21",
-        "categories": "",
-        "title": "dasdadsad",
-        "description": "dddddsadasdas",
-        "id": 5
-      },
-      "id": 14
-    },
-    {
-      "todo": {
-        "date-create": "2021-12-21",
-        "data-change": "2021-12-21",
-        "categories": "",
-        "title": "dasdadsad",
-        "description": "dddddsadasdas",
-        "id": 5
-      },
-      "id": 15
-    },
-    {
-      "todo": {
-        "date-create": "2021-12-21",
-        "data-change": "2021-12-21",
-        "categories": "",
-        "title": "dasdadsad",
-        "description": "dddddsadasdas",
-        "id": 5
-      },
-      "id": 16
+      "id": 7
     }
   ]
 }
