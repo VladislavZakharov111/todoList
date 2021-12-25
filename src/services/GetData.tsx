@@ -7,6 +7,8 @@ import { Redirect, useHistory } from "react-router-dom"
 import {addDefferedFromServer} from "../store/defferedReducer"
 
 
+// http://localhost:3000/todos?_page=2&_limit=2 // pagination
+
 
 // let u = a.reduce((acc,a) => {
 //     return acc + "id=" + a + "&"
@@ -32,9 +34,15 @@ export const setDataUsers = (login:any,password:any) => {
     }
 }
 // /todos
-export const setDataTodo = () =>{
+export const setDataTodo = (page:any, filterName:any, filterCategories:any,done:any) =>{
+    let URL = ""
+    if(filterName.length === 0) 
+        URL =  `http://localhost:3000/todos?_page=${page}&_limit=5&_sort=title`
+    else
+        //URL = `http://localhost:3000/todos?_page=${page}&_limit=5&title=${filterName}&categories=${filterCategories}&status=${done}`
+        URL = `http://localhost:3000/todos?_page=${page}&_limit=5&title=${filterName}&status=${done}&_sort=title`
     return function (dispatch:any){
-        axios.get(`http://localhost:3000/todos`)
+        axios.get(URL)
         .then(res => {
             console.log("our data", res.data);
             dispatch(getTodoFromServer(res.data)); //setDataTodo
@@ -48,7 +56,7 @@ export const deleteTodo = (id:any) =>{
         .then(res => {
             console.log("deleteData", res.data);
             // dispatch(actionDeleteTodo({id:id}))
-            dispatch(setDataTodo())
+            dispatch(setDataTodo(1,"","Спорт",true))
         }).catch(error => console.log(error))
     }  
 }
@@ -63,7 +71,7 @@ export const addNewTodo = (id:any, nowdata:any, categories:any, title:any, descr
             description:description,
             status: false
           }).then(
-            dispatch(setDataTodo())
+            dispatch(setDataTodo(1,"","Спорт",true))
           )
           .catch(error => {
             console.log(error);
@@ -81,7 +89,7 @@ export const changeCurrentTodo = (todoId:any, nowdata:any, categories:any, title
               title:title,
               description:description,
             }).then(
-                dispatch(setDataTodo())
+                dispatch(setDataTodo(1,"","Спорт",true))
             ).catch(
                 error => console.log(error)
             )
@@ -93,7 +101,7 @@ export const setIsComplited = (id:any, isCompleted:any) => {
         axios.patch(`http://localhost:3000/todos/${id}`,{
             status: !isCompleted 
         }).then(res => 
-            dispatch(setDataTodo())
+            dispatch(setDataTodo(1,"","Спорт",true))
         ).catch(
             error => console.log(error)
         )
@@ -105,7 +113,7 @@ export const deleteCheckedTodo = (arrId:any) => {
         arrId.forEach((todoId:any) => {
             axios.delete(`http://localhost:3000/todos/${todoId}`)
             .then( res => 
-                dispatch(setDataTodo())
+                dispatch(setDataTodo(1,"","Спорт",true))
             )
             .catch(
                  error => console.log(error)

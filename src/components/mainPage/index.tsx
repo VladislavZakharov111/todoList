@@ -8,6 +8,8 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import {Description} from "./styled"
 import { Exit } from "./components/exit";
+import { setCurrentPage } from "../../store/todoReducer";
+import { NavLink } from "react-router-dom";
 
 enum CategoriesTodo {
   Sport = 'Спорт',  
@@ -15,7 +17,9 @@ enum CategoriesTodo {
   Movie = 'Кино',
   Shop = 'Магазин',
 }
-const arrayCategories = [CategoriesTodo.Sport , CategoriesTodo.Music, CategoriesTodo.Movie, CategoriesTodo.Shop] // 
+const arrayCategories = [CategoriesTodo.Sport , CategoriesTodo.Music, CategoriesTodo.Movie, CategoriesTodo.Shop] 
+let titleTable = ["Дата создания", "Дата измненения", "Категория", "Заголовок", "Описание"]
+let paginPage = [1,2,3,4];
 
 export const MainPage = () =>{
     const [modalActiveAdd, setmodalActiveAdd] = useState<any>(false);
@@ -35,18 +39,19 @@ export const MainPage = () =>{
     const [modalctiveDelete, setModalActiveDelete] = useState<any>(false)
     const dispatch = useDispatch()
     const todoInfo = useTypedSelector(state => state.todoReducer.todolist)
-    // const checkDeleteTodo = useState<Array<number>>([])
+    const currentPage = useTypedSelector(state => state.todoReducer.currentPage)
 
-
+    const [filterName, setFilterName] = useState<any>("") 
+    const [filterCategories, setFilterCategories] = useState<any>('Спорт')
+    const [done,setDone] = useState<any>(false)
     useEffect(() => {
-        dispatch(setDataTodo())
-    }, [])
+        dispatch(setDataTodo(currentPage, filterName,filterCategories,done))
+    }, [currentPage,filterName,filterCategories,done])
 
     useEffect(()=>{
         console.log("ff", todoInfo)
         console.log(CategoriesTodo.Movie);
     },[todoInfo])
-
     // const convertDate = (inputFormat : any) =>{
     //   function pad(s :any):any {return (s < 10) ? '0' + s : s}
     //   let d = new Date(inputFormat)
@@ -79,22 +84,12 @@ export const MainPage = () =>{
     const handleCategories = (e:React.ChangeEvent<HTMLSelectElement>) => {
       setCategories(e.target.value)
     }
-
-    // const deleteTodos = (todoId: any):any =>{
-    // //   axios.delete(`http://localhost:3000/todos/${todoId}`)
-    // //  .then(resp => resp.data).catch(error => console.log(error))
-    //   dispatch(deleteTodo(todoId)) // dispath delete
-    // }
-
-    // const change = (id: number) => {
-    //   console.log(id);
-    // };
-
+    console.log(filterCategories)
     const changeTodo = (todoId: any):any => {
-      dispatch(changeCurrentTodo(todoId ,nowdata, categories ,title,decription ))
+      dispatch(changeCurrentTodo(todoId ,nowdata, categories ,title,decription))
       // console.log("todoId",todoId)
       // console.log("param", title, categories, decription)
-        setmodalActiveChange(false)
+      setmodalActiveChange(false)
     }
     const changeCurrentId = (item:any):any =>{
       setCurrentTodo(item)
@@ -130,29 +125,45 @@ export const MainPage = () =>{
       dispatch(setIsComplited(id,isCompleted))
     }////?
     
+    const handleFilterName = (e: React.ChangeEvent<HTMLInputElement>) => {
+      setFilterName(e.target.value)
+    }
+    const handleFilterCategories = (e:React.ChangeEvent<HTMLSelectElement>) =>{
+      setFilterCategories(e.target.value)
+    }
+
+    const handleDone = (e:React.ChangeEvent<HTMLSelectElement>) =>{
+      console.log(e.target.value)
+      e.target.value === "Выполнено" ? setDone(true) : setDone(false)
+    }
 
     return(<div>
        <button onClick={() => setmodalActiveAdd(true)}>Добавить новую задачу</button>
        <button onClick={deleteManyTodos}>Удалить выбранные задачи</button>
+       <NavLink to = "/profile">Профиль</NavLink>
+       <NavLink to = "/archive">Архив</NavLink>
        <Exit/>
-      
-       {/* {todoInfo.length ? Object.keys(todoInfo[0]).map((item:any)=>(<th>{item}</th>)) : <div>Loading...</div>} */}
-       {/* {todoInfo.map((item:any,index:any) => {
-        return (
-          <tr key={`item.title${index}`}>
-          {Object.values(item).map((val:any) => (
-            <td>{val}</td>
-          ))}
-          <td>
-            <button onClick={() => handleCompleted(item.id)}>Выполнено</button>
-            <button onClick = {() => handeDelete(item.id)}>Удалить</button> 
-            <button onClick = {() => activeModalChangeMethod(item)}>Изменить</button>
-            <button onClick={() => addDefferedTodo(item)}>Отложить</button>
-          </td>
-          <td><input type ="checkbox" onChange={(event) => saveCheckId(event,item.id)}/>Выбрать для удаления</td>
-        </tr>)
-        })} */}
+       Фильтры
+       <input value={filterName} onChange ={handleFilterName} type="text"/>
+       <select onChange={handleFilterCategories}>
+            {arrayCategories.map((categories:any) =>  <option>{categories}</option>)}
+        </select>
+        <select onChange={handleDone}>
+          <option>Не выполнено</option>
+          <option>Выполнено</option>
+        </select>
+        Cортировка заголовка
+        <select>
+          <option>
+            По возрастанию
+          </option>
+          <option>
+            По убыванию
+          </option>
+        </select>
         <table> 
+          {/* <th>drreterte</th> */}
+          {titleTable.map((title:any) => <th>{title}</th>)}
           {
             todoInfo.map((todo:any) => {
               return(
@@ -174,7 +185,7 @@ export const MainPage = () =>{
             })
           }
       </table> 
-
+      {paginPage.map((elem:any) => <button onClick={()=>dispatch(setCurrentPage(elem))}>{elem}</button>)}
       <ModalView active={modalActiveAdd} setActive={setmodalActiveAdd}>
         <button onClick={()=>setmodalActiveAdd(false)}>Закрыть</button>
         <form onSubmit = {handleSubmitPopUp}>
