@@ -1,5 +1,5 @@
 import React , {useState} from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch,useSelector } from "react-redux";
 import { useEffect } from "react";
 import {  setDataTodo, deleteTodo ,addNewTodo , changeCurrentTodo, setIsComplited , addArchiveTodo,deleteCheckedTodo } from "../../services/GetData";
 import { useTypedSelector } from '../../hooks/useTypedSelector'; 
@@ -8,8 +8,10 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import {Description} from "./styled"
 import { Exit } from "./components/exit";
-import { setCurrentPage } from "../../store/todoReducer";
+import {PaginationButton} from "./components/pagination";
 import { NavLink } from "react-router-dom";
+import { actionSetCategories,actionSetTitle,actionSetDoneTask,actionSetValueSort } from "../../store/todoReducer";
+import './mainPage.css';
 
 enum CategoriesTodo {
   Sport = 'Спорт',  
@@ -18,8 +20,7 @@ enum CategoriesTodo {
   Shop = 'Магазин',
 }
 const arrayCategories = [CategoriesTodo.Sport , CategoriesTodo.Music, CategoriesTodo.Movie, CategoriesTodo.Shop] 
-let titleTable = ["Дата создания", "Дата измненения", "Категория", "Заголовок", "Описание"]
-let paginPage = [1,2,3,4];
+let titleTable = ["Дата создания", "Дата измненения", "Категория", "Заголовок", "Описание" , 'Срок выполнения']
 
 export const MainPage = () =>{
     const [modalActiveAdd, setmodalActiveAdd] = useState<any>(false);
@@ -38,20 +39,24 @@ export const MainPage = () =>{
     const [checkedTodos, setCheckedTodos] = useState<any>([]);
     const [modalctiveDelete, setModalActiveDelete] = useState<any>(false)
     const dispatch = useDispatch()
-    const todoInfo = useTypedSelector(state => state.todoReducer.todolist)
-    const currentPage = useTypedSelector(state => state.todoReducer.currentPage)
-
+    // const todoInfo = useTypedSelector(state => state.todoReducer.todolist)
+    // const currentPage = useTypedSelector(state => state.todoReducer.currentPage)
+    const todoInfo = useSelector((state:any) => state.todoReducer.todolist)
+    const currentPage = useSelector((state:any) => state.todoReducer.currentPage)
     const [filterName, setFilterName] = useState<any>("") 
-    const [filterCategories, setFilterCategories] = useState<any>('Спорт')
+    const [filterCategories, setFilterCategories] = useState<any>(`Спорт`)
     const [done,setDone] = useState<any>(false)
-    useEffect(() => {
-        dispatch(setDataTodo(currentPage, filterName,filterCategories,done))
-    }, [currentPage,filterName,filterCategories,done])
+    const [sortState, setSortState] = useState<any> (false)
+    // const [currentPages, setCurrentPages] = useState<any>(1);
+    
+    useEffect(() => { 
+      dispatch(setDataTodo(currentPage, filterName,filterCategories,done,sortState))
+    }, [])
 
-    useEffect(()=>{
-        console.log("ff", todoInfo)
-        console.log(CategoriesTodo.Movie);
-    },[todoInfo])
+    useEffect(() => { 
+        dispatch(setDataTodo(currentPage, filterName,filterCategories,done,sortState))
+    }, [currentPage,filterName,filterCategories,done,sortState])
+
     // const convertDate = (inputFormat : any) =>{
     //   function pad(s :any):any {return (s < 10) ? '0' + s : s}
     //   let d = new Date(inputFormat)
@@ -59,14 +64,14 @@ export const MainPage = () =>{
     // }
 
     let nowdata = new Date().toISOString().slice(0, 10);
+    
     // let data = {id: todoInfo.length + 1, "date-create":nowdata, "data-change":nowdata, categories:categories, title:title, description:decription}
     // let data = { "date-create":nowdata, "data-change":nowdata, categories:categories, title:title, description:decription}
-    
+
     const handleSubmitPopUp = (e: React.ChangeEvent<HTMLFormElement>) =>{
       e.preventDefault()
-      // dispatch(addOneTodo(data))
       dispatch(addNewTodo(todoInfo.length, nowdata, categories, title , decription))
-    } //////////////////////////добавление
+    } 
 
     const handleSubmitChange = (e: React.ChangeEvent<HTMLFormElement>) =>{
       e.preventDefault()
@@ -84,13 +89,12 @@ export const MainPage = () =>{
     const handleCategories = (e:React.ChangeEvent<HTMLSelectElement>) => {
       setCategories(e.target.value)
     }
-    console.log(filterCategories)
+
     const changeTodo = (todoId: any):any => {
       dispatch(changeCurrentTodo(todoId ,nowdata, categories ,title,decription))
-      // console.log("todoId",todoId)
-      // console.log("param", title, categories, decription)
       setmodalActiveChange(false)
     }
+
     const changeCurrentId = (item:any):any =>{
       setCurrentTodo(item)
     }
@@ -100,14 +104,10 @@ export const MainPage = () =>{
     }
     
     const addDefferedTodo = (todo: Object) => {
-      // axios.post(`http://localhost:3000/deffered`, {todo});
-      // dispatch(getArchiveTodo(todo))
       dispatch(addArchiveTodo(todo))
-    } //thunk
+    } 
     
     const deleteManyTodos = () => {
-      // axios.delete("http://localhost:3000/todos?id=1") 
-      //checkedTodos
       dispatch(deleteCheckedTodo(checkedTodos))
     }
 
@@ -126,7 +126,8 @@ export const MainPage = () =>{
     }////?
     
     const handleFilterName = (e: React.ChangeEvent<HTMLInputElement>) => {
-      setFilterName(e.target.value)
+      // setFilterName(e.target.value)
+      dispatch(actionSetTitle(e.target.value))
     }
     const handleFilterCategories = (e:React.ChangeEvent<HTMLSelectElement>) =>{
       setFilterCategories(e.target.value)
@@ -137,14 +138,18 @@ export const MainPage = () =>{
       e.target.value === "Выполнено" ? setDone(true) : setDone(false)
     }
 
-    return(<div>
+    const handleSort = (e:React.ChangeEvent<HTMLSelectElement>) =>{
+      e.target.value === `По возрастанию` ? setSortState(true) : setSortState(false)
+    }
+    return(<div className="main_page">
        <button onClick={() => setmodalActiveAdd(true)}>Добавить новую задачу</button>
+       <button>Список задач</button>
        <button onClick={deleteManyTodos}>Удалить выбранные задачи</button>
        <NavLink to = "/profile">Профиль</NavLink>
        <NavLink to = "/archive">Архив</NavLink>
        <Exit/>
        Фильтры
-       <input value={filterName} onChange ={handleFilterName} type="text"/>
+       <input value={filterName} onChange ={handleFilterName} type="text" />
        <select onChange={handleFilterCategories}>
             {arrayCategories.map((categories:any) =>  <option>{categories}</option>)}
         </select>
@@ -153,8 +158,8 @@ export const MainPage = () =>{
           <option>Выполнено</option>
         </select>
         Cортировка заголовка
-        <select>
-          <option>
+        <select onChange={handleSort}>
+          <option >
             По возрастанию
           </option>
           <option>
@@ -185,7 +190,7 @@ export const MainPage = () =>{
             })
           }
       </table> 
-      {paginPage.map((elem:any) => <button onClick={()=>dispatch(setCurrentPage(elem))}>{elem}</button>)}
+      <PaginationButton/>
       <ModalView active={modalActiveAdd} setActive={setmodalActiveAdd}>
         <button onClick={()=>setmodalActiveAdd(false)}>Закрыть</button>
         <form onSubmit = {handleSubmitPopUp}>
@@ -195,7 +200,7 @@ export const MainPage = () =>{
           </select>
           Заголовок
           <input type = "text" placeholder="Заголовок" required onChange={handleTitleTodo}></input>
-          Описание оо
+          Описание 
           <Description placeholder="Описания"  onChange={handleDescriptionTodo}></Description>
           Крайний срок
           <DatePicker selected={dataendpoint} required onChange={(date:any) => setDataendpoint(date)} />
@@ -227,7 +232,7 @@ export const MainPage = () =>{
           <button>Нет</button>
         </form>
       </ModalView>
-
+{/* 
       <ModalView active={modalctiveDelete} setActive={setModalActiveDelete}>
         <form>
           <button>Закрыть</button>
@@ -236,5 +241,21 @@ export const MainPage = () =>{
           <button>Нет</button>
         </form>
       </ModalView>
+      <ModalView active={modalctiveDelete} setActive={setModalActiveDelete}>
+        <form>
+          <button>Закрыть</button>
+          <div>Вы действительно хотите изменить задачу?</div>
+          <button>Да</button>
+          <button>Нет</button>
+        </form>
+      </ModalView>
+      <ModalView active={modalctiveDelete} setActive={setModalActiveDelete}>
+        <form>
+          <button>Закрыть</button>
+          <div>Вы действительно хотите добавить задачу?</div>
+          <button>Да</button>
+          <button>Нет</button>
+        </form>
+      </ModalView> */}
     </div>)
 }

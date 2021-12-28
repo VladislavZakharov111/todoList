@@ -1,6 +1,6 @@
 import React, {useEffect} from "react";
 import { getArchiveTodo } from "../../services/GetData";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useTypedSelector } from '../../hooks/useTypedSelector'; 
 export const DefferedPage = ():any =>{
 
@@ -9,8 +9,8 @@ export const DefferedPage = ():any =>{
         dispatch(getArchiveTodo())
     }, [])
 
-    const defferedInfo = useTypedSelector(state => state.defferedReducer.defferedTodo)
-
+    // const defferedInfo = useTypedSelector(state => state.defferedReducer.defferedTodo)
+    const defferedInfo = useSelector((state:any) => state.defferedReducer.defferedTodo)
     useEffect(()=>{
         console.log("deffered", defferedInfo)
     },[])

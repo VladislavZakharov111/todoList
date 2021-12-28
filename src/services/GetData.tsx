@@ -18,7 +18,7 @@ import {addDefferedFromServer} from "../store/defferedReducer"
 export const setDataUsers = (login:any,password:any) => { 
     // const history = useHistory() //setDataUsers
     return function (dispatch:any){
-        axios.get(`http://localhost:3001/users?login=${login}&password=${password}`)
+        axios.get(`http://localhost:3000/users?login=${login}&password=${password}`)
         // .then(res => ) // catch redirect 
         .then(res => {
             console.log(res.data)
@@ -27,20 +27,29 @@ export const setDataUsers = (login:any,password:any) => {
                 dispatch(addUserFromServer(res.data));
             }
             else
-                console.log("Неверный логин/пароль")
+                dispatch(addUserFromServer(1));
         }).catch(error=>{
             console.log("error",error)
         })
     }
 }
 // /todos
-export const setDataTodo = (page:any, filterName:any, filterCategories:any,done:any) =>{
-    let URL = ""
-    if(filterName.length === 0) 
-        URL =  `http://localhost:3000/todos?_page=${page}&_limit=5&_sort=title`
-    else
-        //URL = `http://localhost:3000/todos?_page=${page}&_limit=5&title=${filterName}&categories=${filterCategories}&status=${done}`
-        URL = `http://localhost:3000/todos?_page=${page}&_limit=5&title=${filterName}&status=${done}&_sort=title`
+export const setDataTodo = (page:any, filterName:any, filterCategories:any,done:any, sortState:any) =>{
+    
+    let URL = `http://localhost:3000/todos?_page=${page}&_limit=5`
+    // if(filterName.length === 0) 
+    //     URL =  `http://localhost:3000/todos?_page=${page}&_limit=5&_sort=title`
+    // else
+    //     //URL = `http://localhost:3000/todos?_page=${page}&_limit=5&title=${filterName}&categories=${filterCategories}&status=${done}`
+    //     if()
+    //     URL = `http://localhost:3000/todos?_page=${page}&_limit=5&title=${filterName}&status=${done}&_sort=title`
+
+    if(filterName.length !== 0) URL = URL + `&title=${filterName}`;
+    // if(filterCategories.length !== 0) URL = URL + `&categories=${filterCategories}`; //?????????????????????????
+    if(done.length !== 0) URL = URL + `&status=${done}`;
+    if(sortState === false) URL = URL + `&_sort=title`;
+    if(sortState) URL = URL + `&_sort=title&_order=desc`;
+
     return function (dispatch:any){
         axios.get(URL)
         .then(res => {
@@ -56,7 +65,7 @@ export const deleteTodo = (id:any) =>{
         .then(res => {
             console.log("deleteData", res.data);
             // dispatch(actionDeleteTodo({id:id}))
-            dispatch(setDataTodo(1,"","Спорт",true))
+            dispatch(setDataTodo(1,"","Спорт",true, true))
         }).catch(error => console.log(error))
     }  
 }
@@ -71,7 +80,7 @@ export const addNewTodo = (id:any, nowdata:any, categories:any, title:any, descr
             description:description,
             status: false
           }).then(
-            dispatch(setDataTodo(1,"","Спорт",true))
+            dispatch(setDataTodo(1,"","Спорт",true,true))
           )
           .catch(error => {
             console.log(error);
@@ -89,7 +98,7 @@ export const changeCurrentTodo = (todoId:any, nowdata:any, categories:any, title
               title:title,
               description:description,
             }).then(
-                dispatch(setDataTodo(1,"","Спорт",true))
+                dispatch(setDataTodo(1,"","Спорт",true,true))
             ).catch(
                 error => console.log(error)
             )
@@ -101,7 +110,7 @@ export const setIsComplited = (id:any, isCompleted:any) => {
         axios.patch(`http://localhost:3000/todos/${id}`,{
             status: !isCompleted 
         }).then(res => 
-            dispatch(setDataTodo(1,"","Спорт",true))
+            dispatch(setDataTodo(1,"","Спорт",true,true))
         ).catch(
             error => console.log(error)
         )
@@ -113,7 +122,7 @@ export const deleteCheckedTodo = (arrId:any) => {
         arrId.forEach((todoId:any) => {
             axios.delete(`http://localhost:3000/todos/${todoId}`)
             .then( res => 
-                dispatch(setDataTodo(1,"","Спорт",true))
+                dispatch(setDataTodo(1,"","Спорт",true,true))
             )
             .catch(
                  error => console.log(error)

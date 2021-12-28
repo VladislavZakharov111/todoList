@@ -1,0 +1,40 @@
+.main_page{
+    background: url('../../images/tuman.jpg');
+    height: 100vh;
+    background-size: cover;
+}
+button{
+    min-width : 85px;
+    height: 30px; 
+    background-color: #ffdd2d;
+    border: 1px solid #ffdd2d;
+    font: 13px/18px haas,pragmatica,-apple-system,BlinkMacSystemFont,Roboto,Helvetica Neue,Arial,sans-serif;
+    font-style: normal;
+    border-radius: 4px;
+    font-variant-ligatures: normal;
+    font-variant-caps: normal;
+    font-variant-numeric: normal;
+    font-variant-east-asian: normal;
+    font-weight: normal;
+    font-stretch: normal;
+    font-size: 13px;
+    line-height: 18px;
+    margin:3px;
+    padding: 5px;
+    font-family: haas, pragmatica, -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", Arial, sans-serif; 
+}
+button:hover{
+    background-color: #cccc00
+}
+td{
+    background-color: white;
+    padding: 10px;
+}
+th{
+    background-color: white;
+    height: 30px;
+    margin: 5px;
+}
+p{
+    font-size: 14px;
+}

@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 export const Modal = styled.div<{active:any}>`
-    heigth:100%;
+    heigth:100vh;
     width:100%;
     background-color: rgba(0,0,0,0.4);
     position:fixed;
