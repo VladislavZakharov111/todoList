@@ -11,7 +11,28 @@
       "password": "dima456"
     }
   ],
-  "todos": [],
+  "todos": [
+    {
+      "datecreate": "29.12.2021",
+      "datachange": "29.12.2021",
+      "categories": "Спорт",
+      "title": "Покупки",
+      "description": "выаываыа",
+      "dateendpoint": "31.12.2021",
+      "status": false,
+      "id": 1
+    },
+    {
+      "datecreate": "29.12.2021",
+      "datachange": "29.12.2021",
+      "categories": "Спорт",
+      "title": "Покупки",
+      "description": "выаываыаавав",
+      "dateendpoint": "05.02.2022",
+      "status": false,
+      "id": 2
+    }
+  ],
   "deffered": [
     {
       "todo": {

@@ -47,12 +47,12 @@ export const deleteTodo = (id:any) =>{
         .then(res => {
             console.log("deleteData", res.data);
             // dispatch(actionDeleteTodo({id:id}))
-            dispatch(setDataTodo(1,"","Спорт",true, true))
+            dispatch(setDataTodo(1,null,null,null, false))
         }).catch(error => console.log(error))
     }  
 }
 
-export const addNewTodo = (nowdata:any, categories:any, title:any, description:any) => {
+export const addNewTodo = (nowdata:any, categories:any, title:any, description:any, dateendpoint: any ) => {
     return function (dispatch:any){
         axios.post(`http://localhost:3000/todos`, {
             "datecreate":nowdata,
@@ -60,9 +60,10 @@ export const addNewTodo = (nowdata:any, categories:any, title:any, description:a
             categories:categories,
             title:title,
             description:description,
+            dateendpoint:dateendpoint,
             status: false
           }).then(
-            dispatch(setDataTodo(1,"","Спорт",true,true)) // ?
+            dispatch(setDataTodo(1,null,null,null,false)) // ?
           )
           .catch(error => {
             console.log(error);
@@ -70,7 +71,7 @@ export const addNewTodo = (nowdata:any, categories:any, title:any, description:a
     }  
 } 
 
-export const changeCurrentTodo = (todoId:any, nowdata:any, categories:any, title:any, description:any) => {
+export const changeCurrentTodo = (todoId: any, nowdata: any, categories: any, title: any, description: any, dateendpoint: any) => {
     return function (dispatch:any){
         axios.patch(`http://localhost:3000/todos/${todoId}`,{
               "datecreate":nowdata,
@@ -78,8 +79,9 @@ export const changeCurrentTodo = (todoId:any, nowdata:any, categories:any, title
               categories:categories,
               title:title,
               description:description,
+              dateendpoint: dateendpoint
             }).then(
-                dispatch(setDataTodo(1,"","Спорт",true,true))
+                dispatch(setDataTodo(1,null,null,null,false))
             ).catch(
                 error => console.log(error)
             )
@@ -91,7 +93,7 @@ export const setIsComplited = (id:any, isCompleted:any) => {
         axios.patch(`http://localhost:3000/todos/${id}`,{
             status: !isCompleted 
         }).then(res => 
-            dispatch(setDataTodo(1,"","Спорт",true,true))
+            dispatch(setDataTodo(1,null,null,null,false))
         ).catch(
             error => console.log(error)
         )
@@ -103,7 +105,7 @@ export const deleteCheckedTodo = (arrId:any) => {
         arrId.forEach((todoId:any) => {
             axios.delete(`http://localhost:3000/todos/${todoId}`)
             .then( res => 
-                dispatch(setDataTodo(1,"","Спорт",true,true))
+                dispatch(setDataTodo(1,null,null,null,false))
             )
             .catch(
                  error => console.log(error)

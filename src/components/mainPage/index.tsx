@@ -14,7 +14,10 @@ import './mainPage.css';
 import { push } from 'connected-react-router';
 import { Button } from "@mui/material";
 import { Filters } from "../filters/index"
-
+import { format } from "date-fns"
+import parse from 'date-fns/parse';
+import differenceInCalendarDays from "date-fns/differenceInCalendarDays";
+import differenceInDays from 'date-fns/differenceInDays'
 enum CategoriesTodo {
   Sport = 'Спорт',  
   Music = 'Музыка',
@@ -22,11 +25,12 @@ enum CategoriesTodo {
   Shop = 'Магазин',
 }
 const arrayCategories = [CategoriesTodo.Sport , CategoriesTodo.Music, CategoriesTodo.Movie, CategoriesTodo.Shop] 
-let titleTable = ["Дата создания", "Дата измненения", "Категория", "Заголовок", "Описание" , 'Срок выполнения']
+let titleTable = ["Дата создания", "Дата измненения", "Категория", "Заголовок", "Описание" , 'Срок выполнения', 'Cтатус']
 
 export const MainPage = () =>{
     const [modalActiveAdd, setmodalActiveAdd] = useState<any>(false);
     const [modalActiveChange, setmodalActiveChange] = useState<any>(false);
+    const [modalctiveDelete, setModalActiveDelete] = useState<any>(false)
     const [dataendpoint, setDataendpoint] = useState(new Date()); 
     const [categories, setCategories] = useState<any>("Спорт")
     const [title, setTitle] = useState("")
@@ -39,7 +43,6 @@ export const MainPage = () =>{
         description:decription,
     });
     const [checkedTodos, setCheckedTodos] = useState<any>([]);
-    const [modalctiveDelete, setModalActiveDelete] = useState<any>(false)
     const dispatch = useDispatch()
     // const todoInfo = useTypedSelector(state => state.todoReducer.todolist)
     // const currentPage = useTypedSelector(state => state.todoReducer.currentPage)
@@ -50,36 +53,18 @@ export const MainPage = () =>{
     const titleRedux = useSelector((state:any) => state.todoReducer.title)
     const doneTaskRedux = useSelector((state:any) => state.todoReducer.doneTask)
     const sortRedux = useSelector ((state:any) => state.todoReducer.sort)
-
-    // useEffect(() => { 
-    //   dispatch(setDataTodo(1, null, null, null ,false))
-    // }, [])
-
+    
     useEffect(() => {
       console.log(categoriesRedux,titleRedux,doneTaskRedux,sortRedux)
       dispatch(setDataTodo(currentPage,titleRedux,categoriesRedux,doneTaskRedux,sortRedux))
     },[currentPage,categoriesRedux,titleRedux,doneTaskRedux,sortRedux])
 
-    // useEffect(() => { 
-    //     dispatch(setDataTodo(currentPage, filterName,filterCategories,done,sortState))
-    // }, [currentPage,filterName,filterCategories,done,sortState])
-
-    // const convertDate = (inputFormat : any) =>{
-    //   function pad(s :any):any {return (s < 10) ? '0' + s : s}
-    //   let d = new Date(inputFormat)
-    //   return [d.getFullYear(), pad(d.getMonth()+1),  pad(d.getDate())].join('-')
-    // }
-    useEffect(() => {
-
-    }, [])
-    let nowdata = new Date().toISOString().slice(0, 10);
-    
-    // let data = {id: todoInfo.length + 1, "date-create":nowdata, "data-change":nowdata, categories:categories, title:title, description:decription}
-    // let data = { "date-create":nowdata, "data-change":nowdata, categories:categories, title:title, description:decription}
-
+    let nowdata = format(new Date(), "dd.MM.yyyy")
+    console.log(dataendpoint)
+    console.log("data", parse('22.11.2019', 'dd.MM.yyyy', new Date()).toISOString().substring(0, 10))
     const handleSubmitPopUp = (e: React.ChangeEvent<HTMLFormElement>) =>{
       e.preventDefault()
-      dispatch(addNewTodo(nowdata, categories, title , decription))
+      dispatch(addNewTodo(nowdata, categories, title , decription, format(dataendpoint, "dd.MM.yyyy")))
     } 
 
     const handleSubmitChange = (e: React.ChangeEvent<HTMLFormElement>) =>{
@@ -100,7 +85,7 @@ export const MainPage = () =>{
     }
 
     const changeTodo = (todoId: any):any => {
-      dispatch(changeCurrentTodo(todoId ,nowdata, categories ,title,decription))
+      dispatch(changeCurrentTodo(todoId ,nowdata, categories ,title,decription, format(dataendpoint, "dd.MM.yy")))
       setmodalActiveChange(false)
     }
 
@@ -130,9 +115,8 @@ export const MainPage = () =>{
     }
 
     const handleCompleted = (id:any, isCompleted: any):any => {
-      // setIsCompletedStatus(!isCompletedStatus);
       dispatch(setIsComplited(id,isCompleted))
-    }////?
+    }
     
     return(<div className="main_page">
        <button onClick={() => setmodalActiveAdd(true)}>Добавить новую задачу</button>
@@ -152,15 +136,32 @@ export const MainPage = () =>{
                 <tr key = {todo.title}>
                   <td>{todo.datecreate}</td>
                   <td>{todo.datachange}</td>
-                  <td>{todo.categories}</td>
-                  <td>{todo.title}</td>
-                  <td>{todo.description}</td>
+                  <td><p className={todo.status ? "do" : "nodo"}>{todo.categories}</p></td>
+                  <td><p className={todo.status ? "do" : "nodo"}>{todo.title}</p></td>
+                  <td><p className={todo.status ? "do" : "nodo"}>{todo.description}</p></td>
+                  <td className=
+                    {
+                      Math.abs(differenceInDays(
+                        new Date(new Date().toISOString().substring(0, 10)),
+                        new Date(parse(todo.dateendpoint, 'dd.MM.yyyy', new Date()).toISOString().substring(0, 10))
+                      )) <= 3 ? 'HotEndpointData' : 'noHotEndpointData' 
+                    }
+                  >{todo.dateendpoint} </td>
+                  <td>{todo.status ? `Выполнено` : `Не выполнено` }</td>
                   <td>
-                    <button onClick={() => handleCompleted(todo.id, todo.status)}>Выполнено</button>
+                    <button onClick={() => handleCompleted(todo.id, todo.status)}>{todo.status ? `Не выполнено` : `Выполнено`}</button>
                     <button onClick = {() => handeDelete(todo.id)}>Удалить</button> 
                     <button onClick = {() => activeModalChangeMethod(todo)}>Изменить</button>
                     <button onClick={() => addDefferedTodo(todo)}>Отложить</button>
                     <input type ="checkbox" onChange={(event) => saveCheckId(event,todo.id)}/>
+                    <p>
+                      {
+                          Math.abs(differenceInDays(
+                            new Date(new Date().toISOString().substring(0, 10)),
+                            new Date(parse(todo.dateendpoint, 'dd.MM.yyyy', new Date()).toISOString().substring(0, 10))
+                          ))
+                      }
+                    </p>
                   </td>
                 </tr>
               )
@@ -184,6 +185,7 @@ export const MainPage = () =>{
           <button type ="submit" onClick={()=>setmodalActiveAdd(false)}>Создать задачу </button> 
         </form>
        </ModalView>
+      
        <ModalView active={modalActiveChange} setActive={setmodalActiveChange}>
        <button onClick={()=>setmodalActiveChange(false)}>Закрыть</button>
         <form onSubmit={handleSubmitChange}>
@@ -209,7 +211,7 @@ export const MainPage = () =>{
           <button>Нет</button>
         </form>
       </ModalView>
-{/* 
+
       <ModalView active={modalctiveDelete} setActive={setModalActiveDelete}>
         <form>
           <button>Закрыть</button>
@@ -218,7 +220,7 @@ export const MainPage = () =>{
           <button>Нет</button>
         </form>
       </ModalView>
-      <ModalView active={modalctiveDelete} setActive={setModalActiveDelete}>
+      {/* <ModalView active={modalctiveDelete} setActive={setModalActiveDelete}>
         <form>
           <button>Закрыть</button>
           <div>Вы действительно хотите изменить задачу?</div>
