@@ -13,16 +13,8 @@ import { ConnectedRouter } from 'connected-react-router'
 const store = configureStore("/auth")
 
 ReactDOM.render(
-    // <React.StrictMode>
-    //   <BrowserRouter>
-    //     <Provider store = {store}>
-    //         <Global/>
-    //         <App />
-    //     </Provider>
-    //   </BrowserRouter>
-    // </React.StrictMode>,
       <Provider store={store} context={ReactReduxContext}>
-        <App history={history as IntrinsicAttributes} context={ReactReduxContext} />
+        <App history={history} context={ReactReduxContext} />
         <Global/>
       </Provider>, 
   

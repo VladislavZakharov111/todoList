@@ -32,11 +32,11 @@ export default function configureStore(preloadedState: any) {
     const store = createStore(
       createRootReducer(history), // root reducer with router state
       preloadedState,
-      compose(
+      composeWithDevTools(
         applyMiddleware(
           routerMiddleware(history), thunk // for dispatching history actions
           // ... other middlewares ...
-        ),
+        ),  
       ),
     )
     return store

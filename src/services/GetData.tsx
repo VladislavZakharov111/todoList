@@ -3,28 +3,18 @@ import {addUserFromServer} from "../store/authReducer"
 // import { addNewTodo, actionDeleteTodo,actionAddOneTodo } from "../store/todoReducer"
 import {getTodoFromServer} from "../store/todoReducer"
 // import {actionChangeCurrentTodo} from "../store/todoReducer"
-import { Redirect, useHistory } from "react-router-dom"
 import {addDefferedFromServer} from "../store/defferedReducer"
+import { push } from 'connected-react-router'
 
-
-// http://localhost:3000/todos?_page=2&_limit=2 // pagination
-
-
-// let u = a.reduce((acc,a) => {
-//     return acc + "id=" + a + "&"
-//   },"")   // преобразование массива в id строку
-
-// auth
 export const setDataUsers = (login:any,password:any) => { 
-    // const history = useHistory() //setDataUsers
     return function (dispatch:any){
         axios.get(`http://localhost:3000/users?login=${login}&password=${password}`)
-        // .then(res => ) // catch redirect 
         .then(res => {
             console.log(res.data)
             console.log(res.data.length)
             if(res.data.length){
                 dispatch(addUserFromServer(res.data));
+                dispatch(push('/'))
             }
             else
                 dispatch(addUserFromServer(1));
@@ -33,28 +23,20 @@ export const setDataUsers = (login:any,password:any) => {
         })
     }
 }
-// /todos
-export const setDataTodo = (page:any, filterName:any, filterCategories:any,done:any, sortState:any) =>{
-    
-    let URL = `http://localhost:3000/todos?_page=${page}&_limit=5`
-    // if(filterName.length === 0) 
-    //     URL =  `http://localhost:3000/todos?_page=${page}&_limit=5&_sort=title`
-    // else
-    //     //URL = `http://localhost:3000/todos?_page=${page}&_limit=5&title=${filterName}&categories=${filterCategories}&status=${done}`
-    //     if()
-    //     URL = `http://localhost:3000/todos?_page=${page}&_limit=5&title=${filterName}&status=${done}&_sort=title`
+
+export const setDataTodo = (page:any, filterName:any, filterCategories:any ,done:any, sortState:any) =>{
+    let URL = `http://localhost:3000/todos?_page=${page}&_limit=5&_sort=title`
     console.log({filterCategories})
-    if(filterName.length !== 0) URL = URL + `&title=${filterName}`;
-    if(filterCategories.length !== 0) URL = URL + `&categories=${filterCategories}`; //?????????????????????????
-    if(done.length !== 0) URL = URL + `&status=${done}`;
-    if(sortState === false) URL = URL + `&_sort=title`;
-    if(sortState) URL = URL + `&_sort=title&_order=desc`;
+    if(filterName !== null) URL = URL + `&title=${filterName}`;
+    if(filterCategories !== null) URL = URL + `&categories=${filterCategories}`; 
+    if(done !== null) URL = URL + `&status=${done}`;
+    if(sortState) URL = URL + `&_order=desc`;
 
     return function (dispatch:any){
         axios.get(URL)
         .then(res => {
             console.log("our data", res.data);
-            dispatch(getTodoFromServer(res.data)); //setDataTodo
+            dispatch(getTodoFromServer(res.data)); 
         })
     }  
 }
@@ -70,7 +52,7 @@ export const deleteTodo = (id:any) =>{
     }  
 }
 
-export const addNewTodo = (id:any, nowdata:any, categories:any, title:any, description:any) => {
+export const addNewTodo = (nowdata:any, categories:any, title:any, description:any) => {
     return function (dispatch:any){
         axios.post(`http://localhost:3000/todos`, {
             "datecreate":nowdata,
@@ -80,7 +62,7 @@ export const addNewTodo = (id:any, nowdata:any, categories:any, title:any, descr
             description:description,
             status: false
           }).then(
-            dispatch(setDataTodo(1,"","Спорт",true,true))
+            dispatch(setDataTodo(1,"","Спорт",true,true)) // ?
           )
           .catch(error => {
             console.log(error);
@@ -89,7 +71,6 @@ export const addNewTodo = (id:any, nowdata:any, categories:any, title:any, descr
 } 
 
 export const changeCurrentTodo = (todoId:any, nowdata:any, categories:any, title:any, description:any) => {
-    // let isCompleted = isCompletedStatus ? "Выполнено" : "Невыполнено"
     return function (dispatch:any){
         axios.patch(`http://localhost:3000/todos/${todoId}`,{
               "datecreate":nowdata,
@@ -103,7 +84,7 @@ export const changeCurrentTodo = (todoId:any, nowdata:any, categories:any, title
                 error => console.log(error)
             )
      }  
-} /// разбираться 
+} 
 
 export const setIsComplited = (id:any, isCompleted:any) => {
     return function (dispatch:any){
@@ -130,8 +111,6 @@ export const deleteCheckedTodo = (arrId:any) => {
         })
     } 
 }
-
-// /archive
 
 export const getArchiveTodo = () =>{
     return function (dispatch:any){

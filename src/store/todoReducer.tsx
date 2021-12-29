@@ -1,17 +1,17 @@
 interface Todostate{
     todolist: Array<Object>;
     currentPage : number;
-    categories: string;
-    title: string;
-    doneTask : string | boolean;
+    categories: string | null;
+    title: string | null;
+    doneTask : string | boolean | null;
     sort: boolean;
 }
 const defaultState : Todostate = {
     todolist : [],
     currentPage:1,
-    categories: '',
-    title: '',
-    doneTask:false,
+    categories: null,
+    title: null,
+    doneTask: null,
     sort: false,
 }
 const GET_TODOS = "GET_TODOS"

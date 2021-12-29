@@ -6,9 +6,11 @@ import { FormAuth,FiledEmail,ParentInput,ParentButton } from './styled'
 import { ButtonAuthSubmit,ButtonGeneral,FiledPassword } from "../../components/authPage/styled"
 import { AnyRecord } from 'dns';
 import { shallowEqual, useSelector } from 'react-redux'
+import { push } from 'connected-react-router'
 function  Authorization() {
     const dispatch = useDispatch()
-    const userInfo = useTypedSelector(state => (state as any).authReducer.user)
+    
+    const userInfo = useSelector((state:any) => state.authReducer.user)
     const [email,setEmail] = React.useState<string>(" ");
     const [password,setPassword] = React.useState<string>("");
     const [flagDisable, setFlagDisable] = React.useState<any>(true)
@@ -55,7 +57,7 @@ function  Authorization() {
         e.preventDefault()
         dispatch(setDataUsers(email, password))
     }
-    // console.log({isAuth})
+
     const blurHandler = (e: React.FocusEvent<HTMLInputElement>):any =>{
       switch (e.target.name){  
           case 'email':
@@ -79,8 +81,8 @@ function  Authorization() {
             <FiledPassword onBlur = {blurHandler} onChange={(e) => handlePassword(e)}/>
               {(passwordDirty && passwordError) && <span style = {{color:'red'}}>{passwordError}</span>}
             <ButtonAuthSubmit disabled = {flagDisable}>Войти</ButtonAuthSubmit>
-            <ButtonGeneral>Зарегестрироваться</ButtonGeneral>
-            <ButtonGeneral>Забыли пароль</ButtonGeneral>
+            <ButtonGeneral onClick={() => dispatch(push("/register"))}>Зарегестрироваться</ButtonGeneral>
+            <ButtonGeneral onClick={() => dispatch(push("/forgot-password"))}>Забыли пароль</ButtonGeneral>
           {/* <button disabled = {flagDisable}>Войти</button> */}
         </form>
       </FormAuth>
