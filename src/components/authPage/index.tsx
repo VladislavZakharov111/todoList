@@ -8,7 +8,7 @@ import { AnyRecord } from 'dns';
 import { shallowEqual, useSelector } from 'react-redux'
 function  Authorization() {
     const dispatch = useDispatch()
-    const userInfo = useSelector((state:any) => state.authReducer.user)
+    const userInfo = useTypedSelector(state => (state as any).authReducer.user)
     const [email,setEmail] = React.useState<string>(" ");
     const [password,setPassword] = React.useState<string>("");
     const [flagDisable, setFlagDisable] = React.useState<any>(true)

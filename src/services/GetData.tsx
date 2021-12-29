@@ -43,9 +43,9 @@ export const setDataTodo = (page:any, filterName:any, filterCategories:any,done:
     //     //URL = `http://localhost:3000/todos?_page=${page}&_limit=5&title=${filterName}&categories=${filterCategories}&status=${done}`
     //     if()
     //     URL = `http://localhost:3000/todos?_page=${page}&_limit=5&title=${filterName}&status=${done}&_sort=title`
-
+    console.log({filterCategories})
     if(filterName.length !== 0) URL = URL + `&title=${filterName}`;
-    // if(filterCategories.length !== 0) URL = URL + `&categories=${filterCategories}`; //?????????????????????????
+    if(filterCategories.length !== 0) URL = URL + `&categories=${filterCategories}`; //?????????????????????????
     if(done.length !== 0) URL = URL + `&status=${done}`;
     if(sortState === false) URL = URL + `&_sort=title`;
     if(sortState) URL = URL + `&_sort=title&_order=desc`;

@@ -126,8 +126,8 @@ export const MainPage = () =>{
     }////?
     
     const handleFilterName = (e: React.ChangeEvent<HTMLInputElement>) => {
-      // setFilterName(e.target.value)
-      dispatch(actionSetTitle(e.target.value))
+      setFilterName(e.target.value)
+      dispatch(actionSetTitle(filterName))
     }
     const handleFilterCategories = (e:React.ChangeEvent<HTMLSelectElement>) =>{
       setFilterCategories(e.target.value)
