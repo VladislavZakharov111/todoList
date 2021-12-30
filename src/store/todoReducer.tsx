@@ -5,6 +5,7 @@ interface Todostate{
     title: string | null;
     doneTask : string | boolean | null;
     sort: boolean;
+    detailPage : Array<Object> | null;
 }
 const defaultState : Todostate = {
     todolist : [],
@@ -13,16 +14,16 @@ const defaultState : Todostate = {
     title: null,
     doneTask: null,
     sort: false,
+    detailPage: [],
 }
 const GET_TODOS = "GET_TODOS"
 const GET_CURRENT_PAGE = "GET_CURRENT_PAGE"
 const DELETE_EXIT = "DELETE_EXIT"
-
 const GET_CATEGORIES = "GET_CATEGORIES"
 const GET_TITLE = "GET_TITLE"
 const GET_DONE_TASK =  "GET_DONE_TASK"
 const GET_VALUE_SORT = "GET_VALUE_SORT"
-
+const GET_DETAIL_PAIGE = "GET_DETAIL_PAIGE"
 export const todoReducer = (state = defaultState, action:any):any =>{
     switch(action.type){
         case GET_TODOS:
@@ -39,6 +40,9 @@ export const todoReducer = (state = defaultState, action:any):any =>{
             return {...state, doneTask: action.payload}
         case GET_VALUE_SORT:
             return {...state, sort: action.payload}
+        case GET_DETAIL_PAIGE:
+            return {...state, detailPage: action.payload }
+        
     default:
       return state
     }
@@ -49,13 +53,8 @@ export const deleteexit = (payload:any):any => ({type:DELETE_EXIT , payload})
 
 export const actionSetCategories = (payload:any):any => ({type:GET_CATEGORIES, payload})
 export const actionSetTitle = (payload:any):any => ({type:GET_TITLE, payload})
-export const actionSetDoneTask = (payload:any):any =>({type:GET_DONE_TASK, payload})
-export const actionSetValueSort = (payload:any):any =>({type:GET_VALUE_SORT, payload})
+export const actionSetDoneTask = (payload:any):any => ({type:GET_DONE_TASK, payload})
+export const actionSetValueSort = (payload:any):any => ({type:GET_VALUE_SORT, payload})
 
-// export const actionDeleteTodo = (payload:any):any => ({type:REMOVE_ONE_TODO, payload})
-// export const actionAddOneTodo = (payload:any):any => ({type:ADD_ONE_TODO, payload})
-// export const actionChangeCurrentTodo = (payload:any):any => ({type:CHANGE_CURRENT_TODO, payload})
-// export const actionChangeIsComplete = (payload:any):any => ({type: CHANGE_IS_COMPLETE , payload})
-// // export const actionChangeTodo = (payload:any):any => ()
-// export const removeTodo = (payload:any):any => ({type:REMOVE_ONE_TODO, payload})
-// export const addOneTodo = (payload:any):any => ({type: ADD_ONE_TODO, payload})
+export const actionSetDetailPage = (payload:any):any => ({type:GET_DETAIL_PAIGE, payload})
+ 

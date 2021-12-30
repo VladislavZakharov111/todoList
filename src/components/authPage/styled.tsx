@@ -1,12 +1,5 @@
 import styled from "styled-components";
 
-// export const FormAuth = styled.div`
-//     background-color: black;
-//     display: flex;
-//     justify-content:center;
-//     align-items:center;
-//     heigth:100%;
-// `
 export const ParentInput = styled.div`
     display:flex;
     flex-direction: column;
@@ -47,7 +40,7 @@ export const FiledPassword = styled.input.attrs({
             box-shadow: 1px 1px 2px 0 blue;
         }
 `;
-//css
+
 export const ButtonAuthSubmit = styled.button.attrs({
     type: 'submit', 
 })`

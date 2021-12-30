@@ -12,7 +12,7 @@ import {PaginationButton} from "./components/pagination";
 import { NavLink } from "react-router-dom";
 import './mainPage.css';
 import { push } from 'connected-react-router';
-import { Button } from "@mui/material";
+import { Button, fabClasses } from "@mui/material";
 import { Filters } from "../filters/index"
 import { format } from "date-fns"
 import parse from 'date-fns/parse';
@@ -25,8 +25,8 @@ enum CategoriesTodo {
   Shop = 'Магазин',
 }
 const arrayCategories = [CategoriesTodo.Sport , CategoriesTodo.Music, CategoriesTodo.Movie, CategoriesTodo.Shop] 
-let titleTable = ["Дата создания", "Дата измненения", "Категория", "Заголовок", "Описание" , 'Срок выполнения', 'Cтатус']
-
+let titleTable = ["Дата создания", "Дата измненения", "Категория", "Заголовок", "Описание" , 'Срок выполнения', 'Cтатус', 'Кнопки действий']
+let listDo = ['Удалить', 'Выполнено','Не выполнено', 'Добавить в архив']
 export const MainPage = () =>{
     const [modalActiveAdd, setmodalActiveAdd] = useState<any>(false);
     const [modalActiveChange, setmodalActiveChange] = useState<any>(false);
@@ -43,11 +43,12 @@ export const MainPage = () =>{
         description:decription,
     });
     const [checkedTodos, setCheckedTodos] = useState<any>([]);
+    const [idPopUpDelete, setIdPopUpDelete] = useState<any> ();
     const dispatch = useDispatch()
+
     // const todoInfo = useTypedSelector(state => state.todoReducer.todolist)
     // const currentPage = useTypedSelector(state => state.todoReducer.currentPage)
     const todoInfo = useSelector((state:any) => state.todoReducer.todolist)
-    
     const currentPage = useSelector((state:any) => state.todoReducer.currentPage)
     const categoriesRedux = useSelector((state:any) => state.todoReducer.categories)
     const titleRedux = useSelector((state:any) => state.todoReducer.title)
@@ -97,8 +98,9 @@ export const MainPage = () =>{
       setmodalActiveChange(true)
     }
     
-    const addDefferedTodo = (todo: Object) => {
+    const addDefferedTodo = (todo: any) => {
       dispatch(addArchiveTodo(todo))
+      dispatch(deleteTodo(todo.id))
     } 
     
     const deleteManyTodos = () => {
@@ -110,14 +112,25 @@ export const MainPage = () =>{
       event.target.checked ? setCheckedTodos([...checkedTodos,id]) : setCheckedTodos(checkedTodos.filter((todoId:any) => id !== todoId))
     }
 
-    const handeDelete = (id:any):any =>{
-      dispatch(deleteTodo(id))
-    }
-
     const handleCompleted = (id:any, isCompleted: any):any => {
       dispatch(setIsComplited(id,isCompleted))
     }
-    
+
+    const handelOpenPopUp = () =>{
+      setModalActiveDelete(true)
+    }
+
+    const handeDelete = (id:any):any =>{
+      // dispatch(deleteTodo(id))
+      setIdPopUpDelete(id)
+      handelOpenPopUp();
+    }
+
+    const handleModalDelete = (item:any) =>{
+      dispatch(deleteTodo(idPopUpDelete))
+      setModalActiveDelete(false)
+    }
+
     return(<div className="main_page">
        <button onClick={() => setmodalActiveAdd(true)}>Добавить новую задачу</button>
        <button>Список задач</button>
@@ -147,10 +160,10 @@ export const MainPage = () =>{
                       )) <= 3 ? 'HotEndpointData' : 'noHotEndpointData' 
                     }
                   >{todo.dateendpoint} </td>
-                  <td>{todo.status ? `Выполнено` : `Не выполнено` }</td>
+                  <td>{todo.status ? listDo[1] : listDo[2] }</td>
                   <td>
-                    <button onClick={() => handleCompleted(todo.id, todo.status)}>{todo.status ? `Не выполнено` : `Выполнено`}</button>
-                    <button onClick = {() => handeDelete(todo.id)}>Удалить</button> 
+                    <button onClick={() => handleCompleted(todo.id, todo.status)}>{todo.status ? listDo[2] : listDo[1]}</button>
+                    <button onClick = {() => handeDelete(todo.id)}>{listDo[0]}</button> 
                     <button onClick = {() => activeModalChangeMethod(todo)}>Изменить</button>
                     <button onClick={() => addDefferedTodo(todo)}>Отложить</button>
                     <input type ="checkbox" onChange={(event) => saveCheckId(event,todo.id)}/>
@@ -204,14 +217,19 @@ export const MainPage = () =>{
       </ModalView>
 
       <ModalView active={modalctiveDelete} setActive={setModalActiveDelete}>
-        <form>
-          <button>Закрыть</button>
+          <button onClick={() => setModalActiveDelete(false)}>Закрыть</button>
           <div>Вы действительно хотите удалить задачу?</div>
-          <button>Да</button>
-          <button>Нет</button>
-        </form>
+          <button onClick={handleModalDelete}>Да</button>
+          <button onClick={() => setModalActiveDelete(false)}>Нет</button>
       </ModalView>
-
+{/* 
+      <ModalView active={modalctiveDelete} setActive={setModalActiveDelete}>
+          <button onClick={() => setModalActiveDelete(false)}>Закрыть</button>
+          <div>Вы действительно Добавить в архив?</div>
+          <button onClick={handleModalDelete}>Да</button>
+          <button onClick={() => setModalActiveDelete(false)}>Нет</button>
+      </ModalView> */}
+{/* 
       <ModalView active={modalctiveDelete} setActive={setModalActiveDelete}>
         <form>
           <button>Закрыть</button>
@@ -219,7 +237,7 @@ export const MainPage = () =>{
           <button>Да</button>
           <button>Нет</button>
         </form>
-      </ModalView>
+      </ModalView> */}
       {/* <ModalView active={modalctiveDelete} setActive={setModalActiveDelete}>
         <form>
           <button>Закрыть</button>

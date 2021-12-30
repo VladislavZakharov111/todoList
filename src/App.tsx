@@ -7,6 +7,7 @@ import {Profile} from "./components/profilePage/index"
 import { ConnectedRouter } from 'connected-react-router'
 import { Registration } from "../src/components/registration/index";
 import { ForgotPassword } from "./components/fogotPassword/index" ;
+import DetailPage from "./components/detailedPage/index";
 function App({ history, context }:any) {
   return (
     <div className="App">
@@ -18,6 +19,7 @@ function App({ history, context }:any) {
          <Route exact path = "/profile" component = {Profile}/>
           <Route exact path= "/register" component={Registration}/>
           <Route exact path= "/forgot-password" component ={ForgotPassword}/>
+          <Route path = "/:id" component={DetailPage}/>
        </Switch>
     </ConnectedRouter>
     </div>

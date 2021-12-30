@@ -1,6 +1,6 @@
 import axios from "axios"
 import {addUserFromServer} from "../store/authReducer"
-// import { addNewTodo, actionDeleteTodo,actionAddOneTodo } from "../store/todoReducer"
+import { actionSetDetailPage } from "../store/todoReducer"
 import {getTodoFromServer} from "../store/todoReducer"
 // import {actionChangeCurrentTodo} from "../store/todoReducer"
 import {addDefferedFromServer} from "../store/defferedReducer"
@@ -63,7 +63,7 @@ export const addNewTodo = (nowdata:any, categories:any, title:any, description:a
             dateendpoint:dateendpoint,
             status: false
           }).then(
-            dispatch(setDataTodo(1,null,null,null,false)) // ?
+            dispatch(setDataTodo(1,null,null,null,false)) 
           )
           .catch(error => {
             console.log(error);
@@ -124,7 +124,7 @@ export const getArchiveTodo = () =>{
     }  
 }
 
-export const addArchiveTodo = (todo:any) =>{
+export const addArchiveTodo = (todo:any) => {
     return function(dispatch:any){
         console.log({todo})
         axios.post(`http://localhost:3000/deffered`, {todo}).then(
@@ -133,42 +133,12 @@ export const addArchiveTodo = (todo:any) =>{
     }
 }
 
-// export const changeCurrentTodo = (todoId:any, nowdata:any, categories:any, title:any, description:any, isCompletedStatus:any) => {
-//     let isCompleted = isCompletedStatus ? "Выполнено" : "Невыполнено"
-//     return function (dispatch:any){
-//         axios.put(`http://localhost:3000/todos/${todoId}`,{
-//               "date-create":nowdata,
-//               "data-change":nowdata,
-//               categories:categories,
-//               title:title,
-//               description:description,
-//               "status":isCompleted,
-//               "id": todoId
-//         }).then(res => dispatch(actionChangeCurrentTodo({
-//             "date-create":nowdata,
-//             "data-change":nowdata,
-//             categories:categories,
-//             title:title,
-//             description:description,
-//             "status":isCompleted,
-//             "id": todoId
-//         })))
-//     }  
-// }////////
-
-
-
-
- //??? 
-//delete thunk
-
-
-// export const addArchiveTodo = (todo:any) =>{
-//     return function (dispatch:any){
-//         axios.post(`http://localhost:3000/deffered`, {todo})
-//         .then(res => {
-//             console.log("deffered data", res.data);
-//             dispatch(addDefferedFromServer())
-//         })
+// export const getDetailPage = (id:any) => {
+//     return function(dispatch){
+//         axios.get(`http://localhost:3000/todos/${id}`)
+//         .then(res =>
+//             dispatch(actionSetDetailPage(res.data))
+//         )
+//         .catch(error => console.log(error))
 //     }
 // }
