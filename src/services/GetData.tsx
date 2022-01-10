@@ -1,10 +1,11 @@
 import axios from "axios"
-import {addUserFromServer} from "../store/authReducer"
+import {addUserFromServer } from "../store/authReducer"
 import { actionSetDetailPage } from "../store/todoReducer"
 import {getTodoFromServer} from "../store/todoReducer"
 // import {actionChangeCurrentTodo} from "../store/todoReducer"
 import {addDefferedFromServer} from "../store/defferedReducer"
 import { push } from 'connected-react-router'
+import { AnyIfEmpty } from "react-redux"
 
 export const setDataUsers = (login:any,password:any) => { 
     return function (dispatch:any){
@@ -133,12 +134,35 @@ export const addArchiveTodo = (todo:any) => {
     }
 }
 
-// export const getDetailPage = (id:any) => {
-//     return function(dispatch){
-//         axios.get(`http://localhost:3000/todos/${id}`)
-//         .then(res =>
-//             dispatch(actionSetDetailPage(res.data))
-//         )
-//         .catch(error => console.log(error))
-//     }
-// }
+export const getDetailPage = (id:number) => {
+    return function(dispatch:any){
+        axios.get(`http://localhost:3000/todos/${id}`)
+        .then( res =>{
+            dispatch(actionSetDetailPage(res.data))
+            console.log("dataget", res.data)
+            dispatch(dispatch(push(`/${id}`)))
+        }).catch(error => console.log(error))
+    }
+} 
+
+export const getisUser = async(login:any):Promise<Array<any>> => {
+    // return function(dispatch:any){ // нужен ли dispatch?
+        const res = await axios.get(`http://localhost:3000/users?login=${login}`)
+        // .then(res =>{
+        //     console.log('res', res.data)
+        // })
+        return res.data
+}
+
+export const addNewUser = (login:any , password:any) => {
+    console.log('here')
+    return function(dispatch:any){
+        axios.post(`http://localhost:3000/users`, {
+            login: login,
+            password: password,
+        })
+        .then(res => {
+           dispatch(push(`/auth`))
+        })
+    }
+}

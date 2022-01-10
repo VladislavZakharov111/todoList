@@ -41,7 +41,7 @@ export const todoReducer = (state = defaultState, action:any):any =>{
         case GET_VALUE_SORT:
             return {...state, sort: action.payload}
         case GET_DETAIL_PAIGE:
-            return {...state, detailPage: action.payload }
+            return {...state, detailPage: [action.payload] }
         
     default:
       return state

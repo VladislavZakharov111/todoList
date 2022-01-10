@@ -1,7 +1,7 @@
 import React , {useState} from "react";
 import { useDispatch,useSelector } from "react-redux";
 import { useEffect } from "react";
-import {  setDataTodo, deleteTodo ,addNewTodo , changeCurrentTodo, setIsComplited , addArchiveTodo,deleteCheckedTodo } from "../../services/GetData";
+import {  setDataTodo, deleteTodo ,addNewTodo , changeCurrentTodo, setIsComplited , addArchiveTodo,deleteCheckedTodo,getDetailPage } from "../../services/GetData";
 import { useTypedSelector } from '../../hooks/useTypedSelector'; 
 import {ModalView} from '../mainPage/components/modalView/index';
 import DatePicker from "react-datepicker";
@@ -131,6 +131,9 @@ export const MainPage = () =>{
       setModalActiveDelete(false)
     }
 
+    const handleDetailsPage = (id:number) => {
+      dispatch(getDetailPage(id))
+    }
     return(<div className="main_page">
        <button onClick={() => setmodalActiveAdd(true)}>Добавить новую задачу</button>
        <button>Список задач</button>
@@ -166,6 +169,7 @@ export const MainPage = () =>{
                     <button onClick = {() => handeDelete(todo.id)}>{listDo[0]}</button> 
                     <button onClick = {() => activeModalChangeMethod(todo)}>Изменить</button>
                     <button onClick={() => addDefferedTodo(todo)}>Отложить</button>
+                    <button onClick={() => handleDetailsPage(todo.id)}> Детальная страница </button> 
                     <input type ="checkbox" onChange={(event) => saveCheckId(event,todo.id)}/>
                     <p>
                       {
