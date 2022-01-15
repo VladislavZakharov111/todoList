@@ -1,52 +1,15 @@
 {
   "users": [
     {
-      "id": 1,
-      "login": "vlad123@mail.ru",
-      "password": "vlad1234"
-    },
-    {
-      "id": 2,
-      "login": "dima456@mail.ru",
-      "password": "dima456"
-    },
-    {
-      "login": "vlad123@mail.rud",
+      "login": "vlad12345678@mail.ru",
       "password": "Ld0smZNdr9cm!",
-      "id": 3
-    },
-    {
-      "login": "vlad123@mail.rudd",
-      "password": "Ld0smZNdr9cm!",
-      "id": 4
-    },
-    {
-      "login": "vlad123@mail.ruddc",
-      "password": "Ld0smZNdr9cm!",
-      "id": 5
+      "city": "",
+      "date_of_birth": "",
+      "name": "",
+      "id": 6
     }
   ],
   "todos": [
-    {
-      "datecreate": "30.12.2021",
-      "datachange": "30.12.2021",
-      "categories": "Спорт",
-      "title": "wqeqeq",
-      "description": "ddd",
-      "dateendpoint": "31.12.2021",
-      "status": false,
-      "id": 15
-    },
-    {
-      "datecreate": "08.01.2022",
-      "datachange": "08.01.2022",
-      "categories": "Спорт",
-      "title": "ewqeqe",
-      "description": "weqeqweqe",
-      "dateendpoint": "08.01.2022",
-      "status": false,
-      "id": 16
-    },
     {
       "datecreate": "08.01.2022",
       "datachange": "08.01.2022",
@@ -56,36 +19,6 @@
       "dateendpoint": "08.01.2022",
       "status": false,
       "id": 17
-    },
-    {
-      "datecreate": "08.01.2022",
-      "datachange": "08.01.2022",
-      "categories": "Спорт",
-      "title": "weqwe",
-      "description": "weqeqwe",
-      "dateendpoint": "17.02.2022",
-      "status": false,
-      "id": 18
-    },
-    {
-      "datecreate": "08.01.2022",
-      "datachange": "08.01.2022",
-      "categories": "Спорт",
-      "title": "sda",
-      "description": "sdadadsad",
-      "dateendpoint": "17.02.2022",
-      "status": false,
-      "id": 19
-    },
-    {
-      "datecreate": "08.01.2022",
-      "datachange": "08.01.2022",
-      "categories": "Спорт",
-      "title": "sdad",
-      "description": "dsadasda",
-      "dateendpoint": "17.02.2022",
-      "status": false,
-      "id": 20
     }
   ],
   "deffered": [
@@ -352,6 +285,123 @@
         "id": 12
       },
       "id": 21
+    },
+    {
+      "todo": {
+        "datecreate": "08.01.2022",
+        "datachange": "08.01.2022",
+        "categories": "Спорт",
+        "title": "weqwe",
+        "description": "weqeqwe",
+        "dateendpoint": "17.02.2022",
+        "status": false,
+        "id": 18
+      },
+      "id": 22
+    },
+    {
+      "todo": {
+        "datecreate": "30.12.2021",
+        "datachange": "30.12.2021",
+        "categories": "Спорт",
+        "title": "wqeqeq",
+        "description": "ddd",
+        "dateendpoint": "31.12.2021",
+        "status": false,
+        "id": 15
+      },
+      "id": 23
+    },
+    {
+      "todo": {
+        "datecreate": "30.12.2021",
+        "datachange": "30.12.2021",
+        "categories": "Спорт",
+        "title": "wqeqeq",
+        "description": "ddd",
+        "dateendpoint": "31.12.2021",
+        "status": false,
+        "id": 15
+      },
+      "id": 24
+    },
+    {
+      "todo": {
+        "datecreate": "08.01.2022",
+        "datachange": "08.01.2022",
+        "categories": "Спорт",
+        "title": "sdad",
+        "description": "dsadasda",
+        "dateendpoint": "17.02.2022",
+        "status": false,
+        "id": 20
+      },
+      "id": 25
+    },
+    {
+      "todo": {
+        "datecreate": "08.01.2022",
+        "datachange": "08.01.2022",
+        "categories": "Спорт",
+        "title": "sda",
+        "description": "sdadadsad",
+        "dateendpoint": "17.02.2022",
+        "status": false,
+        "id": 19
+      },
+      "id": 26
+    },
+    {
+      "todo": {
+        "datecreate": "08.01.2022",
+        "datachange": "08.01.2022",
+        "categories": "Спорт",
+        "title": "ewqeqe",
+        "description": "weqeqweqe",
+        "dateendpoint": "08.01.2022",
+        "status": false,
+        "id": 16
+      },
+      "id": 27
+    },
+    {
+      "todo": {
+        "datecreate": "15.01.2022",
+        "datachange": "15.01.2022",
+        "categories": "Кино",
+        "title": "dasdsada",
+        "description": "dasdad",
+        "dateendpoint": "15.01.2022",
+        "status": false,
+        "id": 18
+      },
+      "id": 28
+    },
+    {
+      "todo": {
+        "datecreate": "15.01.2022",
+        "datachange": "15.01.2022",
+        "categories": "Кино",
+        "title": "dasdsada",
+        "description": "dasdad",
+        "dateendpoint": "15.01.2022",
+        "status": false,
+        "id": 18
+      },
+      "id": 29
+    },
+    {
+      "todo": {
+        "datecreate": "08.01.2022",
+        "datachange": "08.01.2022",
+        "categories": "Спорт",
+        "title": "eweqe",
+        "description": "weqeqweqqweqweqee",
+        "dateendpoint": "08.01.2022",
+        "status": false,
+        "id": 17
+      },
+      "id": 30
     }
   ]
 }

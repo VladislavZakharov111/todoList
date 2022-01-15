@@ -11,11 +11,15 @@ export const setDataUsers = (login:any,password:any) => {
     return function (dispatch:any){
         axios.get(`http://localhost:3000/users?login=${login}&password=${password}`)
         .then(res => {
-            console.log(res.data)
+            console.log('data auth',res.data)
             console.log(res.data.length)
             if(res.data.length){
                 dispatch(addUserFromServer(res.data));
-                dispatch(push('/'))
+                if(res.data[0].name === "")
+                    dispatch(push('/profile'))
+                else{
+                    dispatch(push('/'))
+                }
             }
             else
                 dispatch(addUserFromServer(1));
@@ -160,6 +164,9 @@ export const addNewUser = (login:any , password:any) => {
         axios.post(`http://localhost:3000/users`, {
             login: login,
             password: password,
+            city:'',
+            date_of_birth: '',
+            name: ''
         })
         .then(res => {
            dispatch(push(`/auth`))

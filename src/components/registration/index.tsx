@@ -3,6 +3,8 @@ import {addNewUser} from "../../services/GetData"
 import {useDispatch} from 'react-redux'
 import { push } from 'connected-react-router'
 import { getisUser } from '../../services/GetData'
+import { FormReg } from "./styled"
+import "./registration.css"
 export function Registration() {
 
     const dispatch = useDispatch()
@@ -79,17 +81,19 @@ export function Registration() {
         setPassword(event.target.value)
     }
     return (
-            <div className='wrapper_registation'>  
+        <div className="App">
+                <FormReg>
                 <form onSubmit={handleFormReg}>
                     <h1>Регистрация</h1>
                     {(emailDirty && emailError) && <div style = {{color:'red'}}>{emailError}</div>}
-                    <input value={email} onChange={handleEmail} onBlur={e => blurHandler(e)} name = 'email' type= "email" placeholder='Email' />
+                    <input value={email} onChange={handleEmail} onBlur={e => blurHandler(e)} name = 'email' type= "email" placeholder='Email' className='reg_email'/>
                     {(passwordDirty && passwordError) && <div style = {{color:'red'}} >{passwordError}</div>}
-                    <input value={password} onChange={e => handlePassword(e)}  onBlur={e => blurHandler(e)} name = 'password'  type= "password" placeholder='Password' />
+                    <input value={password} onChange={e => handlePassword(e)}  onBlur={e => blurHandler(e)} name = 'password'  type= "password" placeholder='Password' className='reg_password' />
                     <button  disabled = {flagDidabledReg}>Зарегестрироваться</button>
                     <button onClick={handleExit}>Назад</button>
                 </form>
-            </div>
+                </FormReg>
+        </div>
     )
 }
 

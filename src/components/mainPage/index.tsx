@@ -3,12 +3,12 @@ import { useDispatch,useSelector } from "react-redux";
 import { useEffect } from "react";
 import {  setDataTodo, deleteTodo ,addNewTodo , changeCurrentTodo, setIsComplited , addArchiveTodo,deleteCheckedTodo,getDetailPage } from "../../services/GetData";
 import { useTypedSelector } from '../../hooks/useTypedSelector'; 
-import {ModalView} from '../mainPage/components/modalView/index';
+import { ModalView } from '../mainPage/components/modalView/index';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import {Description} from "./styled"
+import { Description } from "./styled"
 import { Exit } from "./components/exit";
-import {PaginationButton} from "./components/pagination";
+import { PaginationButton} from "./components/pagination";
 import { NavLink } from "react-router-dom";
 import './mainPage.css';
 import { push } from 'connected-react-router';
@@ -93,6 +93,7 @@ export const MainPage = () =>{
     const changeCurrentId = (item:any):any =>{
       setCurrentTodo(item)
     }
+
     const activeModalChangeMethod = (item:any):any => {
       changeCurrentId(item)
       setmodalActiveChange(true)
