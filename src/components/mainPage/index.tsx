@@ -18,6 +18,11 @@ import { format } from "date-fns"
 import parse from 'date-fns/parse';
 import differenceInCalendarDays from "date-fns/differenceInCalendarDays";
 import differenceInDays from 'date-fns/differenceInDays'
+import { DeleteTodo } from "./components/DeleteTodo/index"
+import { ArchiveTodo } from "./components/ArchiveTodo";
+import { CompleteTodo } from "../mainPage/components/CompleteTodo/index"
+import { ChangeTodo } from "./components/ChangeTodo/index"
+
 enum CategoriesTodo {
   Sport = 'Спорт',  
   Music = 'Музыка',
@@ -29,8 +34,6 @@ let titleTable = ["Дата создания", "Дата измненения", 
 let listDo = ['Удалить', 'Выполнено','Не выполнено', 'Добавить в архив']
 export const MainPage = () =>{
     const [modalActiveAdd, setmodalActiveAdd] = useState<any>(false);
-    const [modalActiveChange, setmodalActiveChange] = useState<any>(false);
-    const [modalctiveDelete, setModalActiveDelete] = useState<any>(false)
     const [dataendpoint, setDataendpoint] = useState(new Date()); 
     const [categories, setCategories] = useState<any>("Спорт")
     const [title, setTitle] = useState("")
@@ -43,7 +46,7 @@ export const MainPage = () =>{
         description:decription,
     });
     const [checkedTodos, setCheckedTodos] = useState<any>([]);
-    const [idPopUpDelete, setIdPopUpDelete] = useState<any> ();
+   
     const dispatch = useDispatch()
 
     // const todoInfo = useTypedSelector(state => state.todoReducer.todolist)
@@ -63,15 +66,11 @@ export const MainPage = () =>{
     let nowdata = format(new Date(), "dd.MM.yyyy")
     console.log(dataendpoint)
     console.log("data", parse('22.11.2019', 'dd.MM.yyyy', new Date()).toISOString().substring(0, 10))
+
     const handleSubmitPopUp = (e: React.ChangeEvent<HTMLFormElement>) =>{
       e.preventDefault()
       dispatch(addNewTodo(nowdata, categories, title , decription, format(dataendpoint, "dd.MM.yyyy")))
     } 
-
-    const handleSubmitChange = (e: React.ChangeEvent<HTMLFormElement>) =>{
-      e.preventDefault()
-      setmodalActiveChange(false)
-    }
 
     const handleTitleTodo = (e: React.ChangeEvent<HTMLInputElement>) => {
       setTitle(e.target.value)
@@ -85,24 +84,9 @@ export const MainPage = () =>{
       setCategories(e.target.value)
     }
 
-    const changeTodo = (todoId: any):any => {
-      dispatch(changeCurrentTodo(todoId ,nowdata, categories ,title,decription, format(dataendpoint, "dd.MM.yy")))
-      setmodalActiveChange(false)
-    }
-
     const changeCurrentId = (item:any):any =>{
       setCurrentTodo(item)
     }
-
-    const activeModalChangeMethod = (item:any):any => {
-      changeCurrentId(item)
-      setmodalActiveChange(true)
-    }
-    
-    const addDefferedTodo = (todo: any) => {
-      dispatch(addArchiveTodo(todo))
-      dispatch(deleteTodo(todo.id))
-    } 
     
     const deleteManyTodos = () => {
       dispatch(deleteCheckedTodo(checkedTodos))
@@ -113,28 +97,10 @@ export const MainPage = () =>{
       event.target.checked ? setCheckedTodos([...checkedTodos,id]) : setCheckedTodos(checkedTodos.filter((todoId:any) => id !== todoId))
     }
 
-    const handleCompleted = (id:any, isCompleted: any):any => {
-      dispatch(setIsComplited(id,isCompleted))
-    }
-
-    const handelOpenPopUp = () =>{
-      setModalActiveDelete(true)
-    }
-
-    const handeDelete = (id:any):any =>{
-      // dispatch(deleteTodo(id))
-      setIdPopUpDelete(id)
-      handelOpenPopUp();
-    }
-
-    const handleModalDelete = (item:any) =>{
-      dispatch(deleteTodo(idPopUpDelete))
-      setModalActiveDelete(false)
-    }
-
     const handleDetailsPage = (id:number) => {
       dispatch(getDetailPage(id))
     }
+
     return(<div className="main_page">
        <button onClick={() => setmodalActiveAdd(true)}>Добавить новую задачу</button>
        <button>Список задач</button>
@@ -145,13 +111,12 @@ export const MainPage = () =>{
        Фильтры
        <Filters/>
         <table> 
-          {/* <th>drreterte</th> */}
           {titleTable.map((title:any) => <th>{title}</th>)}
           {
             todoInfo.map((todo:any) => {
               return(
                 <tr key = {todo.title}>
-                  <td>{todo.datecreate}</td>sd
+                  <td>{todo.datecreate}</td>
                   <td>{todo.datachange}</td>
                   <td><p className={todo.status ? "do" : "nodo"}>{todo.categories}</p></td>
                   <td><p className={todo.status ? "do" : "nodo"}>{todo.title}</p></td>
@@ -166,10 +131,10 @@ export const MainPage = () =>{
                   >{todo.dateendpoint} </td>
                   <td>{todo.status ? listDo[1] : listDo[2] }</td>
                   <td>
-                    <button onClick={() => handleCompleted(todo.id, todo.status)}>{todo.status ? listDo[2] : listDo[1]}</button>
-                    <button onClick = {() => handeDelete(todo.id)}>{listDo[0]}</button> 
-                    <button onClick = {() => activeModalChangeMethod(todo)}>Изменить</button>
-                    <button onClick={() => addDefferedTodo(todo)}>Отложить</button>
+                    <CompleteTodo todo = {todo}/>
+                    <DeleteTodo id = {todo.id}/>
+                    <ChangeTodo todo = {todo} />
+                    <ArchiveTodo todo = {todo} />
                     <button onClick={() => handleDetailsPage(todo.id)}> Детальная страница </button> 
                     <input type ="checkbox" onChange={(event) => saveCheckId(event,todo.id)}/>
                     <p>
@@ -203,61 +168,5 @@ export const MainPage = () =>{
           <button type ="submit" onClick={()=>setmodalActiveAdd(false)}>Создать задачу </button> 
         </form>
        </ModalView>
-      
-       <ModalView active={modalActiveChange} setActive={setmodalActiveChange}>
-       <button onClick={()=>setmodalActiveChange(false)}>Закрыть</button>
-        <form onSubmit={handleSubmitChange}>
-          Категории
-          <select value={currentTodo.categories} onChange={handleCategories} required >
-            {arrayCategories.map((categories:any) =>  <option>{categories}</option>)}
-          </select>
-          Новый заголовок
-          <input type = "text" defaultValue={currentTodo.title} placeholder="Заголовок" required onChange={handleTitleTodo}></input>
-          Новое описание
-          <Description  defaultValue ={currentTodo.description} placeholder="Описания"  onChange={handleDescriptionTodo}></Description>
-          Новый cрок выполнения
-          <DatePicker selected={dataendpoint} required onChange={(date:any) => setDataendpoint(date)} />
-          <button type ="submit" onClick={()=> changeTodo(currentTodo.id)}>Изменить задачу </button> 
-        </form>
-      </ModalView>
-
-      <ModalView active={modalctiveDelete} setActive={setModalActiveDelete}>
-          <button onClick={() => setModalActiveDelete(false)}>Закрыть</button>
-          <div>Вы действительно хотите удалить задачу?</div>
-          <button onClick={handleModalDelete}>Да</button>
-          <button onClick={() => setModalActiveDelete(false)}>Нет</button>
-      </ModalView>
-{/* 
-      <ModalView active={modalctiveDelete} setActive={setModalActiveDelete}>
-          <button onClick={() => setModalActiveDelete(false)}>Закрыть</button>
-          <div>Вы действительно Добавить в архив?</div>
-          <button onClick={handleModalDelete}>Да</button>
-          <button onClick={() => setModalActiveDelete(false)}>Нет</button>
-      </ModalView> */}
-{/* 
-      <ModalView active={modalctiveDelete} setActive={setModalActiveDelete}>
-        <form>
-          <button>Закрыть</button>
-          <div>Вы действительно хотите удалить задачу?</div>
-          <button>Да</button>
-          <button>Нет</button>
-        </form>
-      </ModalView> */}
-      {/* <ModalView active={modalctiveDelete} setActive={setModalActiveDelete}>
-        <form>
-          <button>Закрыть</button>
-          <div>Вы действительно хотите изменить задачу?</div>
-          <button>Да</button>
-          <button>Нет</button>
-        </form>
-      </ModalView>
-      <ModalView active={modalctiveDelete} setActive={setModalActiveDelete}>
-        <form>
-          <button>Закрыть</button>
-          <div>Вы действительно хотите добавить задачу?</div>
-          <button>Да</button>
-          <button>Нет</button>
-        </form>
-      </ModalView> */}
     </div>)
 }

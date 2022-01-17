@@ -29,7 +29,7 @@ export const setDataUsers = (login:any,password:any) => {
     }
 }
 
-export const setDataTodo = (page:any, filterName:any, filterCategories:any ,done:any, sortState:any) =>{
+export const setDataTodo = (page:any, filterName:any, filterCategories:any , done:any, sortState:any) =>{
     let URL = `http://localhost:3000/todos?_page=${page}&_limit=5&_sort=title`
     console.log({filterCategories})
     if(filterName !== null) URL = URL + `&title=${filterName}`;
@@ -79,8 +79,8 @@ export const addNewTodo = (nowdata:any, categories:any, title:any, description:a
 export const changeCurrentTodo = (todoId: any, nowdata: any, categories: any, title: any, description: any, dateendpoint: any) => {
     return function (dispatch:any){
         axios.patch(`http://localhost:3000/todos/${todoId}`,{
-              "datecreate":nowdata,
-              "datachange":nowdata,
+              datecreate:nowdata,
+              datachange:nowdata,
               categories:categories,
               title:title,
               description:description,
