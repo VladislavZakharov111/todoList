@@ -3,10 +3,18 @@
     {
       "login": "vlad12345678@mail.ru",
       "password": "Ld0smZNdr9cm!",
-      "city": "",
-      "date_of_birth": "",
-      "name": "",
+      "city": "Saransk",
+      "date_of_birth": "2022-01-17T09:29:57.819Z",
+      "name": "vlad",
       "id": 6
+    },
+    {
+      "login": "vlad123@mail.ru",
+      "password": "Ld0smZNdr9cm!",
+      "city": "Saransk",
+      "date_of_birth": "2022-01-17T11:03:42.150Z",
+      "name": "Misha",
+      "id": 7
     }
   ],
   "todos": [

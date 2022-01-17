@@ -151,7 +151,7 @@ export const MainPage = () =>{
             todoInfo.map((todo:any) => {
               return(
                 <tr key = {todo.title}>
-                  <td>{todo.datecreate}</td>
+                  <td>{todo.datecreate}</td>sd
                   <td>{todo.datachange}</td>
                   <td><p className={todo.status ? "do" : "nodo"}>{todo.categories}</p></td>
                   <td><p className={todo.status ? "do" : "nodo"}>{todo.title}</p></td>
