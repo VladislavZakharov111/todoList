@@ -24,6 +24,7 @@ const GET_TITLE = "GET_TITLE"
 const GET_DONE_TASK =  "GET_DONE_TASK"
 const GET_VALUE_SORT = "GET_VALUE_SORT"
 const GET_DETAIL_PAIGE = "GET_DETAIL_PAIGE"
+
 export const todoReducer = (state = defaultState, action:any):any =>{
     switch(action.type){
         case GET_TODOS:

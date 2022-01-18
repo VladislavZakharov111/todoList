@@ -6,15 +6,14 @@ import { ModalView } from '../modalView/index'
 
 interface DeleteTodoProps{
     todo:any;
+    component:any;
 }
 
 export const CompleteTodo = (props:DeleteTodoProps) => {
-
     const dispatch = useDispatch()
     const handleCompleted = () => {
-        dispatch(setIsComplited(props.todo.id, props.todo.status))
+        dispatch(setIsComplited(props.todo.id, props.todo.status, props.component))
     }
- 
     return (
         <div>
             <button onClick={handleCompleted}>{props.todo.status ? `Не выполнено` : `Выполнено`}</button>

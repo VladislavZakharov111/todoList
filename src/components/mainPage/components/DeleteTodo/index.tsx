@@ -7,6 +7,7 @@ import { ModalView } from '../modalView/index'
 
 interface DeleteTodoProps{
     id:any;
+    component: any
 }
 
 export const DeleteTodo = (props: DeleteTodoProps) => {
@@ -14,7 +15,7 @@ export const DeleteTodo = (props: DeleteTodoProps) => {
     const dispatch = useDispatch()
 
     const handleModalDelete = () =>{
-        dispatch(deleteTodo(props.id))
+        dispatch(deleteTodo(props.id, props.component))
         setModalActiveDelete(false)
     }
 

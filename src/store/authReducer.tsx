@@ -7,7 +7,7 @@ interface UserAction{
   payload?: any;
 }
 const defState: UserState = {
-    user : [],
+    user : null,
 }
 const ADD_USER = "ADD_USER"
 export const authReducer = (state: any = defState, action:UserAction): any => {

@@ -6,6 +6,7 @@ import { ModalView } from '../modalView/index'
 
 interface ArchiveTodoProps{
     todo:any;
+    component: any;
 }
 
 export const ArchiveTodo = (props: ArchiveTodoProps) => {
@@ -14,8 +15,8 @@ export const ArchiveTodo = (props: ArchiveTodoProps) => {
     const [activeModalArchive, setActiveModalArchive] = useState<any> (false)
 
     const addDefferedTodo = () => {
-        dispatch(addArchiveTodo(props.todo))
-        dispatch(deleteTodo(props.todo.id))
+        dispatch(addArchiveTodo(props.todo, props.component))
+        dispatch(deleteTodo(props.todo.id, props.component))
     } 
 
     return (

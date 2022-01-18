@@ -2,14 +2,7 @@ import React from 'react'
 import { useState , useEffect } from 'react'
 import { useDispatch,useSelector } from "react-redux";
 import { actionSetCategories,actionSetTitle,actionSetDoneTask,actionSetValueSort } from "../../store/todoReducer";
-
-enum CategoriesTodo {
-    Sport = 'Спорт',  
-    Music = 'Музыка',
-    Movie = 'Кино',
-    Shop = 'Магазин',
-}
-const arrayCategories = [CategoriesTodo.Sport , CategoriesTodo.Music, CategoriesTodo.Movie, CategoriesTodo.Shop] 
+import { arrayCategories } from "../mainPage/constants"
 
 export function Filters() {
 
@@ -18,13 +11,6 @@ export function Filters() {
     const [filterCategories, setFilterCategories] = useState<any>(null)
     const [done,setDone] = useState<any>(null)
     const [sortState, setSortState] = useState<any> (false)
-
-   
-
-    //  useEffect(() =>{
-    //     // console.log(categoriesRedux,titleRedux,doneTaskRedux,sortRedux)
-
-    // },[categoriesRedux,titleRedux,doneTaskRedux,sortRedux])
 
     useEffect(() =>{
         if(filterName.length === 0)

@@ -10,21 +10,16 @@ export const Profile = () =>{
     const [modalChangePassword, setModalChangePassword] = React.useState<any>(false)
     const [city, setCity] = React.useState<any>('')
     const [name, setName] = React.useState<any>()
-    
     const [isDisabledChangePassword, setIsDisabledChangePassword] = React.useState<any>(true)
     const [dataendpoint, setDataendpoint] = React.useState(new Date());
     const [currentPassword, setCurrentPassword] = React.useState<any>() 
-
     const [newPasswordDirty, setNewPasswordDirty] = React.useState<any>(false)
     const [newPasswordError, setPasswordError] = React.useState<any>('Пароль не может быть пустым')
     const [oldPasswordDirty, setOldPasswordDirty] = React.useState<any>(false)
     const [oldPasswordError, setOldPasswordError] = React.useState<any>('Пароль не может быть пустым')
     const [oldPassword, setOldPassword] = React.useState<any>('')
     const [newPassword, setNewPassword] = React.useState<any>('')
-
     const user = useSelector((state:any) => state.authReducer.user)
-
-
     const dispatch = useDispatch()
 
     useEffect(() => {
@@ -107,10 +102,8 @@ export const Profile = () =>{
         setNewPassword(event.target.value)
     }
 
- 
     const handleFormChange =  (e: React.ChangeEvent<HTMLFormElement>) => {
-        e.preventDefault()
-        // setModalChangePassword(false)
+        e.preventDefault() 
     } 
 
     const handleChangeProfile = (e: React.ChangeEvent<HTMLFormElement>) =>{

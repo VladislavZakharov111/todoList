@@ -4,7 +4,6 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { Provider, ReactReduxContext } from 'react-redux'
 import configureStore ,  { history }  from "../src/store/index";
-// import { configureStore , history } from "../src/store/index";
 import { Route, Switch } from 'react-router';
 import { BrowserRouter } from 'react-router-dom';
 import { Global } from "../src/GlobalStyled"

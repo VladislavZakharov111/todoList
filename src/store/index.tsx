@@ -1,6 +1,7 @@
 import { applyMiddleware, compose, createStore, combineReducers } from 'redux'
 import {authReducer} from "../store/authReducer"
 import {todoReducer} from "../store/todoReducer"
+import { registerReducer } from "../store/registerReducer"
 import { composeWithDevTools } from 'redux-devtools-extension';
 import {defferedReducer} from "../store/defferedReducer"
 import { connectRouter } from 'connected-react-router'
@@ -15,6 +16,7 @@ export const createRootReducer = (history:any) => combineReducers({
         authReducer,
         todoReducer,
         defferedReducer,
+        registerReducer,
   })
 
 export type RootState = ReturnType<typeof createRootReducer>

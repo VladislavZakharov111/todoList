@@ -1,14 +1,14 @@
 import React, { useEffect } from 'react'
-import {addNewUser} from "../../services/GetData"
-import {useDispatch} from 'react-redux'
+import { addNewUser } from "../../services/GetData"
+import { useDispatch, useSelector } from 'react-redux'
 import { push } from 'connected-react-router'
-import { getisUser } from '../../services/GetData'
+// import { getisUser } from '../../services/GetData'
+import { checkIsEmail } from '../../services/GetData'
 import { FormReg } from "./styled"
 import "./registration.css"
 export function Registration() {
 
     const dispatch = useDispatch()
-
     const [email, setEmail] = React.useState<any>('')
     const [password, setPassword] = React.useState<any>('')
     const [flagDidabledReg, setFlagDisabledReg] = React.useState<any>(true)
@@ -17,23 +17,44 @@ export function Registration() {
     const [emailError, setEmailError] = React.useState<any>('Email не может быть пустым')
     const [passwordError, setPasswordError] = React.useState<any>('Пароль не может быть пустым')
     const [formValid, setFormValid] = React.useState<any> (false)
-    
+
+    const currentEmail = useSelector((state:any) => state.registerReducer.currentEmail)
+    // useEffect(() => {
+    //     if(emailError || passwordError)
+    //     {
+    //         setFlagDisabledReg(true)
+    //     }
+    //     else{
+    //         getisUser(email).then(res => {
+    //             if(res.length){
+    //                 setEmailError('Пользователь с таким логином уже существует')
+    //             }
+    //             else{
+    //                 setFlagDisabledReg(false)
+    //             }
+    //         })
+    //     }
+    // }, [email,password])
+
     useEffect(() => {
+        console.log("em", email)
+        console.log("curE", currentEmail)
         if(emailError || passwordError)
         {
             setFlagDisabledReg(true)
         }
         else{
-            getisUser(email).then(res => {
-                if(res.length){
-                    setEmailError('Пользователь с таким логином уже существует')
-                }
-                else{
-                    setFlagDisabledReg(false)
-                }
-            })
+           dispatch(checkIsEmail(email))
+           if(currentEmail.length > 0){
+                setEmailError('Пользователь с таким логином уже существует')
+                setFlagDisabledReg(true)
+           }
+           else{
+                console.log("ddd")
+                setFlagDisabledReg(false)
+           }
         }
-    }, [email,password])
+    }, [email, password, currentEmail])
 
     const handleFormReg = (e: React.ChangeEvent<HTMLFormElement>) =>{
         e.preventDefault()
@@ -66,7 +87,6 @@ export function Registration() {
         setEmail(event.target.value)
     }
 
-    
     const handlePassword = (event:  React.ChangeEvent<HTMLInputElement>) => {
         console.log(event.target.value);
         const reg = /(?=.*[0-9])(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*]{6,}/g;

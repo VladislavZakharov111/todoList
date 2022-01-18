@@ -5,16 +5,18 @@ import {getTodoFromServer} from "../store/todoReducer"
 // import {actionChangeCurrentTodo} from "../store/todoReducer"
 import {addDefferedFromServer} from "../store/defferedReducer"
 import { push } from 'connected-react-router'
-import { AnyIfEmpty } from "react-redux"
+import { getDetailPage } from "../components/mainPage/components/detailedPage/GetData"
+import { actionCheckDuplicateEmail } from "../store/registerReducer"
 
 export const setDataUsers = (login:any,password:any) => { 
     return function (dispatch:any){
         axios.get(`http://localhost:3000/users?login=${login}&password=${password}`)
         .then(res => {
             console.log('data auth',res.data)
+            //res.data[0]
             console.log(res.data.length)
             if(res.data.length){
-                dispatch(addUserFromServer(res.data));
+                dispatch(addUserFromServer(res.data[0]));
                 if(res.data[0].name === "")
                     dispatch(push('/profile'))
                 else{
@@ -36,7 +38,6 @@ export const setDataTodo = (page:any, filterName:any, filterCategories:any , don
     if(filterCategories !== null) URL = URL + `&categories=${filterCategories}`; 
     if(done !== null) URL = URL + `&status=${done}`;
     if(sortState) URL = URL + `&_order=desc`;
-
     return function (dispatch:any){
         axios.get(URL)
         .then(res => {
@@ -46,13 +47,17 @@ export const setDataTodo = (page:any, filterName:any, filterCategories:any , don
     }  
 }
 
-export const deleteTodo = (id:any) =>{
+export const deleteTodo = (id:any, component:any) =>{
     return function (dispatch:any){
         axios.delete(`http://localhost:3000/todos/${id}`)
         .then(res => {
             console.log("deleteData", res.data);
-            // dispatch(actionDeleteTodo({id:id}))
-            dispatch(setDataTodo(1,null,null,null, false))
+            if(component === "Main"){
+                dispatch(setDataTodo(1,null,null,null, false))
+            }
+           else{
+                dispatch(push("/"))
+           }
         }).catch(error => console.log(error))
     }  
 }
@@ -76,7 +81,7 @@ export const addNewTodo = (nowdata:any, categories:any, title:any, description:a
     }  
 } 
 
-export const changeCurrentTodo = (todoId: any, nowdata: any, categories: any, title: any, description: any, dateendpoint: any) => {
+export const changeCurrentTodo = (todoId: any, nowdata: any, categories: any, title: any, description: any, dateendpoint: any , component:any) => {
     return function (dispatch:any){
         axios.patch(`http://localhost:3000/todos/${todoId}`,{
               datecreate:nowdata,
@@ -85,20 +90,33 @@ export const changeCurrentTodo = (todoId: any, nowdata: any, categories: any, ti
               title:title,
               description:description,
               dateendpoint: dateendpoint
-            }).then(
-                dispatch(setDataTodo(1,null,null,null,false))
+            }).then( res => {
+                if(component === "Main"){
+                    dispatch(setDataTodo(1,null,null,null,false))
+                }
+                else{
+                    dispatch(getDetailPage(todoId))
+                }
+            }
+             
             ).catch(
                 error => console.log(error)
             )
      }  
 } 
 
-export const setIsComplited = (id:any, isCompleted:any) => {
+export const setIsComplited = (id:any, isCompleted:any , component:any) => {
     return function (dispatch:any){
         axios.patch(`http://localhost:3000/todos/${id}`,{
             status: !isCompleted 
-        }).then(res => 
-            dispatch(setDataTodo(1,null,null,null,false))
+        }).then(res => {
+            if(component === "Main"){
+                dispatch(setDataTodo(1,null,null,null,false))
+            }
+            else{
+                dispatch(getDetailPage(id))
+            }
+        }
         ).catch(
             error => console.log(error)
         )
@@ -129,33 +147,18 @@ export const getArchiveTodo = () =>{
     }  
 }
 
-export const addArchiveTodo = (todo:any) => {
+export const addArchiveTodo = (todo:any, component:any) => {
     return function(dispatch:any){
         console.log({todo})
-        axios.post(`http://localhost:3000/deffered`, {todo}).then(
-            dispatch(getArchiveTodo())
-        ).catch(error => console.log(error))
-    }
-}
-
-export const getDetailPage = (id:number) => {
-    return function(dispatch:any){
-        axios.get(`http://localhost:3000/todos/${id}`)
-        .then( res =>{
-            dispatch(actionSetDetailPage(res.data))
-            console.log("dataget", res.data)
-            dispatch(dispatch(push(`/${id}`)))
+        axios.post(`http://localhost:3000/deffered`, {todo}).then( res => {
+            if(component === "Main"){
+                dispatch(getArchiveTodo())
+            }
+            else{
+                dispatch(push("/"))
+            }
         }).catch(error => console.log(error))
     }
-} 
-
-export const getisUser = async(login:any):Promise<Array<any>> => {
-    // return function(dispatch:any){ // нужен ли dispatch?
-        const res = await axios.get(`http://localhost:3000/users?login=${login}`)
-        // .then(res =>{
-        //     console.log('res', res.data)
-        // })
-        return res.data
 }
 
 export const addNewUser = (login:any , password:any) => {
@@ -170,6 +173,21 @@ export const addNewUser = (login:any , password:any) => {
         })
         .then(res => {
            dispatch(push(`/auth`))
-        })
+        }).catch(error => console.log(error))
+    }
+}
+
+// export const getisUser = async(login:any):Promise<Array<any>> => {
+//     const res = await axios.get(`http://localhost:3000/users?login=${login}`)
+//     return res.data
+// }
+
+export const checkIsEmail = (email:any) => {
+    console.log("lll")
+    return function(dispatch : any) {
+        axios.get(`http://localhost:3000/users?login=${email}`)
+        .then(res => {
+            dispatch(actionCheckDuplicateEmail(res.data))
+        }).catch(error => console.log(error))
     }
 }

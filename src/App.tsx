@@ -7,7 +7,7 @@ import {Profile} from "./components/profilePage/index"
 import { ConnectedRouter } from 'connected-react-router'
 import { Registration } from "../src/components/registration/index";
 import { ForgotPassword } from "./components/fogotPassword/index" ;
-import DetailPage from "./components/detailedPage/index";
+import DetailPage from "./components/mainPage/components/detailedPage/index";
 function App({ history, context }:any) {
   return (
     <div className="App">
