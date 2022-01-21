@@ -1,0 +1,25 @@
+.profile_data {
+  display: flex;
+  justify-content: center;
+}
+.buttons_profile {
+  display: flex;
+  flex-direction: row;
+}
+.profile_user > div {
+  font-size: 20px;
+  margin: 5px;
+  font-family: haas, pragmatica, -apple-system, BlinkMacSystemFont, Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+}
+.profile_user > p {
+  font-size: 17px;
+  margin: 3px;
+  font-family: haas, pragmatica, -apple-system, BlinkMacSystemFont, Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+}
+.profile_user > img {
+  border: 2px solid transparent;
+  border-image: linear-gradient(45deg, #ff0, #f0f, #f00);
+  border-image-slice: 1;
+}

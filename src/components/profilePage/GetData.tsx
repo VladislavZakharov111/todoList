@@ -1,7 +1,7 @@
 import axios from "axios"
 // import {actionChangeCurrentTodo} from "../store/todoReducer"
 import { push } from 'connected-react-router'
-import { addUserFromServer } from "../../store/authReducer"
+import { setUserFromServer } from "../../store/authReducer"
 
 export const setDataUsersById = (id:any) => { 
     console.log('this')
@@ -10,8 +10,8 @@ export const setDataUsersById = (id:any) => {
         .then(res => {
             console.log('dataTTT',res.data)
             console.log(res.data.length)
-                dispatch(addUserFromServer([res.data]));
-                if(res.data[0].name === "")
+                dispatch(setUserFromServer(res.data));
+                if(res.data.name !== "")
                     dispatch(push('/profile'))
                 else{
                     dispatch(push('/'))

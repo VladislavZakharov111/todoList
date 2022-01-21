@@ -1,16 +1,46 @@
-.wrapper_registation{
-    margin-left: auto;
-    margin-right: auto;
-    width: 6em;
-    margin-top: 150px;
-    margin-bottom: auto;
-    background: blue;
+.wrapper_registation {
+  margin-left: auto;
+  margin-right: auto;
+  width: 6em;
+  margin-top: 150px;
+  margin-bottom: auto;
+  background: blue;
 }
-.reg_email{
-    margin: 5px;
-    height: 25px;
+.reg_email {
+  margin: 5px;
+  height: 30px;
+  border-radius: 5px;
 }
-.reg_password{
-    margin: 5px;
-    height: 25px;
+.reg_email:focus {
+  border: 2px solid blue;
+}
+.reg_password {
+  margin: 5px;
+  height: 30px;
+  border-radius: 5px;
+}
+.reg_password:focus {
+  border: 2px solid blue;
+}
+.reg_email_error:focus {
+  border: 1px solid red;
+  margin: 5px;
+  height: 30px;
+  border-radius: 5px;
+}
+.reg_password_error:focus {
+  border: 1px solid red;
+  margin: 5px;
+  height: 30px;
+  border-radius: 5px;
+}
+.reg_email_error {
+  margin: 5px;
+  height: 30px;
+  border-radius: 5px;
+}
+.reg_password_error {
+  margin: 5px;
+  height: 30px;
+  border-radius: 5px;
 }

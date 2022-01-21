@@ -1,9 +1,3 @@
-.main_page {
-  background: url("../../images/tuman.jpg");
-  height: 100vh;
-  background-size: cover;
-  background-attachment: fixed;
-}
 button {
   min-width: 85px;
   height: 30px;
@@ -68,16 +62,9 @@ p {
   display: flex;
   flex-direction: row;
 }
-.filters_todo {
-  margin: 5px;
-}
-.title_filters {
-  margin: 5px;
-  font-size: 24px;
-  font-family: haas, pragmatica, -apple-system, BlinkMacSystemFont, Roboto,
-    "Helvetica Neue", Arial, sans-serif;
-  padding: 3px;
-  background: linear-gradient(45deg, red, green);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+.detail_page {
+  background: url("../../../../images/tuman.jpg");
+  height: 100vh;
+  background-size: cover;
+  background-attachment: fixed;
 }

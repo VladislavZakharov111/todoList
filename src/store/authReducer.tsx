@@ -1,22 +1,24 @@
-
-interface UserState{
-  user : Array<Object> | null;
+interface UserState {
+  user: Array<Object> | null;
 }
-interface UserAction{
-  type:string;
+interface UserAction {
+  type: string;
   payload?: any;
 }
 const defState: UserState = {
-    user : null,
-}
-const ADD_USER = "ADD_USER"
-export const authReducer = (state: any = defState, action:UserAction): any => {
-    switch(action.type){
-      case  ADD_USER:
-        return {...state, user: action.payload}
-      default : 
-      return state
-    }
-}
+  user: null,
+};
+const SET_USER = "SET_USER";
+export const authReducer = (state: any = defState, action: UserAction): any => {
+  switch (action.type) {
+    case SET_USER:
+      return { ...state, user: action.payload };
+    default:
+      return state;
+  }
+};
 
-export const addUserFromServer = (payload:any):any => ({type: ADD_USER, payload})
+export const setUserFromServer = (payload: any): any => ({
+  type: SET_USER,
+  payload,
+});
