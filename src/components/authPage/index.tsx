@@ -39,10 +39,8 @@ function Authorization() {
   }, [email, password]);
 
   useEffect(() => {
-    console.log({ userInfo });
     if (userInfo === 1) setPasswordError("Пароль или email введеные не верно");
-    else console.log("true auth");
-  }, [userInfo]);
+  }, [userInfo, password, email]);
 
   const handleLogin = (e: React.ChangeEvent<HTMLInputElement>): void => {
     setEmail(e.target.value);
@@ -79,32 +77,43 @@ function Authorization() {
   return (
     <div className="App">
       <FormAuth>
-        <p style={{ fontSize: "20px", margin: "5px" }}>Авторизация</p>
-        <form onSubmit={handleSubmitForm}>
-          <FiledEmail
-            onBlur={blurHandler}
-            onChange={(e) => handleLogin(e)}
-            color={emailError}
-          ></FiledEmail>
-          {emailDirty && emailError && (
-            <span style={{ color: "red" }}>{emailError}</span>
-          )}
-          <FiledPassword
-            onBlur={blurHandler}
-            onChange={(e) => handlePassword(e)}
-            color={passwordError}
-          />
-          {passwordDirty && passwordError && (
-            <span style={{ color: "red" }}>{passwordError}</span>
-          )}
-          <ButtonAuthSubmit disabled={flagDisable}>Войти</ButtonAuthSubmit>
-          <ButtonGeneral onClick={() => dispatch(push("/register"))}>
-            Зарегестрироваться
-          </ButtonGeneral>
-          <ButtonGeneral onClick={() => dispatch(push("/forgot-password"))}>
-            Забыли пароль
-          </ButtonGeneral>
-        </form>
+        <div>
+          <p style={{ fontSize: "20px", margin: "5px" }}>Авторизация</p>
+          <form onSubmit={handleSubmitForm}>
+            <FiledEmail
+              onBlur={blurHandler}
+              onChange={(e) => handleLogin(e)}
+              color={emailError}
+            ></FiledEmail>
+            <div>
+              {emailDirty && emailError && (
+                <span style={{ color: "red" }}>{emailError}</span>
+              )}
+            </div>
+            <div>
+              <FiledPassword
+                onBlur={blurHandler}
+                onChange={(e) => handlePassword(e)}
+                color={passwordError}
+              />
+              <div>
+                {passwordDirty && passwordError && (
+                  <span style={{ color: "red" }}>{passwordError}</span>
+                )}
+              </div>
+            </div>
+            <div>
+              <ButtonAuthSubmit disabled={flagDisable}>Войти</ButtonAuthSubmit>
+            </div>
+            <ButtonGeneral onClick={() => dispatch(push("/register"))}>
+              Зарегестрироваться
+            </ButtonGeneral>
+
+            <ButtonGeneral onClick={() => dispatch(push("/forgot-password"))}>
+              Забыли пароль
+            </ButtonGeneral>
+          </form>
+        </div>
       </FormAuth>
     </div>
   );

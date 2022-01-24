@@ -18,8 +18,19 @@ export const AddTodo = () => {
   const dispatch = useDispatch();
   const [onSubmitClicked, setOnSubmitClicked] = useState<any>(false);
 
+  const currentUser = useSelector((state: any) => state.authReducer.user);
+
   const handleSubmitPopUp = (e: React.ChangeEvent<HTMLFormElement>) => {
-    dispatch(addNewTodo(nowdata, categories, title, decription, dataPoint));
+    dispatch(
+      addNewTodo(
+        nowdata,
+        categories,
+        title,
+        decription,
+        dataPoint,
+        currentUser.id
+      )
+    );
     setmodalActiveAdd(false);
   };
 

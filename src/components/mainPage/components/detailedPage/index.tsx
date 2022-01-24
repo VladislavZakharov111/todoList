@@ -2,15 +2,6 @@ import React, { useState, useEffect } from "react";
 import { actionSetDetailPage } from "../../../../store/todoReducer";
 import { useDispatch, useSelector } from "react-redux";
 import { push } from "connected-react-router";
-import {
-  setDataTodo,
-  deleteTodo,
-  addNewTodo,
-  changeCurrentTodo,
-  setIsComplited,
-  addArchiveTodo,
-  deleteCheckedTodo,
-} from "../../../../services/GetData";
 import { ModalView } from "../modalView/index";
 import DatePicker from "react-datepicker";
 import { Description } from "./styled";
@@ -29,10 +20,6 @@ const component = "detailed";
 function DetailPage({ match }: any) {
   const dispatch = useDispatch();
   const todoInfo = useSelector((state: any) => state.todoReducer.detailPage);
-
-  useEffect(() => {
-    console.log("ddd", todoInfo);
-  }, [todoInfo]);
 
   const handleExit = () => {
     dispatch(actionSetDetailPage([]));

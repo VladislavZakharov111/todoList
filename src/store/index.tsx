@@ -8,7 +8,7 @@ import { connectRouter } from "connected-react-router";
 import thunk from "redux-thunk";
 import { routerMiddleware } from "connected-react-router";
 import { createBrowserHistory } from "history";
-
+import { forgotPassworddReducer } from "../store/forgotPassword";
 export const history = createBrowserHistory();
 
 export const createRootReducer = (history: any) =>
@@ -18,6 +18,7 @@ export const createRootReducer = (history: any) =>
     todoReducer,
     defferedReducer,
     registerReducer,
+    forgotPassworddReducer,
   });
 
 export type RootState = ReturnType<typeof createRootReducer>;

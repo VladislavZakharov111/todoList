@@ -18,7 +18,7 @@ export const authReducer = (state: any = defState, action: UserAction): any => {
   }
 };
 
-export const setUserFromServer = (payload: any): any => ({
+export const actionSetUser = (payload: any): any => ({
   type: SET_USER,
   payload,
 });

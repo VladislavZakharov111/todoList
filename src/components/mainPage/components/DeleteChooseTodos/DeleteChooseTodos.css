@@ -1,0 +1,14 @@
+.button_close_choose_delete {
+  height: 30px;
+  width: 30px;
+  background-image: url(../../../../images/cross.png);
+  border: none;
+  background-color: transparent;
+  background-position: center;
+  box-sizing: border-box;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: absolute;
+  top: 3px;
+  right: 7px;
+}

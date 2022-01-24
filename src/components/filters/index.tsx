@@ -43,7 +43,6 @@ export function Filters() {
   };
 
   const handleDone = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    console.log(e.target.value);
     if (e.target.value === "Все") setDone(null);
     else {
       e.target.value === "Выполнено" ? setDone(true) : setDone(false);

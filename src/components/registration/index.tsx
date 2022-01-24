@@ -6,6 +6,7 @@ import { push } from "connected-react-router";
 import { checkIsEmail } from "../../services/GetData";
 import { FormReg } from "./styled";
 import "./registration.css";
+import { actionRegistrationError } from "../../store/registerReducer";
 export function Registration() {
   const dispatch = useDispatch();
   const [email, setEmail] = React.useState<any>("");
@@ -25,87 +26,33 @@ export function Registration() {
     (state: any) => state.registerReducer.currentEmail
   );
 
-  // useEffect(() => {
-  //   console.log("em", email);
-  //   console.log("curE", currentEmail);
-  //   console.log("cur", emailError, passwordError);
-  //   if (currentEmail && currentEmail.length == 0) {
-  //     setFlagDisabledReg(false);
-  //   } else if (emailError || passwordError) {
-  //     setFlagDisabledReg(true);
-  //   } else {
-  //     dispatch(checkIsEmail(email));
-  //     if (currentEmail.length > 0) {
-  //       setEmailError("Пользователь с таким логином уже существует");
-  //       setFlagDisabledReg(true);
-  //     }
-  //   }
-  // }, [email, password, currentEmail]);
-
-  // useEffect(() => {
-  //   console.log("em", email);
-  //   console.log("curE", currentEmail);
-  //   console.log("curError", emailError, passwordError);
-  // if (emailError || passwordError) {
-  //   dispatch(checkIsEmail(email));
-  // }
-  // if (currentEmail.length > 0) {
-  //   setEmailError("Пользователь с таким логином уже существует");
-  //   setFlagDisabledReg(true);
-  // } else {
-  //   if (emailError === "Пользователь с таким логином уже существует") {
-  //     setEmailError("");
-  //     setFlagDisabledReg(false);
-  //   }
-  //   if (emailError || passwordError) {
-  //     setFlagDisabledReg(false);
-  //   } else {
-  //     setFlagDisabledReg(true);
-  //   }
-  // }
-
-  // if (emailError || passwordError) {
-  //   // dispatch(checkIsEmail(email));
-  //   if (currentEmail.length === 0) {
-  //     setEmailError("");
-  //     setFlagDisabledReg(false);
-  //   } else {
-  //     setEmailError("Пользователь с таким логином уже существует");
-  //     setFlagDisabledReg(true);
-  //   }
-  // }
-  // if (emailError === "Пользователь с таким логином уже существует") {
-  //   dispatch(checkIsEmail(email));
-  //   if (currentEmail.length === 0) {
-  //     setEmailError("");
-  //     setFlagDisabledReg(false);
-  //   } else {
-  //     setEmailError("Пользователь с таким логином уже существует");
-  //     setFlagDisabledReg(true);
-  //   }
-  // }
-  // }, [email, password, currentEmail]);
+  const error = useSelector((state: any) => state.registerReducer.error);
 
   useEffect(() => {
-    console.log("em", email);
-    console.log("curE", currentEmail);
-    console.log("curError", emailError, passwordError);
-
-    if (currentEmail.length > 0) {
-      setEmailError("Пользователь с таким логином уже существует");
-      setFlagDisabledReg(true);
-    } else {
-      if (emailError || passwordError) {
-        setFlagDisabledReg(false);
-      } else {
-        setFlagDisabledReg(true);
-      }
+    if (
+      currentEmail !== null &&
+      currentEmail.length === 0 &&
+      error.length === 0
+    ) {
+      dispatch(addNewUser(email, password));
     }
   }, [currentEmail]);
 
+  useEffect(() => {
+    dispatch(actionRegistrationError(""));
+    if (emailError || passwordError) {
+      setFlagDisabledReg(true);
+    } else {
+      setFlagDisabledReg(false);
+    }
+  }, [email, password]);
+
   const handleFormReg = (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
-    dispatch(addNewUser(email, password));
+  };
+
+  const onClickRegistration = () => {
+    dispatch(checkIsEmail(email));
   };
 
   const handleExit = () => {
@@ -130,11 +77,9 @@ export function Registration() {
       setEmailError("Некоретный email");
     } else setEmailError("");
     setEmail(event.target.value);
-    dispatch(checkIsEmail(email));
   };
 
   const handlePassword = (event: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(event.target.value);
     const reg =
       /(?=.*[0-9])(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*]{6,}/g;
     if (!reg.test(String(event.target.value))) {
@@ -154,6 +99,7 @@ export function Registration() {
           {emailDirty && emailError && (
             <div style={{ color: "red" }}>{emailError}</div>
           )}
+          <div style={{ color: "red" }}>{error}</div>
           <input
             value={email}
             onChange={handleEmail}
@@ -175,7 +121,9 @@ export function Registration() {
             placeholder="Password"
             className={passwordError ? "reg_password_error" : "reg_password"}
           />
-          <button disabled={flagDidabledReg}>Зарегестрироваться</button>
+          <button disabled={flagDidabledReg} onClick={onClickRegistration}>
+            Зарегестрироваться
+          </button>
           <button onClick={handleExit}>Назад</button>
         </form>
       </FormReg>

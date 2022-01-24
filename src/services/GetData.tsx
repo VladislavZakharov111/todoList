@@ -1,12 +1,15 @@
 import axios from "axios";
-import { setUserFromServer } from "../store/authReducer";
+import { actionSetUser } from "../store/authReducer";
 import { actionSetDetailPage } from "../store/todoReducer";
 import { getTodoFromServer } from "../store/todoReducer";
 // import {actionChangeCurrentTodo} from "../store/todoReducer"
-import { addDefferedFromServer } from "../store/defferedReducer";
+import { actionSetArchive } from "../store/defferedReducer";
 import { push } from "connected-react-router";
 import { getDetailPage } from "../components/mainPage/components/detailedPage/GetData";
-import { actionCheckDuplicateEmail } from "../store/registerReducer";
+import {
+  actionCheckDuplicateEmail,
+  actionRegistrationError,
+} from "../store/registerReducer";
 
 export const setDataUsers = (login: any, password: any) => {
   return function (dispatch: any) {
@@ -17,12 +20,12 @@ export const setDataUsers = (login: any, password: any) => {
         //res.data[0]
         console.log(res.data.length);
         if (res.data.length) {
-          dispatch(setUserFromServer(res.data[0]));
+          dispatch(actionSetUser(res.data[0]));
           if (res.data[0].name === "") dispatch(push("/profile"));
           else {
             dispatch(push("/"));
           }
-        } else dispatch(setUserFromServer(1));
+        } else dispatch(actionSetUser(1));
       })
       .catch((error) => {
         console.log("error", error);
@@ -72,7 +75,8 @@ export const addNewTodo = (
   categories: any,
   title: any,
   description: any,
-  dateendpoint: any
+  dateendpoint: any,
+  idUser: any
 ) => {
   return function (dispatch: any) {
     axios
@@ -84,6 +88,7 @@ export const addNewTodo = (
         description: description,
         dateendpoint: dateendpoint,
         status: false,
+        idUser: idUser,
       })
       .then(dispatch(setDataTodo(1, null, null, null, false)))
       .catch((error) => {
@@ -154,7 +159,7 @@ export const getArchiveTodo = () => {
   return function (dispatch: any) {
     axios.get(`http://localhost:3000/deffered`).then((res) => {
       console.log("deffered data", res.data);
-      dispatch(addDefferedFromServer(res.data));
+      dispatch(actionSetArchive(res.data));
     });
   };
 };
@@ -193,18 +198,21 @@ export const addNewUser = (login: any, password: any) => {
   };
 };
 
-// export const getisUser = async(login:any):Promise<Array<any>> => {
-//     const res = await axios.get(`http://localhost:3000/users?login=${login}`)
-//     return res.data
-// }
-
 export const checkIsEmail = (email: any) => {
   console.log("lll");
   return function (dispatch: any) {
     axios
       .get(`http://localhost:3000/users?login=${email}`)
       .then((res) => {
-        dispatch(actionCheckDuplicateEmail(res.data));
+        if (res.data.length !== 0) {
+          dispatch(
+            actionRegistrationError("Такой пользователь уже существует")
+          );
+          dispatch(actionCheckDuplicateEmail(res.data));
+        } else {
+          dispatch(actionRegistrationError(""));
+          dispatch(actionCheckDuplicateEmail(res.data));
+        }
       })
       .catch((error) => console.log(error));
   };

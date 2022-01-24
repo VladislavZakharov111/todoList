@@ -6,7 +6,7 @@
 }
 button {
   min-width: 85px;
-  height: 30px;
+  min-height: 40px;
   background-color: #ffdd2d;
   border: 1px solid #ffdd2d;
   font: 13px/18px haas, pragmatica, -apple-system, BlinkMacSystemFont, Roboto,

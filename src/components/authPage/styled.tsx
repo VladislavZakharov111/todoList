@@ -10,9 +10,11 @@ export const ParentButton = styled.div`
 export const FormAuth = styled.div`
   margin-left: auto;
   margin-right: auto;
-  width: 6em;
+  width: 200px;
   margin-top: 150px;
   margin-bottom: auto;
+  border: 1px solid black;
+  padding-left: 15px;
 `;
 export const FiledEmail = styled.input.attrs({
   type: "text",

@@ -17,7 +17,9 @@ import { CompleteTodo } from "../mainPage/components/CompleteTodo/index";
 import { ChangeTodo } from "./components/ChangeTodo/index";
 import { AddTodo } from "./components/AddTodo/index";
 import { titleTable, listDo } from "./constants";
+import { DeleteChooseTodos } from "../mainPage/components/DeleteChooseTodos";
 import format from "date-fns/format";
+
 let component = "Main";
 export const MainPage = () => {
   const [checkedTodos, setCheckedTodos] = useState<any>([]);
@@ -32,9 +34,13 @@ export const MainPage = () => {
   const titleRedux = useSelector((state: any) => state.todoReducer.title);
   const doneTaskRedux = useSelector((state: any) => state.todoReducer.doneTask);
   const sortRedux = useSelector((state: any) => state.todoReducer.sort);
+  const currentUser = useSelector((state: any) => state.authReducer.user);
 
   useEffect(() => {
-    console.log(categoriesRedux, titleRedux, doneTaskRedux, sortRedux);
+    if (currentUser === null) dispatch(push("/auth"));
+  }, [currentUser]);
+
+  useEffect(() => {
     dispatch(
       setDataTodo(
         currentPage,
@@ -46,12 +52,7 @@ export const MainPage = () => {
     );
   }, [currentPage, categoriesRedux, titleRedux, doneTaskRedux, sortRedux]);
 
-  const deleteManyTodos = () => {
-    dispatch(deleteCheckedTodo(checkedTodos));
-  };
-
   const saveCheckId = (event: any, id: any) => {
-    console.log({ event, id });
     event.target.checked
       ? setCheckedTodos([...checkedTodos, id])
       : setCheckedTodos(checkedTodos.filter((todoId: any) => id !== todoId));
@@ -66,7 +67,7 @@ export const MainPage = () => {
       <div className="main_button_todos">
         <AddTodo />
         <button>Список задач</button>
-        <button onClick={deleteManyTodos}>Удалить выбранные задачи</button>
+        <DeleteChooseTodos checkedTodos={checkedTodos} />
         <button onClick={() => dispatch(push("/profile"))}>Профиль</button>
         <button onClick={() => dispatch(push("/archive"))}>Архив</button>
         <Exit />
@@ -80,87 +81,88 @@ export const MainPage = () => {
           <th>{title}</th>
         ))}
         {todoInfo &&
-          todoInfo.map((todo: any) => {
-            return (
-              <tr key={todo.title}>
-                <td>
-                  {format(
-                    new Date(
-                      new Date(todo.datecreate).getFullYear(),
-                      new Date(todo.datecreate).getMonth(),
-                      new Date(todo.datecreate).getDate()
-                    ),
-                    "dd.MM.yyyy"
-                  )}
-                </td>
-                <td>
-                  {format(
-                    new Date(
-                      new Date(todo.datachange).getFullYear(),
-                      new Date(todo.datachange).getMonth(),
-                      new Date(todo.datachange).getDate()
-                    ),
-                    "dd.MM.yyyy"
-                  )}
-                </td>
-                <td>
-                  <p className={todo.status ? "do" : "nodo"}>
-                    {todo.categories}
-                  </p>
-                </td>
-                <td>
-                  <p className={todo.status ? "do" : "nodo"}>{todo.title}</p>
-                </td>
-                <td>
-                  <p className={todo.status ? "do" : "nodo"}>
-                    {todo.description}
-                  </p>
-                </td>
-                <td
-                  className={
-                    differenceInDays(
+          todoInfo
+            .filter((todo: any) => currentUser.id === todo.idUser)
+            .map((todo: any) => {
+              return (
+                <tr key={todo.title}>
+                  <td>
+                    {format(
+                      new Date(
+                        new Date(todo.datecreate).getFullYear(),
+                        new Date(todo.datecreate).getMonth(),
+                        new Date(todo.datecreate).getDate()
+                      ),
+                      "dd.MM.yyyy"
+                    )}
+                  </td>
+                  <td>
+                    {format(
+                      new Date(
+                        new Date(todo.datachange).getFullYear(),
+                        new Date(todo.datachange).getMonth(),
+                        new Date(todo.datachange).getDate()
+                      ),
+                      "dd.MM.yyyy"
+                    )}
+                  </td>
+                  <td>
+                    <p className={todo.status ? "do" : "nodo"}>
+                      {todo.categories}
+                    </p>
+                  </td>
+                  <td>
+                    <p className={todo.status ? "do" : "nodo"}>{todo.title}</p>
+                  </td>
+                  <td>
+                    <p className={todo.status ? "do" : "nodo"}>
+                      {todo.description}
+                    </p>
+                  </td>
+                  <td
+                    className={
+                      differenceInDays(
+                        new Date(
+                          new Date(todo.dateendpoint).getFullYear(),
+                          new Date(todo.dateendpoint).getMonth(),
+                          new Date(todo.dateendpoint).getDate()
+                        ),
+                        new Date(
+                          new Date().getFullYear(),
+                          new Date().getMonth(),
+                          new Date().getDate()
+                        )
+                      ) <= 3
+                        ? "HotEndpointData"
+                        : "noHotEndpointData"
+                    }
+                  >
+                    {format(
                       new Date(
                         new Date(todo.dateendpoint).getFullYear(),
                         new Date(todo.dateendpoint).getMonth(),
                         new Date(todo.dateendpoint).getDate()
                       ),
-                      new Date(
-                        new Date().getFullYear(),
-                        new Date().getMonth(),
-                        new Date().getDate()
-                      )
-                    ) <= 3
-                      ? "HotEndpointData"
-                      : "noHotEndpointData"
-                  }
-                >
-                  {format(
-                    new Date(
-                      new Date(todo.dateendpoint).getFullYear(),
-                      new Date(todo.dateendpoint).getMonth(),
-                      new Date(todo.dateendpoint).getDate()
-                    ),
-                    "dd.MM.yyyy"
-                  )}
-                </td>
-                <td>{todo.status ? listDo[1] : listDo[2]}</td>
-                <td className="button_todo">
-                  <CompleteTodo todo={todo} component={component} />
-                  <DeleteTodo id={todo.id} component={component} />
-                  <ChangeTodo todo={todo} component={component} />
-                  <ArchiveTodo todo={todo} component={component} />
-                  <button onClick={() => handleDetailsPage(todo.id)}>
-                    {" "}
-                    Детальная страница{" "}
-                  </button>
-                  <input
-                    type="checkbox"
-                    onChange={(event) => saveCheckId(event, todo.id)}
-                  />
-                </td>
-              </tr>
-            );
-          })}
+                      "dd.MM.yyyy"
+                    )}
+                  </td>
+                  <td>{todo.status ? listDo[1] : listDo[2]}</td>
+                  <td className="button_todo">
+                    <CompleteTodo todo={todo} component={component} />
+                    <DeleteTodo id={todo.id} component={component} />
+                    <ChangeTodo todo={todo} component={component} />
+                    <ArchiveTodo todo={todo} component={component} />
+                    <button onClick={() => handleDetailsPage(todo.id)}>
+                      Детальнее
+                    </button>
+                    <input
+                      type="checkbox"
+                      onChange={(event) => saveCheckId(event, todo.id)}
+                    />
+                  </td>
+                </tr>
+              );
+            })}
       </table>
       <PaginationButton />
     </div>
