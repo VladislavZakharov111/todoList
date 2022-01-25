@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import { setCurrentPage } from "../../../../store/todoReducer";
 import { useTypedSelector } from "../../../../hooks/useTypedSelector";
 import { useSelector } from "react-redux";
+import { maxTodo } from "./constants";
 import "./pagination.css";
 export const PaginationButton = () => {
   const dispatch = useDispatch();
@@ -16,7 +17,7 @@ export const PaginationButton = () => {
   );
 
   useEffect(() => {
-    todoInfo.length < 5
+    todoInfo.length < maxTodo
       ? setDisableArrowRigth(true)
       : setDisableArrowRigth(false);
   }, [disableArrowRigth, todoInfo]);
@@ -31,16 +32,14 @@ export const PaginationButton = () => {
         onClick={() => dispatch(setCurrentPage(currentPage - 1))}
         disabled={disableArrowLeft}
       >
-        {" "}
-        <ArrowBackIosIcon />{" "}
+        <ArrowBackIosIcon />
       </button>
       <span className="number_current_page">{currentPage}</span>
       <button
         onClick={() => dispatch(setCurrentPage(currentPage + 1))}
         disabled={disableArrowRigth}
       >
-        {" "}
-        <ArrowForwardIosIcon />{" "}
+        <ArrowForwardIosIcon />
       </button>
     </div>
   );

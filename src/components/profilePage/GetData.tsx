@@ -1,11 +1,11 @@
 import axios from "axios";
 import { push } from "connected-react-router";
 import { actionSetUser } from "../../store/authReducer";
-
+import { HTTP_HOST } from "../../GlobalConstants/GlobalConstants";
 export const setDataUsersById = (id: any) => {
   return function (dispatch: any) {
     axios
-      .get(`http://localhost:3000/users/${id}`)
+      .get(`${HTTP_HOST}/users/${id}`)
       .then((res) => {
         dispatch(actionSetUser(res.data));
         if (res.data.name !== "") dispatch(push("/profile"));
@@ -27,7 +27,7 @@ export const changeProfile = (
 ) => {
   return function (dispatch: any) {
     axios
-      .patch(`http://localhost:3000/users/${id}`, {
+      .patch(`${HTTP_HOST}/users/${id}`, {
         city: city,
         date_of_birth: date_of_birth,
         name: name,
@@ -42,7 +42,7 @@ export const changeProfile = (
 export const changePassword = (id: any, password: any) => {
   return function (dispatch: any) {
     axios
-      .patch(`http://localhost:3000/users/${id}`, {
+      .patch(`${HTTP_HOST}/users/${id}`, {
         password: password,
       })
       .then(dispatch(setDataUsersById(id)))

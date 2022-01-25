@@ -4,12 +4,12 @@ import {
   actionSetEmail,
   actionErrorFogotPassword,
 } from "../../store/forgotPassword";
-export const a = 5;
+import { HTTP_HOST } from "../../GlobalConstants/GlobalConstants";
 
 export const getUserByEmail = (email: any) => {
   return function (dispatch: any) {
     axios
-      .get(`http://localhost:3000/users?login=${email}`)
+      .get(`${HTTP_HOST}/users?login=${email}`)
       .then((res) => {
         if (res.data.length === 0)
           dispatch(
@@ -27,7 +27,7 @@ export const getUserByEmail = (email: any) => {
 export const setNewPassword = (id: any, password: any) => {
   return function (dispatch: any) {
     axios
-      .patch(`http://localhost:3000/users/${id}`, {
+      .patch(`${HTTP_HOST}/users/${id}`, {
         password: password,
       })
       .then((res) => {

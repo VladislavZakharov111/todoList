@@ -7,9 +7,13 @@ import DatePicker from "react-datepicker";
 import { Description } from "../../../mainPage/styled";
 import { format } from "date-fns";
 import { arrayCategories } from "../../constants";
+import {
+  DateFormat,
+  DateNowPresentForm,
+} from "../../../../GlobalConstants/GlobalConstants";
 import "../AddTodo/AddTodo.css";
 export const AddTodo = () => {
-  let nowdata = new Date();
+  const nowdata = new Date();
   const [modalActiveAdd, setmodalActiveAdd] = useState<any>(false);
   const [dataPoint, setDataPoint] = useState(new Date());
   const [categories, setCategories] = useState<any>("Спорт");
@@ -86,14 +90,7 @@ export const AddTodo = () => {
           <p>Крайний срок</p>
           <DatePicker
             selected={dataPoint}
-            value={format(
-              new Date(
-                dataPoint.getFullYear(),
-                dataPoint.getMonth(),
-                dataPoint.getDate()
-              ),
-              "MM.dd.yyyy"
-            )}
+            value={format(DateNowPresentForm, DateFormat)}
             required
             onChange={(date: any) => setDataPoint(date)}
             minDate={new Date()}

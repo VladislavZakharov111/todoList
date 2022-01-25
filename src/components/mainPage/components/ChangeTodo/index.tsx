@@ -9,13 +9,17 @@ import { format } from "date-fns";
 import { arrayCategories } from "../../constants";
 import differenceInDays from "date-fns/differenceInDays";
 import "./ChangeTodo.css";
+import {
+  DateFormat,
+  DateNowPresentForm,
+} from "../../../../GlobalConstants/GlobalConstants";
 interface DeleteTodoProps {
   todo: any;
   component: any;
 }
 
 export const ChangeTodo = (props: DeleteTodoProps) => {
-  let nowdata = new Date();
+  const nowdata = new Date();
 
   const [modalActiveChange, setmodalActiveChange] = useState<any>(false);
   const [dataPoint, setDataPoint] = useState<any>(
@@ -100,14 +104,7 @@ export const ChangeTodo = (props: DeleteTodoProps) => {
           ></Description>
           <p>Новый cрок выполнения</p>
           <DatePicker
-            value={format(
-              new Date(
-                dataPoint.getFullYear(),
-                dataPoint.getMonth(),
-                dataPoint.getDate()
-              ),
-              "dd.MM.yyyy"
-            )}
+            value={format(DateNowPresentForm, DateFormat)}
             selected={dataPoint}
             required
             onChange={(date: any) => setDataPoint(date)}

@@ -13,6 +13,11 @@ import { ArchiveTodo } from "../ArchiveTodo/index";
 import { CompleteTodo } from "../CompleteTodo/index";
 import { ChangeTodo } from "../ChangeTodo/index";
 import { titleTable, listDo } from "../../constants";
+import {
+  DateFormat,
+  DayDifference,
+  DateNowPresentForm,
+} from "../../../../GlobalConstants/GlobalConstants";
 import "./DetailedPage.css";
 
 const component = "detailed";
@@ -43,7 +48,7 @@ function DetailPage({ match }: any) {
                     new Date(todo.datecreate).getMonth(),
                     new Date(todo.datecreate).getDate()
                   ),
-                  "dd.MM.yyyy"
+                  DateFormat
                 )}
               </td>
               <td>
@@ -53,7 +58,7 @@ function DetailPage({ match }: any) {
                     new Date(todo.datachange).getMonth(),
                     new Date(todo.datachange).getDate()
                   ),
-                  "dd.MM.yyyy"
+                  DateFormat
                 )}
               </td>
               <td>
@@ -75,12 +80,8 @@ function DetailPage({ match }: any) {
                       new Date(todo.dateendpoint).getMonth(),
                       new Date(todo.dateendpoint).getDate()
                     ),
-                    new Date(
-                      new Date().getFullYear(),
-                      new Date().getMonth(),
-                      new Date().getDate()
-                    )
-                  ) <= 3
+                    DateNowPresentForm
+                  ) <= DayDifference
                     ? "HotEndpointData"
                     : "noHotEndpointData"
                 }
@@ -91,7 +92,7 @@ function DetailPage({ match }: any) {
                     new Date(todo.dateendpoint).getMonth(),
                     new Date(todo.dateendpoint).getDate()
                   ),
-                  "dd.MM.yyyy"
+                  DateFormat
                 )}
               </td>
               <td>{todo.status ? listDo[1] : listDo[2]}</td>

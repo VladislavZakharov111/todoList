@@ -2,7 +2,6 @@ import axios from "axios";
 import { actionSetUser } from "../store/authReducer";
 import { actionSetDetailPage } from "../store/todoReducer";
 import { getTodoFromServer } from "../store/todoReducer";
-// import {actionChangeCurrentTodo} from "../store/todoReducer"
 import { actionSetArchive } from "../store/defferedReducer";
 import { push } from "connected-react-router";
 import { getDetailPage } from "../components/mainPage/components/detailedPage/GetData";
@@ -14,11 +13,8 @@ import {
 export const setDataUsers = (login: any, password: any) => {
   return function (dispatch: any) {
     axios
-      .get(`http://localhost:3000/users?login=${login}&password=${password}`)
+      .get(`${HTTP_HOST}/users?login=${login}&password=${password}`)
       .then((res) => {
-        console.log("data auth", res.data);
-        //res.data[0]
-        console.log(res.data.length);
         if (res.data.length) {
           dispatch(actionSetUser(res.data[0]));
           if (res.data[0].name === "") dispatch(push("/profile"));
@@ -40,7 +36,7 @@ export const setDataTodo = (
   done: any,
   sortState: any
 ) => {
-  let URL = `http://localhost:3000/todos?_page=${page}&_limit=5&_sort=title`;
+  let URL = `${HTTP_HOST}/todos?_page=${page}&_limit=5&_sort=title`;
   console.log({ filterCategories });
   if (filterName !== null) URL = URL + `&title=${filterName}`;
   if (filterCategories !== null) URL = URL + `&categories=${filterCategories}`;
@@ -57,7 +53,7 @@ export const setDataTodo = (
 export const deleteTodo = (id: any, component: any) => {
   return function (dispatch: any) {
     axios
-      .delete(`http://localhost:3000/todos/${id}`)
+      .delete(`${HTTP_HOST}/todos/${id}`)
       .then((res) => {
         console.log("deleteData", res.data);
         if (component === "Main") {
@@ -80,7 +76,7 @@ export const addNewTodo = (
 ) => {
   return function (dispatch: any) {
     axios
-      .post(`http://localhost:3000/todos`, {
+      .post(`${HTTP_HOST}/todos`, {
         datecreate: nowdata,
         datachange: nowdata,
         categories: categories,
@@ -108,7 +104,7 @@ export const changeCurrentTodo = (
 ) => {
   return function (dispatch: any) {
     axios
-      .patch(`http://localhost:3000/todos/${todoId}`, {
+      .patch(`${HTTP_HOST}/todos/${todoId}`, {
         datecreate: nowdata,
         datachange: nowdata,
         categories: categories,
@@ -130,7 +126,7 @@ export const changeCurrentTodo = (
 export const setIsComplited = (id: any, isCompleted: any, component: any) => {
   return function (dispatch: any) {
     axios
-      .patch(`http://localhost:3000/todos/${id}`, {
+      .patch(`${HTTP_HOST}/todos/${id}`, {
         status: !isCompleted,
       })
       .then((res) => {
@@ -148,7 +144,7 @@ export const deleteCheckedTodo = (arrId: any) => {
   return function (dispatch: any) {
     arrId.forEach((todoId: any) => {
       axios
-        .delete(`http://localhost:3000/todos/${todoId}`)
+        .delete(`${HTTP_HOST}/todos/${todoId}`)
         .then((res) => dispatch(setDataTodo(1, null, null, null, false)))
         .catch((error) => console.log(error));
     });
@@ -157,7 +153,7 @@ export const deleteCheckedTodo = (arrId: any) => {
 
 export const getArchiveTodo = () => {
   return function (dispatch: any) {
-    axios.get(`http://localhost:3000/deffered`).then((res) => {
+    axios.get(`${HTTP_HOST}/deffered`).then((res) => {
       console.log("deffered data", res.data);
       dispatch(actionSetArchive(res.data));
     });
@@ -168,7 +164,7 @@ export const addArchiveTodo = (todo: any, component: any) => {
   return function (dispatch: any) {
     console.log({ todo });
     axios
-      .post(`http://localhost:3000/deffered`, { todo })
+      .post(`${HTTP_HOST}/deffered`, { todo })
       .then((res) => {
         if (component === "Main") {
           dispatch(getArchiveTodo());
@@ -181,10 +177,9 @@ export const addArchiveTodo = (todo: any, component: any) => {
 };
 
 export const addNewUser = (login: any, password: any) => {
-  console.log("here");
   return function (dispatch: any) {
     axios
-      .post(`http://localhost:3000/users`, {
+      .post(`${HTTP_HOST}/users`, {
         login: login,
         password: password,
         city: "",
@@ -202,7 +197,7 @@ export const checkIsEmail = (email: any) => {
   console.log("lll");
   return function (dispatch: any) {
     axios
-      .get(`http://localhost:3000/users?login=${email}`)
+      .get(`${HTTP_HOST}/users?login=${email}`)
       .then((res) => {
         if (res.data.length !== 0) {
           dispatch(

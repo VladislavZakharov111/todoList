@@ -6,6 +6,11 @@ import { FormReg } from "./class";
 import { getUserByEmail, setNewPassword } from "./GetData";
 import "./ForgotPassword.css";
 import { push } from "connected-react-router";
+import { ErrorsValidation } from "../../GlobalConstants/GlobalConstants";
+import {
+  regForLogin,
+  regForPassword,
+} from "../../GlobalConstants/GlobalConstants";
 export const ForgotPassword = () => {
   const [email, setEmail] = React.useState<any>("");
   const [password, setPassword] = React.useState<any>("");
@@ -16,10 +21,10 @@ export const ForgotPassword = () => {
     React.useState<any>(false);
   const [dataError, setDataError] = React.useState<any>("");
   const [emailError, setEmailError] = React.useState<any>(
-    "Email не может быть пустым"
+    ErrorsValidation.EmailDontEmpty
   );
   const [passwordError, setPasswordError] = React.useState<any>(
-    "Пароль не может быть пустым"
+    ErrorsValidation.PasswordDontEmpty
   );
   const [formValid, setFormValid] = React.useState<any>(false);
   const [dataPoint, setDataPoint] = useState(new Date());
@@ -55,7 +60,7 @@ export const ForgotPassword = () => {
       ) {
         dispatch(setNewPassword(userByEmail[0].id, password));
       } else {
-        setDataError("Даты рождения не совпадают");
+        setDataError(ErrorsValidation.BirthdaysDontEqual);
       }
     }
   }, [userByEmail]);
@@ -72,21 +77,15 @@ export const ForgotPassword = () => {
   };
 
   const handleEmail = (event: React.ChangeEvent<HTMLInputElement>): any => {
-    const reg =
-      /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
-    if (!reg.test(String(event.target.value).toLowerCase())) {
-      setEmailError("Некоретный email ");
+    if (!regForLogin.test(String(event.target.value).toLowerCase())) {
+      setEmailError(ErrorsValidation.InvalidEmail);
     } else setEmailError("");
     setEmail(event.target.value);
   };
 
   const handlePassword = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const reg =
-      /(?=.*[0-9])(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*]{6,}/g;
-    if (!reg.test(String(event.target.value))) {
-      setPasswordError(
-        "Пароль должен содержать цифры, буквы (в том числе и заглавную) и хотя бы один из спец. символов !@$%^&*()_-+"
-      );
+    if (!regForPassword.test(String(event.target.value))) {
+      setPasswordError(ErrorsValidation.InvalidPasswordSymbols);
     } else {
       setPasswordError("");
     }

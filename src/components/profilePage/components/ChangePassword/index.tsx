@@ -4,7 +4,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { changeProfile, changePassword } from "../../GetData";
 import DatePicker from "react-datepicker";
 import { push } from "connected-react-router";
-
+import {
+  ErrorsValidation,
+  regForPassword,
+} from "../../../../GlobalConstants/GlobalConstants";
 export const ChangePassword = () => {
   const [modalChangePassword, setModalChangePassword] =
     React.useState<any>(false);
@@ -12,11 +15,11 @@ export const ChangePassword = () => {
     React.useState<any>(true);
   const [newPasswordDirty, setNewPasswordDirty] = React.useState<any>(false);
   const [newPasswordError, setPasswordError] = React.useState<any>(
-    "Пароль не может быть пустым"
+    ErrorsValidation.EmailDontEmpty
   );
   const [oldPasswordDirty, setOldPasswordDirty] = React.useState<any>(false);
   const [oldPasswordError, setOldPasswordError] = React.useState<any>(
-    "Пароль не может быть пустым"
+    ErrorsValidation.PasswordDontEmpty
   );
   const [oldPassword, setOldPassword] = React.useState<any>("");
   const [newPassword, setNewPassword] = React.useState<any>("");
@@ -36,7 +39,7 @@ export const ChangePassword = () => {
     if (e.target.value.length > 0) {
       setOldPasswordError("");
     } else {
-      setOldPasswordError("Пароль не может быть пустым");
+      setOldPasswordError(ErrorsValidation.PasswordDontEmpty);
     }
   };
 
@@ -48,7 +51,7 @@ export const ChangePassword = () => {
         setModalChangePassword(false);
       }
     } else {
-      setOldPasswordError("Неверный старый пароль");
+      setOldPasswordError(ErrorsValidation.InvalidOldPassword);
     }
   };
 
@@ -64,12 +67,8 @@ export const ChangePassword = () => {
   };
 
   const handleNewPassword = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const reg =
-      /(?=.*[0-9])(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*]{6,}/g;
-    if (!reg.test(String(event.target.value))) {
-      setPasswordError(
-        "Пароль должен содержать цифры, буквы (в том числе и заглавную) и хотя бы один из спец. символов !@$%^&*()_-+"
-      );
+    if (!regForPassword.test(String(event.target.value))) {
+      setPasswordError(ErrorsValidation.InvalidPasswordSymbols);
     } else {
       setPasswordError("");
     }

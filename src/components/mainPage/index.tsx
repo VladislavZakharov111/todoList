@@ -19,8 +19,13 @@ import { AddTodo } from "./components/AddTodo/index";
 import { titleTable, listDo } from "./constants";
 import { DeleteChooseTodos } from "../mainPage/components/DeleteChooseTodos";
 import format from "date-fns/format";
-
+import {
+  DateFormat,
+  DateNowPresentForm,
+  DayDifference,
+} from "../../GlobalConstants/GlobalConstants";
 let component = "Main";
+
 export const MainPage = () => {
   const [checkedTodos, setCheckedTodos] = useState<any>([]);
   const dispatch = useDispatch();
@@ -93,7 +98,7 @@ export const MainPage = () => {
                         new Date(todo.datecreate).getMonth(),
                         new Date(todo.datecreate).getDate()
                       ),
-                      "dd.MM.yyyy"
+                      DateFormat
                     )}
                   </td>
                   <td>
@@ -103,7 +108,7 @@ export const MainPage = () => {
                         new Date(todo.datachange).getMonth(),
                         new Date(todo.datachange).getDate()
                       ),
-                      "dd.MM.yyyy"
+                      DateFormat
                     )}
                   </td>
                   <td>
@@ -127,12 +132,8 @@ export const MainPage = () => {
                           new Date(todo.dateendpoint).getMonth(),
                           new Date(todo.dateendpoint).getDate()
                         ),
-                        new Date(
-                          new Date().getFullYear(),
-                          new Date().getMonth(),
-                          new Date().getDate()
-                        )
-                      ) <= 3
+                        DateNowPresentForm
+                      ) <= DayDifference
                         ? "HotEndpointData"
                         : "noHotEndpointData"
                     }
@@ -143,7 +144,7 @@ export const MainPage = () => {
                         new Date(todo.dateendpoint).getMonth(),
                         new Date(todo.dateendpoint).getDate()
                       ),
-                      "dd.MM.yyyy"
+                      DateFormat
                     )}
                   </td>
                   <td>{todo.status ? listDo[1] : listDo[2]}</td>

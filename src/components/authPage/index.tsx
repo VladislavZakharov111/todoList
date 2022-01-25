@@ -11,9 +11,13 @@ import {
 import { AnyRecord } from "dns";
 import { shallowEqual, useSelector } from "react-redux";
 import { push } from "connected-react-router";
+import {
+  ErrorsValidation,
+  regForLogin,
+} from "../../GlobalConstants/GlobalConstants";
+
 function Authorization() {
   const dispatch = useDispatch();
-
   const userInfo = useSelector((state: any) => state.authReducer.user);
   const [email, setEmail] = React.useState<string>(" ");
   const [password, setPassword] = React.useState<string>("");
@@ -21,10 +25,10 @@ function Authorization() {
   const [emailDirty, setEmailDirty] = React.useState<any>(false);
   const [passwordDirty, setPasswordDirty] = React.useState<any>(false);
   const [emailError, setEmailError] = React.useState<any>(
-    "Емайл не может быть пустым"
+    ErrorsValidation.EmailDontEmpty
   );
   const [passwordError, setPasswordError] = React.useState<any>(
-    "Пароль не может быть пустым"
+    ErrorsValidation.PasswordDontEmpty
   );
 
   useEffect(() => {
@@ -39,22 +43,21 @@ function Authorization() {
   }, [email, password]);
 
   useEffect(() => {
-    if (userInfo === 1) setPasswordError("Пароль или email введеные не верно");
+    if (userInfo === 1)
+      setPasswordError(ErrorsValidation.EmailPasswordDontValid);
   }, [userInfo, password, email]);
 
   const handleLogin = (e: React.ChangeEvent<HTMLInputElement>): void => {
     setEmail(e.target.value);
-    const reg =
-      /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
-    if (!reg.test(String(e.target.value).toLowerCase())) {
-      setEmailError("Некоретный email ");
+    if (!regForLogin.test(String(e.target.value).toLowerCase())) {
+      setEmailError(ErrorsValidation.InvalidEmail);
     } else setEmailError("");
   };
 
   const handlePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
     if (e.target.value.length < 8)
-      setPasswordError("Пароль не может быть меньше 8 символов");
+      setPasswordError(ErrorsValidation.PasswordDontValidLength);
     else setPasswordError("");
   };
 

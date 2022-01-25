@@ -27,35 +27,13 @@
   ],
   "todos": [
     {
-      "datecreate": "2022-01-24T12:06:53.366Z",
-      "datachange": "2022-01-24T12:06:53.366Z",
-      "categories": "Спорт",
-      "title": "sdasa",
-      "description": "asdasdad",
-      "dateendpoint": "2022-01-24T12:03:31.444Z",
-      "status": false,
-      "idUser": 6,
-      "id": 1
-    },
-    {
-      "datecreate": "2022-01-24T12:11:54.477Z",
-      "datachange": "2022-01-24T12:11:54.477Z",
-      "categories": "Спорт",
-      "title": "asdsadad",
-      "description": "asdasd",
-      "dateendpoint": "2022-01-24T12:11:50.849Z",
-      "status": false,
-      "idUser": 6,
-      "id": 2
-    },
-    {
       "datecreate": "2022-01-24T12:12:07.014Z",
       "datachange": "2022-01-24T12:12:07.014Z",
       "categories": "Спорт",
       "title": "asdad",
       "description": "asdad",
       "dateendpoint": "2022-01-24T12:12:03.209Z",
-      "status": true,
+      "status": false,
       "idUser": 6,
       "id": 3
     },

@@ -7,6 +7,11 @@ import { checkIsEmail } from "../../services/GetData";
 import { FormReg } from "./styled";
 import "./registration.css";
 import { actionRegistrationError } from "../../store/registerReducer";
+import {
+  ErrorsValidation,
+  regForPassword,
+  regForLogin,
+} from "../../GlobalConstants/GlobalConstants";
 export function Registration() {
   const dispatch = useDispatch();
   const [email, setEmail] = React.useState<any>("");
@@ -15,19 +20,17 @@ export function Registration() {
   const [emailDirty, setEmailDirty] = React.useState<any>(false);
   const [passwordDirty, setPasswordDirty] = React.useState<any>(false);
   const [emailError, setEmailError] = React.useState<any>(
-    "Email не может быть пустым"
+    ErrorsValidation.EmailDontEmpty
   );
   const [passwordError, setPasswordError] = React.useState<any>(
-    "Пароль не может быть пустым"
+    ErrorsValidation.PasswordDontEmpty
   );
-  const [formValid, setFormValid] = React.useState<any>(false);
 
   const currentEmail = useSelector(
     (state: any) => state.registerReducer.currentEmail
   );
 
   const error = useSelector((state: any) => state.registerReducer.error);
-
   useEffect(() => {
     if (
       currentEmail !== null &&
@@ -71,21 +74,15 @@ export function Registration() {
   };
 
   const handleEmail = (event: React.ChangeEvent<HTMLInputElement>): any => {
-    const reg =
-      /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
-    if (!reg.test(String(event.target.value).toLowerCase())) {
-      setEmailError("Некоретный email");
+    if (!regForLogin.test(String(event.target.value).toLowerCase())) {
+      setEmailError(ErrorsValidation.InvalidEmail);
     } else setEmailError("");
     setEmail(event.target.value);
   };
 
   const handlePassword = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const reg =
-      /(?=.*[0-9])(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*]{6,}/g;
-    if (!reg.test(String(event.target.value))) {
-      setPasswordError(
-        "Пароль должен содержать цифры, буквы (в том числе и заглавную) и хотя бы один из спец. символов !@$%^&*()_-+"
-      );
+    if (!regForPassword.test(String(event.target.value))) {
+      setPasswordError(ErrorsValidation.InvalidPasswordSymbols);
     } else {
       setPasswordError("");
     }

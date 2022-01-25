@@ -8,7 +8,13 @@ import {
   actionSetValueSort,
 } from "../../store/todoReducer";
 import { arrayCategories } from "../mainPage/constants";
-
+import {
+  TitleFilters,
+  ArrNameDoneSearch,
+  ArrNameTitleSearch,
+  NameDoneSearch,
+  NameTitleSearch,
+} from "../../GlobalConstants/GlobalConstants";
 export function Filters() {
   const dispatch = useDispatch();
   const [filterName, setFilterName] = useState<any>(``);
@@ -43,42 +49,43 @@ export function Filters() {
   };
 
   const handleDone = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    if (e.target.value === "Все") setDone(null);
+    if (e.target.value === NameDoneSearch.All) setDone(null);
     else {
-      e.target.value === "Выполнено" ? setDone(true) : setDone(false);
+      e.target.value === NameDoneSearch.Done ? setDone(true) : setDone(false);
     }
   };
 
   const handleSort = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    e.target.value === `По возрастанию`
+    e.target.value === NameTitleSearch.Asc
       ? setSortState(true)
       : setSortState(false);
   };
   return (
     <div style={{ display: "flex", alignItems: "center" }}>
-      <p> Поиск по названию </p>
+      <p> {TitleFilters.NameSearch}</p>
       <input
         onChange={handleFilterName}
         type="text"
         style={{ margin: "5px" }}
       />
-      <p> Поиск по категории </p>
+      <p> {TitleFilters.CategoriesSearch} </p>
       <select onChange={handleFilterCategories} style={{ margin: "5px" }}>
         <option>Все</option>
         {arrayCategories.map((categories: any) => (
           <option>{categories}</option>
         ))}
       </select>
-      <p> Поиск по выполнению </p>
+      <p> {TitleFilters.DoneSearch} </p>
       <select onChange={handleDone} style={{ margin: "5px" }}>
-        <option>Все</option>
-        <option>Не выполнено</option>
-        <option>Выполнено</option>
+        {ArrNameDoneSearch.map((name) => (
+          <option>{name}</option>
+        ))}
       </select>
-      Cортировка заголовка
+      <p>{TitleFilters.SortTitle}</p>
       <select onChange={handleSort} style={{ margin: "5px" }}>
-        <option>По возрастанию</option>
-        <option>По убыванию</option>
+        {ArrNameTitleSearch.map((name) => (
+          <option>{name}</option>
+        ))}
       </select>
     </div>
   );

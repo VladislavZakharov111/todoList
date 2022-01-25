@@ -5,11 +5,11 @@ import {
 } from "../../../../store/todoReducer";
 import { actionSetArchive } from "../../../../store/defferedReducer";
 import { push } from "connected-react-router";
-
+import { HTTP_HOST } from "../../../../GlobalConstants/GlobalConstants";
 export const getDetailPage = (id: number) => {
   return function (dispatch: any) {
     axios
-      .get(`http://localhost:3000/todos/${id}`)
+      .get(`${HTTP_HOST}/todos/${id}`)
       .then((res) => {
         dispatch(actionSetDetailPage(res.data));
         dispatch(dispatch(push(`/${id}`)));

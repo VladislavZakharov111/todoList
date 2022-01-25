@@ -63,7 +63,7 @@ p {
   flex-direction: row;
 }
 .detail_page {
-  background: url("../../../../images/tuman.jpg");
+  background: url("../../../../static/tuman.jpg");
   height: 100vh;
   background-size: cover;
   background-attachment: fixed;
