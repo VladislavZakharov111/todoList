@@ -9,6 +9,7 @@ import {
   actionCheckDuplicateEmail,
   actionRegistrationError,
 } from "../store/registerReducer";
+import { HTTP_HOST } from "../GlobalConstants/GlobalConstants";
 
 export const setDataUsers = (login: any, password: any) => {
   return function (dispatch: any) {
@@ -44,7 +45,6 @@ export const setDataTodo = (
   if (sortState) URL = URL + `&_order=desc`;
   return function (dispatch: any) {
     axios.get(URL).then((res) => {
-      console.log("our data", res.data);
       dispatch(getTodoFromServer(res.data));
     });
   };
@@ -63,33 +63,6 @@ export const deleteTodo = (id: any, component: any) => {
         }
       })
       .catch((error) => console.log(error));
-  };
-};
-
-export const addNewTodo = (
-  nowdata: any,
-  categories: any,
-  title: any,
-  description: any,
-  dateendpoint: any,
-  idUser: any
-) => {
-  return function (dispatch: any) {
-    axios
-      .post(`${HTTP_HOST}/todos`, {
-        datecreate: nowdata,
-        datachange: nowdata,
-        categories: categories,
-        title: title,
-        description: description,
-        dateendpoint: dateendpoint,
-        status: false,
-        idUser: idUser,
-      })
-      .then(dispatch(setDataTodo(1, null, null, null, false)))
-      .catch((error) => {
-        console.log(error);
-      });
   };
 };
 
@@ -194,7 +167,6 @@ export const addNewUser = (login: any, password: any) => {
 };
 
 export const checkIsEmail = (email: any) => {
-  console.log("lll");
   return function (dispatch: any) {
     axios
       .get(`${HTTP_HOST}/users?login=${email}`)

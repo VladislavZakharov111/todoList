@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { addNewTodo } from "../../../../services/GetData";
+import { addNewTodo } from "../../../../services/AddTodo/index";
 import { ModalView } from "../modalView/index";
 import DatePicker from "react-datepicker";
 import { Description } from "../../../mainPage/styled";

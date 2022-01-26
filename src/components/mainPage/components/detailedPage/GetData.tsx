@@ -3,9 +3,11 @@ import {
   actionSetDetailPage,
   getTodoFromServer,
 } from "../../../../store/todoReducer";
+
 import { actionSetArchive } from "../../../../store/defferedReducer";
 import { push } from "connected-react-router";
-import { HTTP_HOST } from "../../../../GlobalConstants/GlobalConstants";
+
+export const HTTP_HOST: string = `http://localhost:3000`;
 export const getDetailPage = (id: number) => {
   return function (dispatch: any) {
     axios

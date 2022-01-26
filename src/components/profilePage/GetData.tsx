@@ -1,7 +1,8 @@
 import axios from "axios";
 import { push } from "connected-react-router";
 import { actionSetUser } from "../../store/authReducer";
-import { HTTP_HOST } from "../../GlobalConstants/GlobalConstants";
+
+export const HTTP_HOST: string = `http://localhost:3000`;
 export const setDataUsersById = (id: any) => {
   return function (dispatch: any) {
     axios

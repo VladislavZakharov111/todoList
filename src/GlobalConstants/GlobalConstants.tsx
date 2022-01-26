@@ -45,4 +45,4 @@ export const DateNowPresentForm = new Date(
   new Date().getDate()
 );
 export const DayDifference = 3;
-export const HTTP_HOST: string = `http://localhost:3000`;
+export const HTTP_HOST = `http://localhost:3000`;
