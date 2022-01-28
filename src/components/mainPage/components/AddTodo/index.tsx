@@ -10,7 +10,7 @@ import { arrayCategories } from "../../constants";
 import {
   DateFormat,
   DateNowPresentForm,
-} from "../../../../GlobalConstants/GlobalConstants";
+} from "../../../../constants/GlobalConstants";
 import "../AddTodo/AddTodo.css";
 import { NameTitleAddTodo } from "./Constants";
 export const AddTodo = () => {

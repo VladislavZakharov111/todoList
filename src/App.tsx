@@ -9,7 +9,7 @@ import { Registration } from "./components/registration/index";
 import { ForgotPassword } from "./components/fogotPassword/index";
 import DetailPage from "./components/mainPage/components/detailedPage/index";
 import "./App.css";
-function App({ history, context }: any) {
+const  App = ({ history, context }: any) => {
   return (
     <div className="App">
       <ConnectedRouter history={history} context={context}>

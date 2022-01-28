@@ -4,10 +4,6 @@ import { useEffect } from "react";
 import { deleteTodo } from "../../../../services/DeleteTodo/index";
 import { ModalView } from "../modalView/index";
 import "./Delete.css";
-interface DeleteTodoProps {
-  id: any;
-  component: any;
-}
 
 export const DeleteTodo = (props: DeleteTodoProps) => {
   const [modalctiveDelete, setModalActiveDelete] = useState<any>(false);

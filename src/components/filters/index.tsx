@@ -14,7 +14,7 @@ import {
   ArrNameTitleSearch,
   NameDoneSearch,
   NameTitleSearch,
-} from "../../GlobalConstants/GlobalConstants";
+} from "../../constants/GlobalConstants";
 export function Filters() {
   const dispatch = useDispatch();
   const [filterName, setFilterName] = useState<any>(``);

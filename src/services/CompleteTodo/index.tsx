@@ -1,5 +1,5 @@
 import axios from "axios";
-import { HTTP_HOST } from "../../GlobalConstants/GlobalConstants";
+import { HTTP_HOST } from "../../constants/GlobalConstants";
 import { setDataTodo } from "../Filters/index";
 import { getDetailPage } from "../../components/mainPage/components/detailedPage/GetData";
 export const setIsComplited = (id: any, isCompleted: any, component: any) => {

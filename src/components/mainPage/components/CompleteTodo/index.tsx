@@ -3,12 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { setIsComplited } from "../../../../services/CompleteTodo/index";
 import { ModalView } from "../modalView/index";
-import { NameDoneSearch } from "../../../../GlobalConstants/GlobalConstants";
-
-interface DeleteTodoProps {
-  todo: any;
-  component: any;
-}
+import { NameDoneSearch } from "../../../../constants/GlobalConstants";
 
 export const CompleteTodo = (props: DeleteTodoProps) => {
   const dispatch = useDispatch();

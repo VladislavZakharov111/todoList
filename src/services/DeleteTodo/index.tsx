@@ -1,7 +1,7 @@
 import axios from "axios";
 import { push } from "connected-react-router";
 import { useDispatch, useSelector } from "react-redux";
-import { HTTP_HOST } from "../../GlobalConstants/GlobalConstants";
+import { HTTP_HOST } from "../../constants/GlobalConstants";
 import { setDataTodo } from "../../services/Filters/index";
 export const deleteTodo = (id: any, component: any) => {
   return function (dispatch: any) {

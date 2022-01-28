@@ -3,9 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { deleteCheckedTodo } from "../../../../services/DeleteTodo/index";
 import { ModalView } from "../modalView/index";
 import "./DeleteChooseTodos.css";
-interface PropsDeleteChoose {
-  checkedTodos: any;
-}
+
 export const DeleteChooseTodos = (props: PropsDeleteChoose) => {
   const dispatch = useDispatch();
   const [

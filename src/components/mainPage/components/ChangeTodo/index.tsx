@@ -12,7 +12,7 @@ import "./ChangeTodo.css";
 import {
   DateFormat,
   DateNowPresentForm,
-} from "../../../../GlobalConstants/GlobalConstants";
+} from "../../../../constants/GlobalConstants";
 import { ChangeTodoNameTitle } from "./Constants";
 
 interface DeleteTodoProps {
