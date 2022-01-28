@@ -9,24 +9,23 @@ import {
   regForPassword,
 } from "../../../../GlobalConstants/GlobalConstants";
 export const ChangePassword = () => {
-  const [modalChangePassword, setModalChangePassword] =
-    React.useState<any>(false);
+  const [modalChangePassword, setModalChangePassword] = useState<any>(false);
   const [isDisabledChangePassword, setIsDisabledChangePassword] =
-    React.useState<any>(true);
-  const [newPasswordDirty, setNewPasswordDirty] = React.useState<any>(false);
-  const [newPasswordError, setPasswordError] = React.useState<any>(
+    useState<any>(true);
+  const [newPasswordDirty, setNewPasswordDirty] = useState<any>(false);
+  const [newPasswordError, setPasswordError] = useState<any>(
     ErrorsValidation.EmailDontEmpty
   );
-  const [oldPasswordDirty, setOldPasswordDirty] = React.useState<any>(false);
-  const [oldPasswordError, setOldPasswordError] = React.useState<any>(
+  const [oldPasswordDirty, setOldPasswordDirty] = useState<any>(false);
+  const [oldPasswordError, setOldPasswordError] = useState<any>(
     ErrorsValidation.PasswordDontEmpty
   );
-  const [oldPassword, setOldPassword] = React.useState<any>("");
-  const [newPassword, setNewPassword] = React.useState<any>("");
+  const [oldPassword, setOldPassword] = useState<any>("");
+  const [newPassword, setNewPassword] = useState<any>("");
   const user = useSelector((state: any) => state.authReducer.user);
   const dispatch = useDispatch();
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (oldPassword.length > 0 && newPassword.length > 0) {
       setIsDisabledChangePassword(false);
     } else {

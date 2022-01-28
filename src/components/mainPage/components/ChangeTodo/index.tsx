@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { changeCurrentTodo } from "../../../../services/GetData";
+import { changeCurrentTodo } from "../../../../services/ChangeTodo";
 import { ModalView } from "../modalView/index";
 import DatePicker from "react-datepicker";
 import { Description } from "../../../mainPage/styled";
@@ -13,6 +13,8 @@ import {
   DateFormat,
   DateNowPresentForm,
 } from "../../../../GlobalConstants/GlobalConstants";
+import { ChangeTodoNameTitle } from "./Constants";
+
 interface DeleteTodoProps {
   todo: any;
   component: any;
@@ -64,14 +66,17 @@ export const ChangeTodo = (props: DeleteTodoProps) => {
   };
   return (
     <div>
-      <button onClick={() => setmodalActiveChange(true)}> Изменить</button>
+      <button onClick={() => setmodalActiveChange(true)}>
+        {" "}
+        {ChangeTodoNameTitle.Change}
+      </button>
       <ModalView active={modalActiveChange} setActive={setmodalActiveChange}>
         <div
           onClick={() => setmodalActiveChange(false)}
           className="button_close"
         ></div>
         <form onSubmit={handleSubmitChange}>
-          <p>Категории</p>
+          <p>{ChangeTodoNameTitle.Categories}</p>
           <select
             defaultValue={categories}
             onChange={handleCategories}
@@ -81,7 +86,7 @@ export const ChangeTodo = (props: DeleteTodoProps) => {
               <option>{categories}</option>
             ))}
           </select>
-          <p>Новый заголовок</p>
+          <p>{ChangeTodoNameTitle.NewTitle}</p>
           <input
             type="text"
             defaultValue={title}
@@ -92,7 +97,7 @@ export const ChangeTodo = (props: DeleteTodoProps) => {
               onSubmitClicked && title.length === 0 ? "empty_title" : " "
             }
           ></input>
-          <p>Новое описание</p>
+          <p>{ChangeTodoNameTitle.NewDescription}</p>
           <Description
             value={decription}
             placeholder="Описания"
@@ -102,7 +107,7 @@ export const ChangeTodo = (props: DeleteTodoProps) => {
               onSubmitClicked && decription.length === 0 ? "empty_title" : " "
             }
           ></Description>
-          <p>Новый cрок выполнения</p>
+          <p>{ChangeTodoNameTitle.NewDatePoit}</p>
           <DatePicker
             value={format(DateNowPresentForm, DateFormat)}
             selected={dataPoint}
@@ -111,7 +116,7 @@ export const ChangeTodo = (props: DeleteTodoProps) => {
             minDate={new Date()}
           />
           <button type="submit" onClick={changeTodo}>
-            <p>Изменить задачу</p>
+            <p>{ChangeTodoNameTitle.ChangeTodo}</p>
           </button>
         </form>
       </ModalView>

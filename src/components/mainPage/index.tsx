@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { setDataTodo, deleteCheckedTodo } from "../../services/GetData";
+import { deleteCheckedTodo } from "../../services/DeleteTodo/index";
+import { setDataTodo } from "../../services/Filters/index";
 import { getDetailPage } from "./components/detailedPage/GetData";
 import "react-datepicker/dist/react-datepicker.css";
 import { Exit } from "./components/exit";

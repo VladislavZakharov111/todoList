@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteCheckedTodo } from "../../../../services/GetData";
+import { deleteCheckedTodo } from "../../../../services/DeleteTodo/index";
 import { ModalView } from "../modalView/index";
 import "./DeleteChooseTodos.css";
 interface PropsDeleteChoose {
@@ -11,7 +11,7 @@ export const DeleteChooseTodos = (props: PropsDeleteChoose) => {
   const [
     handleOpenModalDeleteChooseTodos,
     setHandleOpenModalDeleteChooseTodos,
-  ] = React.useState<any>(false);
+  ] = useState<any>(false);
 
   const deleteManyTodos = () => {
     dispatch(deleteCheckedTodo(props.checkedTodos));

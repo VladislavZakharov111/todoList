@@ -7,7 +7,7 @@ import {
 import { actionSetArchive } from "../../../../store/defferedReducer";
 import { push } from "connected-react-router";
 
-export const HTTP_HOST: string = `http://localhost:3000`;
+import { HTTP_HOST } from "../../../../GlobalConstants/GlobalConstants";
 export const getDetailPage = (id: number) => {
   return function (dispatch: any) {
     axios

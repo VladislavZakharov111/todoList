@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { getArchiveTodo } from "../../services/GetData";
+import { getArchiveTodo } from "../../services/Archive/index";
 import { useDispatch, useSelector } from "react-redux";
 import { useTypedSelector } from "../../hooks/useTypedSelector";
 export const DefferedPage = (): any => {

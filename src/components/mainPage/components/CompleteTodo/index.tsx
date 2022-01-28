@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { setIsComplited } from "../../../../services/GetData";
+import { setIsComplited } from "../../../../services/CompleteTodo/index";
 import { ModalView } from "../modalView/index";
 import { NameDoneSearch } from "../../../../GlobalConstants/GlobalConstants";
 

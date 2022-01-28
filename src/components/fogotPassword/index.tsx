@@ -11,22 +11,23 @@ import {
   regForLogin,
   regForPassword,
 } from "../../GlobalConstants/GlobalConstants";
+import {nameTitlePopUpForgotPassword} from "./constants"
 export const ForgotPassword = () => {
-  const [email, setEmail] = React.useState<any>("");
-  const [password, setPassword] = React.useState<any>("");
-  const [flagDidabledReg, setFlagDisabledReg] = React.useState<any>(true);
-  const [emailDirty, setEmailDirty] = React.useState<any>(false);
-  const [passwordDirty, setPasswordDirty] = React.useState<any>(false);
+  const [email, setEmail] = useState<any>("");
+  const [password, setPassword] = useState<any>("");
+  const [flagDidabledReg, setFlagDisabledReg] = useState<any>(true);
+  const [emailDirty, setEmailDirty] = useState<any>(false);
+  const [passwordDirty, setPasswordDirty] = useState<any>(false);
   const [checkNotBeignStyle, setCheckNotBeignStyle] =
-    React.useState<any>(false);
-  const [dataError, setDataError] = React.useState<any>("");
-  const [emailError, setEmailError] = React.useState<any>(
+    useState<any>(false);
+  const [dataError, setDataError] = useState<any>("");
+  const [emailError, setEmailError] = useState<any>(
     ErrorsValidation.EmailDontEmpty
   );
-  const [passwordError, setPasswordError] = React.useState<any>(
+  const [passwordError, setPasswordError] = useState<any>(
     ErrorsValidation.PasswordDontEmpty
   );
-  const [formValid, setFormValid] = React.useState<any>(false);
+  const [formValid, setFormValid] = useState<any>(false);
   const [dataPoint, setDataPoint] = useState(new Date());
 
   const dispatch = useDispatch();
@@ -107,8 +108,8 @@ export const ForgotPassword = () => {
         <FormReg>
           <div className="form_wrapper_forgot_password">
             <form onSubmit={handleSubmitFormFogotPassword}>
-              <h3>Забыли пароль</h3>
-              <p>Введите email</p>
+              <h3>{nameTitlePopUpForgotPassword.forgotPassword}</h3>
+              <p>{nameTitlePopUpForgotPassword.inputEmail}</p>
               <input
                 type="text"
                 onChange={handleEmail}
@@ -125,7 +126,7 @@ export const ForgotPassword = () => {
                 <span style={{ color: "red" }}>{emailError}</span>
               )}
               <span style={{ color: "red" }}>{error}</span>
-              <p>Введите новый пароль</p>
+              <p>{nameTitlePopUpForgotPassword.inputNewPassword}</p>
               <input
                 type="password"
                 onChange={handlePassword}
@@ -141,7 +142,7 @@ export const ForgotPassword = () => {
               {passwordDirty && passwordError && (
                 <span style={{ color: "red" }}>{passwordError}</span>
               )}
-              <p>Введите дату рождения</p>
+              <p>{nameTitlePopUpForgotPassword.inputBirthDay}</p>
               <DatePicker
                 selected={dataPoint}
                 required
@@ -153,9 +154,9 @@ export const ForgotPassword = () => {
                 onClick={handleClickFogotPassword}
                 disabled={flagDidabledReg}
               >
-                Востановить пароль
+                {nameTitlePopUpForgotPassword.recoverPassword}
               </button>
-              <button onClick={() => dispatch(push("/auth"))}>Назад</button>
+              <button onClick={() => dispatch(push("/auth"))}>{nameTitlePopUpForgotPassword.back}</button>
             </form>
           </div>
         </FormReg>

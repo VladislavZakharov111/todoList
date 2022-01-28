@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { deleteTodo } from "../../../../services/GetData";
+import { deleteTodo } from "../../../../services/DeleteTodo/index";
 import { ModalView } from "../modalView/index";
 import "./Delete.css";
 interface DeleteTodoProps {

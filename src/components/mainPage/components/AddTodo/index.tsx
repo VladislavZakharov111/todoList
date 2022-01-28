@@ -12,6 +12,7 @@ import {
   DateNowPresentForm,
 } from "../../../../GlobalConstants/GlobalConstants";
 import "../AddTodo/AddTodo.css";
+import { NameTitleAddTodo } from "./Constants";
 export const AddTodo = () => {
   const nowdata = new Date();
   const [modalActiveAdd, setmodalActiveAdd] = useState<any>(false);
@@ -52,7 +53,7 @@ export const AddTodo = () => {
   return (
     <div>
       <button onClick={() => setmodalActiveAdd(true)}>
-        <p>Добавить новую задачу</p>
+        <p>{NameTitleAddTodo.AddNewTodo}</p>
       </button>
       <ModalView active={modalActiveAdd} setActive={setmodalActiveAdd}>
         <div
@@ -60,13 +61,13 @@ export const AddTodo = () => {
           className="button_close"
         ></div>
         <form onSubmit={handleSubmitPopUp}>
-          <p>Категории</p>
+          <p>{NameTitleAddTodo.Categories}</p>
           <select onChange={handleCategories} required>
             {arrayCategories.map((categories: any) => (
               <option>{categories}</option>
             ))}
           </select>
-          <p>Заголовок</p>
+          <p>{NameTitleAddTodo.Title}</p>
           <input
             type="text"
             placeholder="Заголовок"
@@ -76,7 +77,7 @@ export const AddTodo = () => {
               onSubmitClicked && title.length === 0 ? "empty_title_add" : " "
             }
           ></input>
-          <p>Описание</p>
+          <p>{NameTitleAddTodo.Description}</p>
           <Description
             placeholder="Описание"
             required
@@ -87,7 +88,7 @@ export const AddTodo = () => {
                 : " "
             }
           ></Description>
-          <p>Крайний срок</p>
+          <p>{NameTitleAddTodo.DatePoint}</p>
           <DatePicker
             selected={dataPoint}
             value={format(DateNowPresentForm, DateFormat)}
@@ -96,7 +97,7 @@ export const AddTodo = () => {
             minDate={new Date()}
           />
           <button type="submit" onClick={() => setOnSubmitClicked(true)}>
-            Создать задачу{" "}
+            {NameTitleAddTodo.CreateTodo}
           </button>
         </form>
       </ModalView>

@@ -1,8 +1,7 @@
 import React, { useEffect } from "react";
-import { addNewUser } from "../../services/GetData";
 import { useDispatch, useSelector } from "react-redux";
 import { push } from "connected-react-router";
-import { checkIsEmail } from "../../services/GetData";
+import { checkIsEmail, addNewUser } from "../../services/Registration/index";
 import { FormReg } from "./styled";
 import "./registration.css";
 import { actionRegistrationError } from "../../store/registerReducer";

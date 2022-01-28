@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { addArchiveTodo, deleteTodo } from "../../../../services/GetData";
+import { addArchiveTodo } from "../../../../services/Archive/index";
+import { deleteTodo } from "../../../../services/DeleteTodo/index";
 import { ModalView } from "../modalView/index";
 
 interface ArchiveTodoProps {

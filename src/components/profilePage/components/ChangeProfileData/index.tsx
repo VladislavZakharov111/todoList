@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { ModalView } from "../../../mainPage/components/modalView";
 import { useDispatch, useSelector } from "react-redux";
-import { changeProfile, changePassword } from "../../GetData";
 import DatePicker from "react-datepicker";
 import { push } from "connected-react-router";
+import { changeProfile } from "../../../../services/ProfilePage/index";
 import "../ChangeProfileData/ChangeProfileData.css";
 
 export const ChangeProfileData = () => {

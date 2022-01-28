@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { setDataUsers } from "../../services/GetData";
+import React, { useEffect, useState } from "react";
+import { setDataUsers } from "../../services/Auth/index";
 import { useDispatch } from "react-redux";
 import { useTypedSelector } from "../../hooks/useTypedSelector";
 import { FormAuth, FiledEmail, ParentInput, ParentButton } from "./styled";
@@ -15,19 +15,19 @@ import {
   ErrorsValidation,
   regForLogin,
 } from "../../GlobalConstants/GlobalConstants";
-
+import { AuthNameButton } from "./constants";
 function Authorization() {
   const dispatch = useDispatch();
   const userInfo = useSelector((state: any) => state.authReducer.user);
-  const [email, setEmail] = React.useState<string>(" ");
-  const [password, setPassword] = React.useState<string>("");
-  const [flagDisable, setFlagDisable] = React.useState<any>(true);
-  const [emailDirty, setEmailDirty] = React.useState<any>(false);
-  const [passwordDirty, setPasswordDirty] = React.useState<any>(false);
-  const [emailError, setEmailError] = React.useState<any>(
+  const [email, setEmail] = useState<string>(" ");
+  const [password, setPassword] = useState<string>("");
+  const [flagDisable, setFlagDisable] = useState<any>(true);
+  const [emailDirty, setEmailDirty] = useState<any>(false);
+  const [passwordDirty, setPasswordDirty] = useState<any>(false);
+  const [emailError, setEmailError] = useState<any>(
     ErrorsValidation.EmailDontEmpty
   );
-  const [passwordError, setPasswordError] = React.useState<any>(
+  const [passwordError, setPasswordError] = useState<any>(
     ErrorsValidation.PasswordDontEmpty
   );
 
@@ -109,11 +109,10 @@ function Authorization() {
               <ButtonAuthSubmit disabled={flagDisable}>Войти</ButtonAuthSubmit>
             </div>
             <ButtonGeneral onClick={() => dispatch(push("/register"))}>
-              Зарегестрироваться
+              {AuthNameButton.register}
             </ButtonGeneral>
-
             <ButtonGeneral onClick={() => dispatch(push("/forgot-password"))}>
-              Забыли пароль
+              {AuthNameButton.forgotPassword}
             </ButtonGeneral>
           </form>
         </div>

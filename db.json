@@ -2,7 +2,7 @@
   "users": [
     {
       "login": "vlad12345678@mail.ru",
-      "password": "Ld0smZNdr9cm!",
+      "password": "Ld0smZaaaa!",
       "city": "sadsd",
       "date_of_birth": "2022-01-21T14:40:11.369Z",
       "name": "asdadad",
@@ -38,24 +38,13 @@
       "id": 4
     },
     {
-      "datecreate": "2022-01-26T06:16:36.759Z",
-      "datachange": "2022-01-26T06:16:36.759Z",
+      "datecreate": "2022-01-27T09:54:16.182Z",
+      "datachange": "2022-01-27T09:54:16.182Z",
       "categories": "Спорт",
-      "title": "hjkhjk",
-      "description": "hjkhjk",
-      "dateendpoint": "2022-01-26T06:16:16.000Z",
-      "status": false,
-      "idUser": 6,
-      "id": 5
-    },
-    {
-      "datecreate": "2022-01-26T06:17:03.848Z",
-      "datachange": "2022-01-26T06:17:03.848Z",
-      "categories": "Спорт",
-      "title": "hjhj",
+      "title": "hjhjDASDA",
       "description": "hghgjg",
       "dateendpoint": "2022-01-26T06:16:51.042Z",
-      "status": false,
+      "status": true,
       "idUser": 6,
       "id": 6
     }
