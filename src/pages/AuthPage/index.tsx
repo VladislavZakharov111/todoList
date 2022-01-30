@@ -3,20 +3,13 @@ import { setDataUsers } from "../../services/Auth/index";
 import { useDispatch } from "react-redux";
 import { useTypedSelector } from "../../hooks/useTypedSelector";
 import { FormAuth, FiledEmail, ParentInput, ParentButton } from "./styled";
-import {
-  ButtonAuthSubmit,
-  ButtonGeneral,
-  FiledPassword,
-} from "../../components/authPage/styled";
+import { ButtonAuthSubmit, ButtonGeneral, FiledPassword } from "./styled";
 import { AnyRecord } from "dns";
 import { shallowEqual, useSelector } from "react-redux";
 import { push } from "connected-react-router";
-import {
-  ErrorsValidation,
-  regForLogin,
-} from "../../constants/GlobalConstants";
+import { ErrorsValidation, regForLogin } from "../../constants/GlobalConstants";
 import { AuthNameButton } from "./constants";
-const Authorization = () => {
+export const Authorization = () => {
   const dispatch = useDispatch();
   const userInfo = useSelector((state: any) => state.authReducer.user);
   const [email, setEmail] = useState<string>(" ");
@@ -120,5 +113,3 @@ const Authorization = () => {
     </div>
   );
 };
-
-export default Authorization;

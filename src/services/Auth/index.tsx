@@ -2,7 +2,7 @@ import axios from "axios";
 import { push } from "connected-react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { HTTP_HOST } from "../../constants/GlobalConstants";
-import { actionSetUser } from "../../store/authReducer";
+import { actionSetUser } from "../../store/auth/actions";
 
 export const setDataUsers = (login: any, password: any) => {
   return function (dispatch: any) {

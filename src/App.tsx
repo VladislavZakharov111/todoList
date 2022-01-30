@@ -1,15 +1,15 @@
 import React from "react";
 import { Route, Switch } from "react-router-dom";
-import Authorization from "./components/authPage/index";
-import { MainPage } from "./components/mainPage/index";
-import { DefferedPage } from "./components/defferedPage/index";
-import { Profile } from "./components/profilePage/index";
+import { Authorization } from "./pages/AuthPage";
+import { MainPage } from "./pages/MainPage/index";
+import { DefferedPage } from "./pages/ArchivePage/index";
+import { Profile } from "./pages/ProfilePage/index";
 import { ConnectedRouter } from "connected-react-router";
-import { Registration } from "./components/registration/index";
-import { ForgotPassword } from "./components/fogotPassword/index";
-import DetailPage from "./components/mainPage/components/detailedPage/index";
+import { Registration } from "./pages/RegistrationPage/index";
+import { ForgotPassword } from "./pages/ForgotPassword/index";
+import { DetailPage } from "./pages/DetailsPage/index";
 import "./App.css";
-const  App = ({ history, context }: any) => {
+const App = ({ history, context }: any) => {
   return (
     <div className="App">
       <ConnectedRouter history={history} context={context}>
@@ -25,5 +25,5 @@ const  App = ({ history, context }: any) => {
       </ConnectedRouter>
     </div>
   );
-}
+};
 export default App;

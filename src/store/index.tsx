@@ -1,14 +1,14 @@
 import { applyMiddleware, compose, createStore, combineReducers } from "redux";
-import { authReducer } from "../store/authReducer";
-import { todoReducer } from "../store/todoReducer";
-import { registerReducer } from "../store/registerReducer";
+import { authReducer } from "../store/auth/reducer";
+import { todoReducer } from "../store/todo/reducer";
+import { registerReducer } from "../store/registeration/reducer";
 import { composeWithDevTools } from "redux-devtools-extension";
-import { defferedReducer } from "../store/defferedReducer";
+import { defferedReducer } from "../store/deffered/reducer";
 import { connectRouter } from "connected-react-router";
 import thunk from "redux-thunk";
 import { routerMiddleware } from "connected-react-router";
 import { createBrowserHistory } from "history";
-import { forgotPassworddReducer } from "../store/forgotPassword";
+import { forgotPassworddReducer } from "../store/forgotPassword/reducer";
 export const history = createBrowserHistory();
 
 export const createRootReducer = (history: any) =>
